@@ -11,7 +11,7 @@ ALL = $(PROGS)
 all: $(ALL)
 
 $(PROGS): %: %.o
-	$(CC)  $^ $(LDLIBS) -o $@
+	$(CC) $(CFLAGS)  $^ $(LDLIBS) -o $@
 
 $(PROGS:%=%.o): %.o: %.cpp
 
