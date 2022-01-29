@@ -1,21 +1,11 @@
-CC ?= g++
-CFLAGS ?= -Wall -Wextra -g -pthread
-LDFLAGS ?= -pthread
-LDLIBS ?= -lrt
+CC = g++ -g
+CFLAGS = -W -Wall
+SOURCES = $(wildcard *.cpp)
+EXEC = main
 
-PROGS = main
-
-ALL = $(PROGS)
-
-.PHONY: all
-all: $(ALL)
-
-$(PROGS): %: %.o
-	$(CC) $(CFLAGS)  $^ $(LDLIBS) -o $@
-
-$(PROGS:%=%.o): %.o: %.cpp
-
-.PHONY: clean
-
+$(EXEC) : *.o
+	$(CC) $(CFLAGS) -o $@ $^
+%.o : %.c
+	$(CC) $(CFLAGS) -c $<
 clean:
-	rm -f $(ALL) $(ALL:%=%.o)
+	rm $(EXEC) *.o
