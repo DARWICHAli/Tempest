@@ -1,7 +1,7 @@
-CC = g++
-CFLAGS = -Wall -Wextra -g -pthread
-LDFLAGS = -pthread
-LDLIBS = -lrt
+CC ?= g++
+CFLAGS ?= -Wall -Wextra -g -pthread
+LDFLAGS ?= -pthread
+LDLIBS ?= -lrt
 
 PROGS = main
 
