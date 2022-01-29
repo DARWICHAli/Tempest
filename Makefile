@@ -5,7 +5,7 @@
 # clean    : supprime les fichiers générés automatiquement
 
 CC = g++
-CFLAGS = -g -Wall -Wextra -Werror -Wvla # obligatoires
+CFLAGS = -g -Wall -Wextra -Werror -Wvla
 
 PROGS = main
 
