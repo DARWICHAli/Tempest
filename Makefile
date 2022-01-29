@@ -1,11 +1,14 @@
-CC = g++ -g
-CFLAGS = -W -Wall
-SOURCES = $(wildcard *.cpp)
-EXEC = main
+#
+# Ce Makefile contient les cibles suivantes :
+#
+# all      : compile le programme
+# clean    : supprime les fichiers générés automatiquement
 
-$(EXEC) : *.o
-	$(CC) $(CFLAGS) -o $@ $^
-%.o : %.c
-	$(CC) $(CFLAGS) -c $<
+CFLAGS = -g -Wall -Wextra -Werror -Wvla # obligatoires
+
+PROGS = main
+
+all: $(PROGS)
+
 clean:
-	rm $(EXEC) *.o
+	rm -f $(PROGS)
