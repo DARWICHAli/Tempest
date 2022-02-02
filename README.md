@@ -1,8 +1,38 @@
 # Projet PA
 
+## Tempest atari
+
+### run game 
+```
+mkdir build/ && cd build/
+cmake ..
+make
+
+# run
+
+./bin/Tempest
+
+```
+
+or
+
+```
+./run.sh
+
+```
 
 
+## tache à faire
+* conception
+* impl
 
-* [ ] son
+
 * [ ] IHM
     * [ ] menu
+    * [ ] affichage score
+    * [ ] son
+    * [ ] pause / play button
+    * [ ] changer taille du fenetre
+
+* Installation
+* how to play
