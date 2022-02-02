@@ -30,6 +30,7 @@ function(ADD_PRG)
 endfunction()
 
 #ADD_PRG(TARGET Tempest SOURCES src/*   headers/*)
+ADD_PRG(TARGET Tempest SOURCES src/main.cpp src/tempest headers/tempest.hpp)
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/ressources
     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/)
