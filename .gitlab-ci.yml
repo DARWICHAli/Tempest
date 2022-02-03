@@ -22,5 +22,7 @@ build:
 # run tests using the binary built before
 test:
   stage: test
+  before_script:
+    - sh run.sh
   script:
-    - echo testing
+    - sh run.sh test
