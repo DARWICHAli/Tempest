@@ -13,14 +13,23 @@ make
 ./bin/Tempest
 
 ```
-
 or
 
 ```
 ./run.sh
 ./bin/Tempest
 ```
+### Test game
 
+```
+./run.sh test
+
+```
+
+### clean game
+```
+./run.sh clean
+```
 
 ## tache à faire
 * [ ] conception
