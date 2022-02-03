@@ -2,7 +2,7 @@
 
 ## Tempest atari
 
-### run game 
+### run game
 ```
 mkdir build/ && cd build/
 cmake ..
@@ -18,15 +18,13 @@ or
 
 ```
 ./run.sh
-
+./bin/Tempest
 ```
 
 
 ## tache à faire
-* conception
-* impl
-
-
+* [ ] conception
+* [ ] impl
 * [ ] IHM
     * [ ] menu
     * [ ] affichage score
@@ -34,5 +32,5 @@ or
     * [ ] pause / play button
     * [ ] changer taille du fenetre
 
-* Installation
-* how to play
+* [ ] Installation
+* [ ] how to play
