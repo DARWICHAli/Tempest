@@ -1,6 +1,7 @@
 #!/bin/bash
 
 if [ $# = 0 ]; then
+    rm -r build bin
     mkdir build/ && cd build/
     cmake ../
     make

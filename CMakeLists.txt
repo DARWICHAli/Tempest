@@ -29,8 +29,8 @@ function(ADD_PRG)
     target_compile_definitions(${ADD_PRG_TARGET} PUBLIC _USE_MATH_DEFINES)
 endfunction()
 
-#ADD_PRG(TARGET Tempest SOURCES src/*   headers/*)
-ADD_PRG(TARGET Tempest SOURCES src/main.cpp src/tempest headers/tempest.hpp)
+#ADD_PRG(TARGET Tempest SOURCES tests/*   headers/*)
+ADD_PRG(TARGET Tempest SOURCES src/main.cpp src/tempest.cpp src/Draw.cpp headers/tempest.hpp headers/Defs.hpp headers/Draw.hpp)
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/ressources
     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/)
