@@ -8,16 +8,20 @@
 #include <assert.h>
 #include <iostream>
 #include "../headers/Draw.hpp"
+#include "../headers/tempest.hpp"
 
 
 int main()
 {
+    TTF_Init();
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     	{
     		std::cerr<<"Pb init SDL"<< std::endl;
     		return 0;
     	}
-        Draw d;
+        Tempest t;
+        t.init_game();
+
     	SDL_Quit();
 
 
