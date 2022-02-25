@@ -33,6 +33,7 @@ or
 
 ## tache à faire
 * [ ] conception
+* [ ] Font
 * [ ] impl
     * [ ] diff
     * [ ] weopons
