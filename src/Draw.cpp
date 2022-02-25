@@ -56,6 +56,9 @@ void Draw::init_menu(SDL_Renderer* renderer)
     rate_urself = calculate_texture("RATE YOURSELF", GREEN, 1, renderer);
     use_keys = calculate_texture("USE KEYS TO CHANGE", SOFT_BLUE, 1, renderer);
     select = calculate_texture("PRESS ENTER TO SELECT", YELLOW, 1 , renderer);
+    novice = calculate_texture("NOVICE", RED, 1 , renderer);
+    expert = calculate_texture("EXPERT", RED, 1 , renderer);
+
 
 
 
@@ -70,6 +73,11 @@ void Draw::init_menu(SDL_Renderer* renderer)
     int use_keysY = rate_urselfY + window_width/35;
     int selectX = window_width/2  - select.width/2;
     int selectY = use_keysY + window_width/35;
+    int noviceX = window_width/4  + novice.width/2;
+    int noviceY = selectY + window_width/30;
+    int expertX = 3*window_width/4  - expert.width/2;
+    int expertY = selectY + window_width/30;
+
     // TODO
     /*
     le reste de menu; void .hpp
@@ -84,6 +92,13 @@ void Draw::init_menu(SDL_Renderer* renderer)
     use_keys.rect.y = use_keysY;
     select.rect.x = selectX;
     select.rect.y = selectY;
+    novice.rect.x = noviceX;
+    novice.rect.y = noviceY;
+    expert.rect.x = expertX;
+    expert.rect.y = expertY;
+
+
+
     /*
     position reste menu
     */
@@ -109,6 +124,8 @@ int Draw::print_menu(SDL_Renderer* renderer)
     draw_elem (RATE_URSELF, renderer);
     draw_elem (USE_KEYS, renderer);
     draw_elem (PRESS_ENTER_SELECT, renderer);
+    draw_elem (NOVICE, renderer);
+    draw_elem (EXPERT, renderer);
     SDL_RenderPresent(renderer);
 
     SDL_Event events;
@@ -154,25 +171,31 @@ int Draw::print_menu(SDL_Renderer* renderer)
 
 void Draw::draw_elem(int type, SDL_Renderer* renderer)
 {
-  switch(type)
-  {
-    case TEMPEST_TITLE:
-        SDL_RenderCopy(renderer, tempest_title.texture, NULL, &tempest_title.rect);
-        break;
-    case PLAYER:
-        SDL_RenderCopy(renderer, player.texture, NULL, &player.rect);
-        break;
-    case RATE_URSELF:
-        SDL_RenderCopy(renderer, rate_urself.texture, NULL, &rate_urself.rect);
-        break;
-    case USE_KEYS:
-        SDL_RenderCopy(renderer, use_keys.texture, NULL, &use_keys.rect);
-        break;
-    case PRESS_ENTER_SELECT:
-        SDL_RenderCopy(renderer, select.texture, NULL, &select.rect);
-        break;
+    switch(type)
+    {
+        case TEMPEST_TITLE:
+            SDL_RenderCopy(renderer, tempest_title.texture, NULL, &tempest_title.rect);
+            break;
+        case PLAYER:
+            SDL_RenderCopy(renderer, player.texture, NULL, &player.rect);
+            break;
+        case RATE_URSELF:
+            SDL_RenderCopy(renderer, rate_urself.texture, NULL, &rate_urself.rect);
+            break;
+        case USE_KEYS:
+            SDL_RenderCopy(renderer, use_keys.texture, NULL, &use_keys.rect);
+            break;
+        case PRESS_ENTER_SELECT:
+            SDL_RenderCopy(renderer, select.texture, NULL, &select.rect);
+            break;
+        case NOVICE:
+            SDL_RenderCopy(renderer, novice.texture, NULL, &novice.rect);
+            break;
+        case EXPERT:
+            SDL_RenderCopy(renderer, expert.texture, NULL, &expert.rect);
+            break;
 
-  }
+    }
 }
 
 

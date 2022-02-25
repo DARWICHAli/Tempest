@@ -28,15 +28,7 @@ typedef struct
 // enum Type_Draw{SCORE = 0, SCORE_NUM, LEVEL, LEVEL_NUM, LOOSE, BACK_MENU, LEAVE,
 // TEMPEST_TITLE, PLAYER, VS_IA, SCORE_GO, SCORE_NUMGO, LEVEL_GO, LEVEL_NUMGO};
 
-enum Type_Draw{ LEAVE, TEMPEST_TITLE, PLAYER,RATE_URSELF,USE_KEYS,PRESS_ENTER_SELECT};
-//
-// typedef struct
-// {
-//   SDL_Texture* texture;
-//   SDL_Rect rect;
-//   int width;
-//   int height;
-// } SDL_Object;
+enum Type_Draw{ TEMPEST_TITLE, PLAYER,RATE_URSELF,USE_KEYS,PRESS_ENTER_SELECT,NOVICE,EXPERT};
 
 class Draw
 {
