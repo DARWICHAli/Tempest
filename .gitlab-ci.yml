@@ -34,11 +34,5 @@ test:
   script:
     - sh run.sh test
 
-# Generate documentation (pdf)
-doc_pdf:
-  stage: deploy
-  script:
-    - asciidoctor-pdf docs/*.adoc
-
 
 
