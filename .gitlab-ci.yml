@@ -34,16 +34,11 @@ test:
   script:
     - sh run.sh test
 
-doc_html:
+# Generate documentation (pdf)
+doc_pdf:
   stage: deploy
   script:
-    - asciidoctor docs/*.adoc
-  after_script:
-    - mkdir -p doc_html
-    - ls
-    - mv docs/*.html doc_html
-  artifacts:
-    paths:
-      - "doc_html/"
-    expire_in: 2 hours
+    - asciidoctor-pdf docs/*.adoc
+
+
 
