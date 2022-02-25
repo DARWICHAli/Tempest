@@ -34,12 +34,14 @@ or
 ## tache à faire
 * [ ] conception
 * [ ] impl
+    * [ ] diff
+    * [ ] weopons
+    * [ ] monstres
 * [ ] IHM
     * [ ] menu
     * [ ] affichage score
     * [ ] son
     * [ ] pause / play button
     * [ ] changer taille du fenetre
-
 * [ ] Installation
 * [ ] how to play
