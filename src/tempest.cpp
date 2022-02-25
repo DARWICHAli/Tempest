@@ -48,6 +48,14 @@ int Tempest::init_game()
         play_mode = draw.print_menu(renderer);
         if(play_mode == 3)
             break;
+        else if (play_mode== 2)
+        {
+            std::cout << "do_smth" << '\n';
+        }
+        else if (play_mode == 1)
+        {
+            std::cout << "do_smth 2" << '\n';
+        }
         SDL_Event event;
         while (!quit && SDL_PollEvent(&event))
         {

@@ -8,6 +8,9 @@
 #define BLUE  {0, 0, 255}
 #define PINK  {255, 0, 255}
 #define WHITE  {255, 255, 255}
+#define YELLOW {255,255,0}
+#define SOFT_BLUE {173, 207, 230}
+
 #define HEIGHT_CELL SCREEN_WIDTH/2.5/10
 #define WIDTH_CELL SCREEN_HEIGHT/20
 
