@@ -18,6 +18,9 @@
 // 16. Infinity Symbol (figure 8 on its side)
 
 
+// probalement on a pas besoin de construire chaque niveau
+// check hershey's vector 
+
 shapes::shapes()
 {
 

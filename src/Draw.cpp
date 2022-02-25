@@ -1,10 +1,15 @@
 #include "../headers/Draw.hpp"
 #include "../headers/Defs.hpp"
 #include <cassert>
+
+
+int fake_levels = 100 ;
+
+
 Draw::Draw()
 {
     font_menu1 = TTF_OpenFont("ressources/fonts/Hursheys.ttf", 100);
-    font_menu2 = TTF_OpenFont("ressources/fonts/Hursheys.ttf", 40);
+    font_menu2 = TTF_OpenFont("ressources/fonts/Hursheys.ttf", 50);
     font_score = TTF_OpenFont("ressources/fonts/Hursheys.ttf", 100);
 
     if (font_menu1 == NULL || font_menu2 == NULL)
@@ -52,56 +57,64 @@ void Draw::init_menu(SDL_Renderer* renderer)
 {
 
     tempest_title = calculate_texture("MCMLXXX ATARI", BLUE, 1, renderer);
-    player = calculate_texture("PLAYER   1", WHITE, 0, renderer);
+    player = calculate_texture("PLAYER    1", WHITE, 0, renderer);
     rate_urself = calculate_texture("RATE YOURSELF", GREEN, 1, renderer);
     use_keys = calculate_texture("USE KEYS TO CHANGE", SOFT_BLUE, 1, renderer);
     select = calculate_texture("PRESS ENTER TO SELECT", YELLOW, 1 , renderer);
     novice = calculate_texture("NOVICE", RED, 1 , renderer);
     expert = calculate_texture("EXPERT", RED, 1 , renderer);
+    level = calculate_texture("LEVEL", GREEN, 1 , renderer);
+    hole = calculate_texture("HOLE", GREEN, 1 , renderer);
+    bonus = calculate_texture("BONUS", GREEN, 1 , renderer);
+    timer = calculate_texture("TIME  99 ", GREEN, 1 , renderer);
+
+    for (int i = 0; i < fake_levels; i++)
+    {
+        vect_level.push_back(calculate_texture(std::to_string (i), GREEN, 1 , renderer));
+        //vect_hole.push_back(calculate_texture("shape in herashey", GREEN, 1 , renderer)); // couleur depond du niveau ie "i"
+        vect_bonus.push_back(calculate_texture(std::to_string (i), RED, 1 , renderer));
+
+    }
 
 
+    tempest_title.rect.x = window_width/2 - tempest_title.width/2;
+    tempest_title.rect.y = window_height/20 - tempest_title.height/5;
+    player.rect.x = window_width/2 - player.width/2;
+    player.rect.y  = tempest_title.rect.y +  window_width/10 ;
+    rate_urself.rect.x = window_width/2  - rate_urself.width/2;
+    rate_urself.rect.y = player.rect.y + window_width/12;
+    use_keys.rect.x = window_width/2  - use_keys.width/2;
+    use_keys.rect.y = rate_urself.rect.y + window_width/35;
+    select.rect.x = window_width/2  - select.width/2;
+    select.rect.y = use_keys.rect.y + window_width/35;
 
+    novice.rect.x = window_width/3  + novice.width/2;
+    novice.rect.y = select.rect.y + window_width/30;
+    expert.rect.x = 2*window_width/3  + expert.width/2;//
+    expert.rect.y = select.rect.y + window_width/30;
+    level.rect.x = window_width/3 -  novice.width/2;
+    level.rect.y = novice.rect.y + window_width/30;
+    hole.rect.x = window_width/3-  novice.width/2 ;
+    hole.rect.y = level.rect.y + window_width/32;
+    bonus.rect.x = window_width/3 -  novice.width/2;
+    bonus.rect.y = hole.rect.y + window_width/32;
+    timer.rect.x = window_width/2  - timer.width/2;
+    timer.rect.y = 17*window_height/20 - timer.height/5;
 
+    for (size_t i = 0; i < fake_levels; i++) {
+        vect_level.at(i).rect.x = window_width/3  + (3*i+1)*novice.width/2;
+        vect_level.at(i).rect.y = level.rect.y;
 
-    int tempest_titleX = window_width/2 - tempest_title.width/2;
-    int tempest_titleY = window_height/20 - tempest_title.height/5;
-    int playerX = window_width/2 - player.width/2;
-    int playerY = tempest_titleY +  window_width/10 ;
-    int rate_urselfX = window_width/2  - rate_urself.width/2;
-    int rate_urselfY = playerY + window_width/12;
-    int use_keysX = window_width/2  - use_keys.width/2;
-    int use_keysY = rate_urselfY + window_width/35;
-    int selectX = window_width/2  - select.width/2;
-    int selectY = use_keysY + window_width/35;
-    int noviceX = window_width/4  + novice.width/2;
-    int noviceY = selectY + window_width/30;
-    int expertX = 3*window_width/4  - expert.width/2;
-    int expertY = selectY + window_width/30;
-
+        vect_bonus.at(i).rect.x = window_width/3  + (3*i+1)*novice.width/2;
+        vect_bonus.at(i).rect.y = bonus.rect.y;
+    }
     // TODO
     /*
     le reste de menu; void .hpp
     */
-    tempest_title.rect.x = tempest_titleX;
-    tempest_title.rect.y = tempest_titleY;
-    player.rect.x = playerX;
-    player.rect.y = playerY;
-    rate_urself.rect.x = rate_urselfX;
-    rate_urself.rect.y = rate_urselfY;
-    use_keys.rect.x = use_keysX;
-    use_keys.rect.y = use_keysY;
-    select.rect.x = selectX;
-    select.rect.y = selectY;
-    novice.rect.x = noviceX;
-    novice.rect.y = noviceY;
-    expert.rect.x = expertX;
-    expert.rect.y = expertY;
 
 
 
-    /*
-    position reste menu
-    */
 }
 void Draw::init_draw(SDL_Renderer* renderer)
 {
@@ -119,13 +132,24 @@ int Draw::print_menu(SDL_Renderer* renderer)
 {
     SDL_RenderClear(renderer);
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
-    draw_elem (TEMPEST_TITLE, renderer);
-    draw_elem (PLAYER, renderer);
-    draw_elem (RATE_URSELF, renderer);
-    draw_elem (USE_KEYS, renderer);
-    draw_elem (PRESS_ENTER_SELECT, renderer);
-    draw_elem (NOVICE, renderer);
-    draw_elem (EXPERT, renderer);
+    draw_elem (TEMPEST_TITLE, renderer,0);
+    draw_elem (PLAYER, renderer,0);
+    draw_elem (RATE_URSELF, renderer,0);
+    draw_elem (USE_KEYS, renderer,0);
+    draw_elem (PRESS_ENTER_SELECT, renderer,0);
+    draw_elem (NOVICE, renderer,0);
+    draw_elem (EXPERT, renderer,0);
+    draw_elem (LEVEL, renderer,0);
+    draw_elem (HOLE, renderer,0);
+    draw_elem (BONUS, renderer,0);
+
+    for (size_t i = 0; i < 5; i++) {
+        draw_elem (VECT_LEVELS, renderer,i);
+        draw_elem (VECT_BONUS, renderer,i);
+    }
+
+
+    draw_elem (TIME, renderer,0);
     SDL_RenderPresent(renderer);
 
     SDL_Event events;
@@ -169,7 +193,7 @@ int Draw::print_menu(SDL_Renderer* renderer)
 
 
 
-void Draw::draw_elem(int type, SDL_Renderer* renderer)
+void Draw::draw_elem(int type, SDL_Renderer* renderer,int indice)
 {
     switch(type)
     {
@@ -194,7 +218,24 @@ void Draw::draw_elem(int type, SDL_Renderer* renderer)
         case EXPERT:
             SDL_RenderCopy(renderer, expert.texture, NULL, &expert.rect);
             break;
-
+        case LEVEL:
+            SDL_RenderCopy(renderer, level.texture, NULL, &level.rect);
+            break;
+        case HOLE:
+            SDL_RenderCopy(renderer, hole.texture, NULL, &hole.rect);
+            break;
+        case BONUS:
+            SDL_RenderCopy(renderer, bonus.texture, NULL, &bonus.rect);
+            break;
+        case TIME:
+            SDL_RenderCopy(renderer, timer.texture, NULL, &timer.rect);
+            break;
+        case VECT_LEVELS:
+            SDL_RenderCopy(renderer, vect_level.at(indice).texture, NULL, &vect_level.at(indice).rect);
+            break;
+        case VECT_BONUS:
+            SDL_RenderCopy(renderer, vect_bonus.at(indice).texture, NULL, &vect_bonus.at(indice).rect);
+            break;
     }
 }
 

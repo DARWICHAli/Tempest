@@ -8,6 +8,7 @@
 #include <iostream>
 #include <cstring>
 #include <string>
+#include <vector>
 
 #include "../headers/Defs.hpp"
 
@@ -28,7 +29,8 @@ typedef struct
 // enum Type_Draw{SCORE = 0, SCORE_NUM, LEVEL, LEVEL_NUM, LOOSE, BACK_MENU, LEAVE,
 // TEMPEST_TITLE, PLAYER, VS_IA, SCORE_GO, SCORE_NUMGO, LEVEL_GO, LEVEL_NUMGO};
 
-enum Type_Draw{ TEMPEST_TITLE, PLAYER,RATE_URSELF,USE_KEYS,PRESS_ENTER_SELECT,NOVICE,EXPERT};
+enum Type_Draw{ TEMPEST_TITLE, PLAYER,RATE_URSELF,USE_KEYS,PRESS_ENTER_SELECT,NOVICE,EXPERT,
+LEVEL,HOLE,BONUS,TIME, VECT_LEVELS ,VECT_BONUS   };
 
 class Draw
 {
@@ -38,7 +40,7 @@ public:
     SDL_Object calculate_texture(std::string, SDL_Color, int, SDL_Renderer*);
 
   // void create_grid(std::array<std::array<int, 20>, 10>, SDL_Renderer*, int);
-  void draw_elem(int, SDL_Renderer*);
+  void draw_elem(int, SDL_Renderer*,int);
   int print_menu(SDL_Renderer*);
   // int print_GameOver(SDL_Renderer*);
   // void init_score(SDL_Renderer*);
@@ -70,6 +72,9 @@ private:
     // un tab de shapes 5
     // un tab de bonus
     // // // // levels
+    std::vector<SDL_Object> vect_level;
+    std::vector<SDL_Object> vect_hole;
+    std::vector<SDL_Object> vect_bonus;
     SDL_Object timer;
 
 };

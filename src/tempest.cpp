@@ -71,47 +71,5 @@ int Tempest::init_game()
             }
         }
     }
-    /*
-    while (start)
-    {
-        play_mode = draw.print_menu(renderer);
-        if (play_mode == 1)
-        {
-            reinit_game();
-            draw.init_score_num(score, level, renderer);
-            while ((choice = moteur()) == 0);
-            if (choice == 1)
-            {
-                //Mix_HaltMusic();
-                //play_music(GAME_OVER);
-                //draw.init_score_numGO(score, level, renderer);
-                SDL_RenderClear(renderer);
-                SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
-
-                if(draw.print_GameOver(renderer) ==  3)
-                    start = 0;
-
-                else if(draw.print_GameOver(renderer) == 1)
-                {
-                    play_music(MAIN_THEME);
-                    SDL_RenderClear(renderer);
-                    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
-                    draw.print_menu(renderer);
-                }
-            }
-        }
-        else if (play_mode == 2)
-        {
-        int bot_num = 0;
-        Bot bot;
-        bot.init_game_bot(screen_height, screen_width, cell_height, cell_width);
-        while((bot_num = bot.moteur(renderer)) == 0);
-        if (bot_num == 2)
-        start = 0;
-        }
-
-        else if (play_mode == 3)
-        start = 0;
-    }*/
     return 0;
 }
