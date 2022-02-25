@@ -12,8 +12,7 @@ image: gcc
 stages:
   - build
   - test
-  - deploy
-  - post-deploy
+
 
 
 build:
