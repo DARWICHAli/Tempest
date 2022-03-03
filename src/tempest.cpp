@@ -85,6 +85,7 @@ int Tempest::init_game()
 
                     }
                 }
+
             }
         }
         else if (play_mode == 1)

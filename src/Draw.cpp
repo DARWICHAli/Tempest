@@ -170,6 +170,9 @@ int Draw::print_menu(SDL_Renderer* renderer)
     {
         switch(events.type)
         {
+            case SDL_KEYDOWN:
+                SDL_Log("ENTER!");
+                running = 2;
             case SDL_WINDOWEVENT:
                 if (events.window.event == SDL_WINDOWEVENT_CLOSE)
                     running = 3;
