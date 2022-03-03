@@ -41,10 +41,29 @@ int Tempest::init_game()
     int choice = 0;
     int play_mode = 0;
     int start = 1;
-
+    clock_t time_req;
+    time_req = clock();
+    int timer = 10;
     bool quit = false;
     while (!quit)
     {
+        if((float)(clock()-time_req)/CLOCKS_PER_SEC >= .35) // a modifier
+        {
+            timer--;
+            draw.settimer(timer ,renderer);
+            time_req = clock();
+        }
+        if(timer == 0)
+        {
+            std::cout << "time's up!!" << '\n';
+            // ACTION
+            //force
+            break;
+
+        }
+
+
+
         play_mode = draw.print_menu(renderer);
         if(play_mode == 3)
             break;

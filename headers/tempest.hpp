@@ -3,6 +3,8 @@
 
 #include <algorithm>
 #include <random>
+#include <ctime>
+#include <cmath>
 #include "../headers/Draw.hpp"
 #include "../headers/Defs.hpp"
 

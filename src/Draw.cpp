@@ -66,7 +66,7 @@ void Draw::init_menu(SDL_Renderer* renderer)
     level = calculate_texture("LEVEL", GREEN, 1 , renderer);
     hole = calculate_texture("HOLE", GREEN, 1 , renderer);
     bonus = calculate_texture("BONUS", GREEN, 1 , renderer);
-    timer = calculate_texture("TIME  99 ", GREEN, 1 , renderer);
+    timer = calculate_texture("TIME   10", GREEN, 1 , renderer);
 
     for (int i = 0; i < fake_levels; i++)
     {
@@ -102,7 +102,7 @@ void Draw::init_menu(SDL_Renderer* renderer)
     timer.rect.y = 17*window_height/20 - timer.height/5;
 
     for (size_t i = 0; i < fake_levels; i++) {
-        vect_level.at(i).rect.x = window_width/3  + (3*i+1)*novice.width/2;
+        vect_level.at(i).rect.x = window_width/3  + (3*i+1)*novice.width/2 +novice.width/2;
         vect_level.at(i).rect.y = level.rect.y;
 
         vect_bonus.at(i).rect.x = window_width/3  + (3*i+1)*novice.width/2;
@@ -241,7 +241,14 @@ void Draw::draw_elem(int type, SDL_Renderer* renderer,int indice)
 
 
 
-
+void Draw::settimer(int time, SDL_Renderer* renderer )
+{
+    std::string tmp =  "TIME  "+ std::to_string(time) ;
+    timer = calculate_texture(tmp , GREEN, 1 , renderer);
+    timer.rect.x = window_width/2  - timer.width/2;
+    timer.rect.y = 17*window_height/20 - timer.height/5;
+    draw_elem (TIME, renderer,0);
+}
 
 void Draw::setHeightWidth(int h, int w)
 {

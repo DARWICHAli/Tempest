@@ -39,17 +39,19 @@ public:
     void init_draw(SDL_Renderer*);
     SDL_Object calculate_texture(std::string, SDL_Color, int, SDL_Renderer*);
 
-  // void create_grid(std::array<std::array<int, 20>, 10>, SDL_Renderer*, int);
-  void draw_elem(int, SDL_Renderer*,int);
-  int print_menu(SDL_Renderer*);
-  // int print_GameOver(SDL_Renderer*);
-  // void init_score(SDL_Renderer*);
+    // void create_grid(std::array<std::array<int, 20>, 10>, SDL_Renderer*, int);
+    void draw_elem(int, SDL_Renderer*,int);
+    int print_menu(SDL_Renderer*);
+    // int print_GameOver(SDL_Renderer*);
+    // void init_score(SDL_Renderer*);
 
-  // void init_score_num(int, int, SDL_Renderer*);
-  // void init_score_numGO(int, int, SDL_Renderer*);
-  void init_menu(SDL_Renderer*);
-  // void init_Game_over(SDL_Renderer*);
-  void setHeightWidth(int, int);
+    // void init_score_num(int, int, SDL_Renderer*);
+    // void init_score_numGO(int, int, SDL_Renderer*);
+    void init_menu(SDL_Renderer*);
+    // void init_Game_over(SDL_Renderer*);
+    void setHeightWidth(int, int);
+    void settimer(int time, SDL_Renderer* renderer );
+
 
 private:
     TTF_Font* font_menu1;
