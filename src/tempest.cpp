@@ -63,13 +63,29 @@ int Tempest::init_game()
         }
 
 
-
         play_mode = draw.print_menu(renderer);
         if(play_mode == 3)
             break;
         else if (play_mode== 2)
         {
             std::cout << "do_smth" << '\n';
+            while (!quit) {
+                draw.print_game(renderer);
+                SDL_Event event;
+                while (!quit && SDL_PollEvent(&event))
+                {
+                    switch (event.type)
+                    {
+                        case SDL_QUIT:
+                            std::cout << "fin" << '\n';
+                            quit = true;
+                            break;
+                        case SDL_KEYDOWN:
+                            SDL_Log("User just pressed down a key!");
+
+                    }
+                }
+            }
         }
         else if (play_mode == 1)
         {

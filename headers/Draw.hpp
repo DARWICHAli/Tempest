@@ -9,8 +9,13 @@
 #include <cstring>
 #include <string>
 #include <vector>
+#include <cassert>
 
 #include "../headers/Defs.hpp"
+#include "../headers/shapes.hpp"
+
+
+
 
 typedef struct
 {
@@ -42,6 +47,7 @@ public:
     // void create_grid(std::array<std::array<int, 20>, 10>, SDL_Renderer*, int);
     void draw_elem(int, SDL_Renderer*,int);
     int print_menu(SDL_Renderer*);
+    void print_game(SDL_Renderer*);
     // int print_GameOver(SDL_Renderer*);
     // void init_score(SDL_Renderer*);
 
