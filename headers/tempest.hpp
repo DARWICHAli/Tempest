@@ -7,6 +7,7 @@
 #include <cmath>
 #include "../headers/Draw.hpp"
 #include "../headers/Defs.hpp"
+#include "../headers/weapon.hpp"
 
 class Tempest {
 private:

@@ -45,6 +45,9 @@ int Tempest::init_game()
     time_req = clock();
     int timer = 10;
     bool quit = false;
+    Weapon w;
+    int mousex= 0;
+    int mousey =0;
     while (!quit)
     {
         if((float)(clock()-time_req)/CLOCKS_PER_SEC >= .35) // a modifier
@@ -71,17 +74,43 @@ int Tempest::init_game()
             std::cout << "do_smth" << '\n';
             while (!quit) {
                 draw.print_game(renderer);
+                w.DrawWeapon(renderer,mousex, mousey );
+
                 SDL_Event event;
                 while (!quit && SDL_PollEvent(&event))
                 {
                     switch (event.type)
                     {
                         case SDL_QUIT:
+                        {
                             std::cout << "fin" << '\n';
                             quit = true;
                             break;
+                        }
                         case SDL_KEYDOWN:
+                        {
                             SDL_Log("User just pressed down a key!");
+                            break;
+                        }
+                        case SDL_MOUSEMOTION:
+                        {
+                            SDL_Log("mouse_motion");
+                            std::cout << event.motion.x << " , " << event.motion.y << '\n'
+                            << event.motion.xrel << " , " << event.motion.yrel << '\n';
+                            // utilise cursor
+                            mousex = event.motion.x;
+                            mousey = event.motion.y;
+                            break;
+                        }
+                        case SDL_MOUSEBUTTONDOWN:
+                        {
+                            if(event.button.button == SDL_BUTTON_LEFT)
+                                SDL_Log("Fire Fire !");
+                            else if(event.button.button == SDL_BUTTON_RIGHT)
+                                SDL_Log("ultra Fire !");
+                            break;
+                        }
+
 
                     }
                 }

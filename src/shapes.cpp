@@ -79,10 +79,12 @@ void Shapes::DrawTriangle(SDL_Renderer * Renderer, int32_t centreX, int32_t cent
 
         SDL_RenderDrawLine(Renderer, centreX*0.95 ,centreY*1.25 ,centreX*0.5 ,centreY*1.75 );
         SDL_RenderDrawLine(Renderer, centreX,centreY*1.2 ,centreX ,centreY*0.25);
+
+
 }
 
 
 
 // crée grille
-// créer weopons
+// créer weapons
 // monster

@@ -129,12 +129,13 @@ void Draw::print_game(SDL_Renderer* renderer)
     SDL_RenderClear(renderer);
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
     SDL_RenderClear(renderer);
+
     // check level to get the right shape
     Shapes s;
     s.DrawTriangle(renderer, window_width/2, window_height/2);
 
-    SDL_RenderPresent(renderer);
-    SDL_RenderClear(renderer);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
+
 }
 
 
