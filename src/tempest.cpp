@@ -69,12 +69,13 @@ int Tempest::init_game()
         play_mode = draw.print_menu(renderer);
         if(play_mode == 3)
             break;
-        else if (play_mode== 2)
+        else if (play_mode == 2)
         {
             std::cout << "do_smth" << '\n';
             while (!quit) {
+
                 draw.print_game(renderer);
-                w.DrawWeapon(renderer,mousex, mousey );
+                w.MoveWeapon(renderer,mousex, mousey );
 
                 SDL_Event event;
                 while (!quit && SDL_PollEvent(&event))
@@ -110,11 +111,8 @@ int Tempest::init_game()
                                 SDL_Log("ultra Fire !");
                             break;
                         }
-
-
                     }
                 }
-
             }
         }
         else if (play_mode == 1)

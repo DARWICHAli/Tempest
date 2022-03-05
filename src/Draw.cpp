@@ -66,6 +66,7 @@ void Draw::init_menu(SDL_Renderer* renderer)
     hole = calculate_texture("HOLE", GREEN, 1 , renderer);
     bonus = calculate_texture("BONUS", GREEN, 1 , renderer);
     timer = calculate_texture("TIME   10", GREEN, 1 , renderer);
+    timer = calculate_texture("TIME   10", GREEN, 1 , renderer);
 
     for (int i = 0; i < fake_levels; i++)
     {
@@ -112,12 +113,23 @@ void Draw::init_menu(SDL_Renderer* renderer)
     le reste de menu; void .hpp
     */
 
+}
 
+void Draw::init_game(SDL_Renderer* renderer)
+{
+    weapon = calculate_texture("X",BLUE, 1, renderer);
+    //score ...
+    std::cout <<"this is a test " << window_height << " ,  "<< window_width<< '\n';
+    weapon.rect.x = window_width*0.25 + weapon.width/2;
+    weapon.rect.y = window_height*0.875 - weapon.height/2;
 
 }
+
+
 void Draw::init_draw(SDL_Renderer* renderer)
 {
     init_menu(renderer);
+    init_game(renderer);
   // init_score(renderer);
   // init_score_num(0, 0, renderer);
   // init_score_numGO(0, 0, renderer);
@@ -127,14 +139,26 @@ void Draw::init_draw(SDL_Renderer* renderer)
 void Draw::print_game(SDL_Renderer* renderer)
 {
     SDL_RenderClear(renderer);
+
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
-    SDL_RenderClear(renderer);
+
+    draw_elem (WEAPON, renderer,0);
+    //draw_elem (LIFE, renderer,0);
+    //draw_elem (SCORE, renderer,0);
+
+
+    //SDL_RenderClear(renderer);
 
     // check level to get the right shape
     Shapes s;
     s.DrawTriangle(renderer, window_width/2, window_height/2);
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
+    SDL_RenderPresent(renderer);
+
+
+    //SDL_RenderPresent(renderer);
+    SDL_RenderClear(renderer);
 
 }
 
@@ -250,6 +274,9 @@ void Draw::draw_elem(int type, SDL_Renderer* renderer,int indice)
             break;
         case VECT_BONUS:
             SDL_RenderCopy(renderer, vect_bonus.at(indice).texture, NULL, &vect_bonus.at(indice).rect);
+            break;
+        case WEAPON:
+            SDL_RenderCopy(renderer, weapon.texture, NULL, &weapon.rect);
             break;
     }
 }

@@ -16,7 +16,7 @@ private:
 public:
     Weapon ();
     ~Weapon ();
-    void DrawWeapon(SDL_Renderer *, int32_t , int32_t);
+    void MoveWeapon(SDL_Renderer *, int32_t , int32_t);
 
 };
 
