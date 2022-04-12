@@ -4,6 +4,7 @@
 #include "SDL2/SDL_ttf.h"
 #include "SDL2/SDL.h"
 #include <SDL2/SDL_mixer.h>
+#include <vector>
 
 // 1. Circle
 // 2. Square
@@ -28,8 +29,10 @@ STEPS, U ,COMP_FLAT,HEART,STAR, W ,FAN , INF, WEOPON};
 class Shapes {
 private:
     enum Type_Shape type;
+    // std::vector<int32_t , int32_t > points;
 
 public:
+    std::vector<std::pair<int, int>> points;
     Shapes ();
     ~Shapes ();
     void DrawCircle(SDL_Renderer *, int32_t , int32_t , int32_t );

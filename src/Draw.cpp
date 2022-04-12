@@ -120,10 +120,17 @@ void Draw::init_game(SDL_Renderer* renderer)
     weapon = calculate_texture("X",BLUE, 1, renderer);
     //score ...
     std::cout <<"this is a test " << window_height << " ,  "<< window_width<< '\n';
-    weapon.rect.x = window_width*0.25 + weapon.width/2;
-    weapon.rect.y = window_height*0.875 - weapon.height/2;
+    // weapon.rect.x = window_width*0.25 + weapon.width/2;
+    // weapon.rect.y = window_height*0.875 - weapon.height/2;
+    weapon.rect.x = 0;
+    weapon.rect.y = 0;
 
 }
+
+
+
+
+
 
 
 void Draw::init_draw(SDL_Renderer* renderer)
@@ -136,13 +143,14 @@ void Draw::init_draw(SDL_Renderer* renderer)
   // init_Game_over(renderer);
 }
 
-void Draw::print_game(SDL_Renderer* renderer)
+void Draw::print_game(SDL_Renderer* renderer,Shapes &s)
 {
     SDL_RenderClear(renderer);
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
 
     draw_elem (WEAPON, renderer,0);
+
     //draw_elem (LIFE, renderer,0);
     //draw_elem (SCORE, renderer,0);
 
@@ -150,16 +158,13 @@ void Draw::print_game(SDL_Renderer* renderer)
     //SDL_RenderClear(renderer);
 
     // check level to get the right shape
-    Shapes s;
     s.DrawTriangle(renderer, window_width/2, window_height/2);
-
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
     SDL_RenderPresent(renderer);
 
 
     //SDL_RenderPresent(renderer);
     SDL_RenderClear(renderer);
-
 }
 
 
@@ -297,4 +302,10 @@ void Draw::setHeightWidth(int h, int w)
   window_width = w;
   window_height = h;
 
+}
+
+void Draw::setweapon(int x , int y)
+{
+    weapon.rect.x = x;
+    weapon.rect.y = y;
 }

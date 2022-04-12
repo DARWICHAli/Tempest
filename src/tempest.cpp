@@ -48,6 +48,8 @@ int Tempest::init_game()
     Weapon w;
     int mousex= 0;
     int mousey =0;
+    int key = 0; // 1 droite  ,2 gauche
+    int type = 0; // si on utlise mouse ou keyboard ,, a modifier après
     while (!quit)
     {
         if((float)(clock()-time_req)/CLOCKS_PER_SEC >= .35) // a modifier
@@ -72,10 +74,10 @@ int Tempest::init_game()
         else if (play_mode == 2)
         {
             std::cout << "do_smth" << '\n';
+            Shapes s;
             while (!quit) {
 
-                draw.print_game(renderer);
-                w.MoveWeapon(renderer,mousex, mousey );
+                draw.print_game(renderer,s);
 
                 SDL_Event event;
                 while (!quit && SDL_PollEvent(&event))
@@ -91,26 +93,50 @@ int Tempest::init_game()
                         case SDL_KEYDOWN:
                         {
                             SDL_Log("User just pressed down a key!");
+
+                            /* Check the SDLKey values and move change the coords */
+                            switch( event.key.keysym.sym ){
+                                case SDLK_LEFT:
+                                    key = 1 ;
+                                    SDL_Log("LEFT!");
+                                    break;
+                                case SDLK_RIGHT:
+                                    key = 2 ;
+                                    SDL_Log("RIGHT!");
+                                    break;
+                                case SDLK_UP:
+                                    SDL_Log("UP!");
+                                    break;
+                                case SDLK_DOWN:
+                                    SDL_Log("DOWN!");
+                                    break;
+                                default:
+                                    break;
+
+                            }
+                            w.MoveWeapon(renderer,mousex, mousey ,key, type,s.points,draw);
+                            key = 0;
                             break;
                         }
-                        case SDL_MOUSEMOTION:
-                        {
-                            SDL_Log("mouse_motion");
-                            std::cout << event.motion.x << " , " << event.motion.y << '\n'
-                            << event.motion.xrel << " , " << event.motion.yrel << '\n';
-                            // utilise cursor
-                            mousex = event.motion.x;
-                            mousey = event.motion.y;
-                            break;
-                        }
-                        case SDL_MOUSEBUTTONDOWN:
-                        {
-                            if(event.button.button == SDL_BUTTON_LEFT)
-                                SDL_Log("Fire Fire !");
-                            else if(event.button.button == SDL_BUTTON_RIGHT)
-                                SDL_Log("ultra Fire !");
-                            break;
-                        }
+
+                        // case SDL_MOUSEMOTION:
+                        // {
+                        //     SDL_Log("mouse_motion");
+                        //     std::cout << event.motion.x << " , " << event.motion.y << '\n'
+                        //     << event.motion.xrel << " , " << event.motion.yrel << '\n';
+                        //     // utilise cursor
+                        //     mousex = event.motion.x;
+                        //     mousey = event.motion.y;
+                        //     break;
+                        // }
+                        // case SDL_MOUSEBUTTONDOWN:
+                        // {
+                        //     if(event.button.button == SDL_BUTTON_LEFT)
+                        //         SDL_Log("Fire Fire !");
+                        //     else if(event.button.button == SDL_BUTTON_RIGHT)
+                        //         SDL_Log("ultra Fire !");
+                        //     break;
+                        // }
                     }
                 }
             }
