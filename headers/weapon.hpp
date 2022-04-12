@@ -7,6 +7,8 @@
 #include <vector>
 #include <iostream>
 #include "../headers/Draw.hpp"
+#include <algorithm>
+
 class Weapon {
 private:
     /* data */

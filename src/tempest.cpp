@@ -73,7 +73,6 @@ int Tempest::init_game()
             break;
         else if (play_mode == 2)
         {
-            std::cout << "do_smth" << '\n';
             Shapes s;
             while (!quit) {
 
@@ -92,17 +91,14 @@ int Tempest::init_game()
                         }
                         case SDL_KEYDOWN:
                         {
-                            SDL_Log("User just pressed down a key!");
-
-                            /* Check the SDLKey values and move change the coords */
                             switch( event.key.keysym.sym ){
-                                case SDLK_LEFT:
-                                    key = 1 ;
-                                    SDL_Log("LEFT!");
-                                    break;
                                 case SDLK_RIGHT:
-                                    key = 2 ;
+                                    key = 1 ;
                                     SDL_Log("RIGHT!");
+                                    break;
+                                case SDLK_LEFT:
+                                    key = 2 ;
+                                    SDL_Log("LEFT!");
                                     break;
                                 case SDLK_UP:
                                     SDL_Log("UP!");
