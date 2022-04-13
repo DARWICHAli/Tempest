@@ -105,6 +105,7 @@ int Tempest::init_game()
                                     break;
                                 case SDLK_DOWN:
                                     SDL_Log("DOWN!");
+                                    w.FireWeapon(renderer,1,1);
                                     break;
                                 default:
                                     break;
