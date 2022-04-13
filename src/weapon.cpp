@@ -16,7 +16,7 @@ float distance(std::pair<int, int> p1,std::pair<int, int> p2)
 }
 
 
-void Weapon::MoveWeapon(SDL_Renderer * Renderer, int32_t centreX, int32_t centreY, int32_t key , int32_t  type ,std::vector<std::pair<int, int>> points,Draw &d)
+void Weapon::MoveWeapon( int32_t centreX, int32_t centreY, int32_t key , int32_t  type ,std::vector<std::pair<int, int>> points,Draw &d)
 {
     float direction1;
     float direction2;
@@ -78,32 +78,46 @@ void Weapon::MoveWeapon(SDL_Renderer * Renderer, int32_t centreX, int32_t centre
     {
         std::cout << "lol" << '\n';
     }
-
-    SDL_RenderPresent(Renderer);
-
 }
 
-
-void Weapon::FireWeapon(SDL_Renderer *rend, int32_t x ,int32_t y)
+void tmp(const std::string name)
 {
-        if(SDL_Init(SDL_INIT_AUDIO) < 0)
-     {
-       printf("SDL could not be initialized!\n"
-              "SDL_Error: %s\n", SDL_GetError());
-       return;
-     }
+    std::string tmp = "ressources/sound/"+ name ;
+    if(SDL_Init(SDL_INIT_AUDIO) < 0)
+    {
+        printf("SDL could not be initialized!\n"
+        "SDL_Error: %s\n", SDL_GetError());
+        return;
+    }
 
-     if(Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 2048) == -1)
-     {
-       printf("SDL2_mixer could not be initialized!\n"
-              "SDL_Error: %s\n", SDL_GetError());
-       return;
-     }
+    if(Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 2048) == -1)
+    {
+        printf("SDL2_mixer could not be initialized!\n"
+        "SDL_Error: %s\n", SDL_GetError());
+        return;
+    }
 
-    Mix_Music *clapnsnare = Mix_LoadMUS("ressources/sound/ogg_blasterBullet.ogg");
+    Mix_Music *clapnsnare = Mix_LoadMUS(tmp.c_str());
     if(Mix_PlayMusic(clapnsnare, -1) == -1)
     {
         printf(".OGG sound could not be played!\n"
         "SDL_Error: %s\n", SDL_GetError());
     }
+}
+
+
+void Weapon::FireWeapon(int32_t type)
+{
+
+    if(type == 0)
+    {
+        //tmp("ogg_blasterBullet.ogg");
+
+    }
+    else if(type == 1)
+    {
+        //tmp("ogg_blasterBullet.ogg");
+    }
+
+
 }

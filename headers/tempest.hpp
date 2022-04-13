@@ -25,6 +25,7 @@ private:
 
 public:
     Tempest ();
+    int game(Weapon w,Monsters m,std::vector<Monsters> &monsters,std::vector<double> &avancement);
     int init_game();
 };
 

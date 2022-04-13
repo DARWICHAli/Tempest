@@ -10,6 +10,81 @@ Tempest::Tempest():
 
 }
 
+int Tempest::game(Weapon w , Monsters m,std::vector<Monsters> &monsters,std::vector<double> &avancement)
+{
+
+    int mousex = 0;
+    int mousey = 0;
+    Shapes s;
+    int key = 0; // 1 droite  ,2 gauche
+    int type = 0; // si on utlise mouse ou keyboard ,, a modifier après
+    bool quit = false;
+    double i = 0;
+
+    while (!quit) {
+        draw.print_game(renderer,s);
+
+        for( int j = 0; j< monsters.size(); j++)
+        {
+            std::cout<<monsters.size()<<std::endl;
+            monsters[j].deplacement_Monster1(renderer,s.points,draw,avancement[j]);
+            avancement[j]=avancement[j]+0.000001;
+        }
+        if(i<3)
+        {
+            monsters.push_back(m);
+            avancement.push_back(0);
+
+            i++;
+        }
+        //m.deplacement_Monster(renderer,s.points,draw,i);
+
+        SDL_Event event;
+        while (!quit && SDL_PollEvent(&event))
+        {
+            switch (event.type)
+            {
+                case SDL_QUIT:
+                {
+                    std::cout << "fin" << '\n';
+                    quit = true;
+                    break;
+                }
+                case SDL_KEYDOWN:
+                {
+                    switch( event.key.keysym.sym ){
+                        case SDLK_RIGHT:
+                            key = 1 ;
+                            SDL_Log("RIGHT!");
+                            break;
+                        case SDLK_LEFT:
+                            key = 2 ;
+                            SDL_Log("LEFT!");
+                            break;
+                        case SDLK_UP:
+                            SDL_Log("UP!");
+                            break;
+                        case SDLK_DOWN:
+                            SDL_Log("DOWN!");
+                            w.FireWeapon(1);
+                            break;
+                        default:
+                            break;
+
+                    }
+                    w.MoveWeapon(mousey, mousey ,key, type,s.points,draw);
+                    SDL_RenderPresent(renderer);
+                    key = 0;
+                    break;
+                }
+            }
+        }
+    }
+    return quit;
+}
+
+
+
 
 int Tempest::init_game()
 {
@@ -54,9 +129,9 @@ int Tempest::init_game()
     avancement.push_back(0);
     int mousex= 0;
     int mousey =0;
-    int key = 0; // 1 droite  ,2 gauche
+
     int type = 0; // si on utlise mouse ou keyboard ,, a modifier après
-    double i = 0;
+
     while (!quit)
     {
         if((float)(clock()-time_req)/CLOCKS_PER_SEC >= .35) // a modifier
@@ -68,96 +143,15 @@ int Tempest::init_game()
         if(timer == 0)
         {
             std::cout << "time's up!!" << '\n';
-            // ACTION
-            //force
             break;
 
         }
-
-
         play_mode = draw.print_menu(renderer);
         if(play_mode == 3)
             break;
         else if (play_mode == 2)
         {
-            Shapes s;
-            while (!quit) {
-                draw.print_game(renderer,s);
-                
-                for( int j = 0; j<monsters.size(); j++)
-                {
-                    std::cout<<monsters.size()<<std::endl;
-                    monsters[j].deplacement_Monster1(renderer,s.points,draw,avancement[j]);
-                    avancement[j]=avancement[j]+0.000001;
-                }
-                if(i<3)
-                {
-                    monsters.push_back(m);
-                    avancement.push_back(0);
-
-                    i++;
-                }
-                //m.deplacement_Monster(renderer,s.points,draw,i);
-
-                SDL_Event event;
-                while (!quit && SDL_PollEvent(&event))
-                {
-                    switch (event.type)
-                    {
-                        case SDL_QUIT:
-                        {
-                            std::cout << "fin" << '\n';
-                            quit = true;
-                            break;
-                        }
-                        case SDL_KEYDOWN:
-                        {
-                            switch( event.key.keysym.sym ){
-                                case SDLK_RIGHT:
-                                    key = 1 ;
-                                    SDL_Log("RIGHT!");
-                                    break;
-                                case SDLK_LEFT:
-                                    key = 2 ;
-                                    SDL_Log("LEFT!");
-                                    break;
-                                case SDLK_UP:
-                                    SDL_Log("UP!");
-                                    break;
-                                case SDLK_DOWN:
-                                    SDL_Log("DOWN!");
-                                    w.FireWeapon(renderer,1,1);
-                                    break;
-                                default:
-                                    break;
-
-                            }
-                            w.MoveWeapon(renderer,mousey, mousey ,key, type,s.points,draw);
-                            key = 0;
-                            break;
-                        }
-
-                        // case SDL_MOUSEMOTION:
-                        // {
-                        //     SDL_Log("mouse_motion");
-                        //     std::cout << event.motion.x << " , " << event.motion.y << '\n'
-                        //     << event.motion.xrel << " , " << event.motion.yrel << '\n';
-                        //     // utilise cursor
-                        //     mousex = event.motion.x;
-                        //     mousey = event.motion.y;
-                        //     break;
-                        // }
-                        // case SDL_MOUSEBUTTONDOWN:
-                        // {
-                        //     if(event.button.button == SDL_BUTTON_LEFT)
-                        //         SDL_Log("Fire Fire !");
-                        //     else if(event.button.button == SDL_BUTTON_RIGHT)
-                        //         SDL_Log("ultra Fire !");
-                        //     break;
-                        // }
-                    }
-                }
-            }
+            quit = game(w,m,monsters,avancement);
         }
         else if (play_mode == 1)
         {
