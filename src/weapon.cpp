@@ -8,6 +8,32 @@ Weapon::Weapon ():
 {}
 Weapon::~Weapon (){}
 
+void sound(std::string name)
+{
+    std::string tmp = "ressources/sound/"+ name ;
+    if(SDL_Init(SDL_INIT_AUDIO) < 0)
+    {
+        printf("SDL could not be initialized!\n"
+        "SDL_Error: %s\n", SDL_GetError());
+        return;
+    }
+
+    if(Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 2048) == -1)
+    {
+        printf("SDL2_mixer could not be initialized!\n"
+        "SDL_Error: %s\n", SDL_GetError());
+        return;
+    }
+
+    Mix_Music *clapnsnare = Mix_LoadMUS(tmp.c_str());
+    if(Mix_PlayMusic(clapnsnare, -1) == -1)
+    {
+        printf(".OGG sound could not be played!\n"
+        "SDL_Error: %s\n", SDL_GetError());
+    }
+
+   //Mix_CloseAudio(); //Fermeture de l'API
+}
 
 
 float distance(std::pair<int, int> p1,std::pair<int, int> p2)
@@ -38,6 +64,7 @@ void Weapon::MoveWeapon( int32_t centreX, int32_t centreY, int32_t key , int32_t
     {
         if(key) // 1 ou 2
         {
+            //sound("ogg_blasterMove.ogg");
 
             for (std::size_t it = 0; it < points.size(); ++it)
             {
@@ -80,30 +107,6 @@ void Weapon::MoveWeapon( int32_t centreX, int32_t centreY, int32_t key , int32_t
     }
 }
 
-void tmp(const std::string name)
-{
-    std::string tmp = "ressources/sound/"+ name ;
-    if(SDL_Init(SDL_INIT_AUDIO) < 0)
-    {
-        printf("SDL could not be initialized!\n"
-        "SDL_Error: %s\n", SDL_GetError());
-        return;
-    }
-
-    if(Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 2048) == -1)
-    {
-        printf("SDL2_mixer could not be initialized!\n"
-        "SDL_Error: %s\n", SDL_GetError());
-        return;
-    }
-
-    Mix_Music *clapnsnare = Mix_LoadMUS(tmp.c_str());
-    if(Mix_PlayMusic(clapnsnare, -1) == -1)
-    {
-        printf(".OGG sound could not be played!\n"
-        "SDL_Error: %s\n", SDL_GetError());
-    }
-}
 
 
 void Weapon::FireWeapon(int32_t type)
@@ -111,12 +114,12 @@ void Weapon::FireWeapon(int32_t type)
 
     if(type == 0)
     {
-        //tmp("ogg_blasterBullet.ogg");
+        //sound("ogg_blasterBullet.ogg");
 
     }
     else if(type == 1)
     {
-        //tmp("ogg_blasterBullet.ogg");
+        //sound("ogg_blasterBullet.ogg");
     }
 
 

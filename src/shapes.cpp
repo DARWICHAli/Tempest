@@ -103,6 +103,61 @@ void Shapes::DrawTriangle(SDL_Renderer * Renderer, int32_t centreX, int32_t cent
 
 }
 
+void Shapes::DrawRectangle(SDL_Renderer * Renderer, int32_t centreX, int32_t centreY)
+{
+
+        	SDL_SetRenderDrawColor(Renderer, 0, 0, 255, SDL_ALPHA_OPAQUE);
+
+        	// SDL_RenderDrawLine(Renderer, centreX*0.5 ,centreY*1.75 ,centreX, centreY*0.25 );
+        	// SDL_RenderDrawLine(Renderer, centreX, centreY*0.25 , centreX*1.5 ,centreY*1.75);
+        	// SDL_RenderDrawLine(Renderer, centreX*1.5,centreY*1.75 ,centreX*0.5 ,centreY*1.75 );
+
+            SDL_Rect rec = {int(centreX*0.5) ,int(centreY*0.5),centreX,centreY};
+            SDL_RenderDrawRect(Renderer, &rec);
+
+            if(!points.size())
+            {
+                points.push_back(std::make_pair(centreX*0.5 , centreY*1.5));
+                points.push_back(std::make_pair(centreX*1.5 , centreY*1.5));
+                points.push_back(std::make_pair(centreX*1.5,centreY*0.5));
+                points.push_back(std::make_pair(centreX*0.5, centreY*0.5 ));
+            }
+
+            int lenx = centreX/10;
+            int leny = centreY/10;
+
+            SDL_Rect rec2 = {int(centreX*0.95) ,int(centreY*0.95),lenx,leny};
+            SDL_RenderDrawRect(Renderer, &rec2);
+
+            if(!points_centre.size())
+            {
+                points_centre.push_back(std::make_pair(centreX*0.95 , centreY*0.95+leny ));
+                points_centre.push_back(std::make_pair(centreX*0.95+lenx , centreY*0.95+leny));
+                points_centre.push_back(std::make_pair(centreX*0.95+lenx ,centreY*0.95));
+                points_centre.push_back(std::make_pair(centreX*0.95 ,centreY*0.95));
+
+            }
+            for( size_t i = 0 ; i < points.size() ; ++i )
+            {
+                SDL_RenderDrawLine(Renderer, points[i].first,points[i].second ,points_centre[i].first ,points_centre[i].second );
+            }
+}
+
+
+
+
+void Shapes::Drawshape(SDL_Renderer *renderer, int32_t window_width,int32_t window_height, int32_t level)
+{
+    switch (level) {
+        case 1:
+            DrawTriangle(renderer , window_width/2,window_height/2);
+            break;
+        case 2:
+            DrawRectangle(renderer , window_width/2,window_height/2);
+            break;
+    }
+}
+
 
 
 // crée grille
