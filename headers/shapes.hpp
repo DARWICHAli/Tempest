@@ -5,6 +5,7 @@
 #include "SDL2/SDL.h"
 #include <SDL2/SDL_mixer.h>
 #include <vector>
+#include <iostream>
 
 // 1. Circle
 // 2. Square

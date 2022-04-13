@@ -7,6 +7,8 @@
 #include <vector>
 #include <iostream>
 #include "../headers/Draw.hpp"
+#include <algorithm>
+
 class Weapon {
 private:
     /* data */
@@ -22,6 +24,7 @@ public:
     Weapon ();
     ~Weapon ();
     void MoveWeapon(SDL_Renderer *, int32_t ,int32_t,int32_t,int32_t,std::vector<std::pair<int, int>> points,Draw&);
+    void FireWeapon(SDL_Renderer *, int32_t ,int32_t);
 
 };
 

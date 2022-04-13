@@ -125,7 +125,6 @@ void Draw::init_game(SDL_Renderer* renderer)
 {
     weapon = calculate_texture("X",BLUE, 1, renderer);
     //score ...
-    std::cout <<"this is a test " << window_height << " ,  "<< window_width<< '\n';
     // weapon.rect.x = window_width*0.25 + weapon.width/2;
     // weapon.rect.y = window_height*0.875 - weapon.height/2;
     weapon.rect.x = 0;
@@ -139,9 +138,6 @@ void Draw::init_game(SDL_Renderer* renderer)
     std::cout <<"this is a test " << monster.rect.x << " ,  "<< monster.rect.y<< '\n';
 
 }
-
-
-
 
 
 
