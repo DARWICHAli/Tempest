@@ -1,7 +1,13 @@
 #include "../headers/Draw.hpp"
 
-
-
+#include <math.h>
+#ifdef _WIN32
+#include <Windows.h>
+#else
+#include <unistd.h>
+#endif
+#include <iostream>
+#include <cstdlib>
 int fake_levels = 100 ;
 
 
@@ -124,6 +130,13 @@ void Draw::init_game(SDL_Renderer* renderer)
     // weapon.rect.y = window_height*0.875 - weapon.height/2;
     weapon.rect.x = 0;
     weapon.rect.y = 0;
+    //SDL_Object monster;
+    monster = calculate_texture(".",RED, 1, renderer);
+    
+    monster.rect.x = window_width/2;
+    monster.rect.y = ((window_height*0.5)*1.2)*0.95;
+    monsters.push_back(monster);
+    std::cout <<"this is a test " << monster.rect.x << " ,  "<< monster.rect.y<< '\n';
 
 }
 
@@ -150,7 +163,9 @@ void Draw::print_game(SDL_Renderer* renderer,Shapes &s)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
 
     draw_elem (WEAPON, renderer,0);
-
+    draw_elem (MONSTER, renderer,0);
+    
+    
     //draw_elem (LIFE, renderer,0);
     //draw_elem (SCORE, renderer,0);
 
@@ -159,9 +174,36 @@ void Draw::print_game(SDL_Renderer* renderer,Shapes &s)
 
     // check level to get the right shape
     s.DrawTriangle(renderer, window_width/2, window_height/2);
+    
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
     SDL_RenderPresent(renderer);
 
+    /*std::cout << s.points[1].first<<std::endl;
+    double d = sqrt(pow((s.points[0].first-s.points[1].first),2) + (pow((s.points[0].second-s.points[1].second),2)));
+    
+    double Ux=s.points[1].first-s.points[0].first;
+    std::cout << "ok"<<std::endl;
+    double Uy=s.points[1].second-s.points[0].second;
+    double x_prim= (Ux*monster.rect.x)-(Uy*monster.rect.y);
+    double y_prim= (Uy*monster.rect.x)+(Ux*monster.rect.y);
+    double k=s.points[0].first+s.points[0].second;
+    
+    //double h;
+
+    for (double i=0; i<=1; i=i+0.01)
+    {
+        std::cout <<  monster.rect.x<<std::endl;
+        //sleep(2);
+        /*x_prim=x_prim*(1+i);
+        y_prim=y_prim*(1+i);
+        monster.rect.x = (x_prim+y_prim)/k;
+        monster.rect.y = monster.rect.y*(1+i);
+        
+        SDL_RenderCopy(renderer, monster.texture, NULL, &monster.rect);
+        SDL_RenderPresent(renderer);
+        //SDL_RenderClear(renderer);
+    }
+    sleep(2);*/
 
     //SDL_RenderPresent(renderer);
     SDL_RenderClear(renderer);
@@ -283,6 +325,11 @@ void Draw::draw_elem(int type, SDL_Renderer* renderer,int indice)
         case WEAPON:
             SDL_RenderCopy(renderer, weapon.texture, NULL, &weapon.rect);
             break;
+        case MONSTER:
+            for(auto e: monsters)
+                SDL_RenderCopy(renderer, e.texture, NULL, &e.rect);
+            monsters.push_back(monster);
+            break;
     }
 }
 
@@ -308,4 +355,9 @@ void Draw::setweapon(int x , int y)
 {
     weapon.rect.x = x;
     weapon.rect.y = y;
+}
+void Draw::setmonster(double x , double y)
+{
+    monster.rect.x = x;
+    monster.rect.y = y;
 }

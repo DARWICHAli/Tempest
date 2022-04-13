@@ -33,6 +33,7 @@ private:
 
 public:
     std::vector<std::pair<int, int>> points;
+    std::vector<std::pair<int, int>> points_centre;
     Shapes ();
     ~Shapes ();
     void DrawCircle(SDL_Renderer *, int32_t , int32_t , int32_t );

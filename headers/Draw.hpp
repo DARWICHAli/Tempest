@@ -35,7 +35,7 @@ typedef struct
 // TEMPEST_TITLE, PLAYER, VS_IA, SCORE_GO, SCORE_NUMGO, LEVEL_GO, LEVEL_NUMGO};
 
 enum Type_Draw{ TEMPEST_TITLE, PLAYER,RATE_URSELF,USE_KEYS,PRESS_ENTER_SELECT,NOVICE,EXPERT,
-LEVEL,HOLE,BONUS,TIME, VECT_LEVELS ,VECT_BONUS , WEAPON  };
+LEVEL,HOLE,BONUS,TIME, VECT_LEVELS ,VECT_BONUS , WEAPON ,MONSTER };
 
 class Draw
 {
@@ -59,7 +59,7 @@ public:
     void setHeightWidth(int, int);
     void settimer(int time, SDL_Renderer* renderer );
     void setweapon(int x , int y);
-
+    void setmonster(double x , double y);
 
 private:
     TTF_Font* font_menu1;
@@ -87,8 +87,9 @@ private:
     std::vector<SDL_Object> vect_bonus;
     SDL_Object timer;
 
-
+    std::vector<SDL_Object>monsters;
     SDL_Object weapon;
+    SDL_Object monster;
 
 };
 

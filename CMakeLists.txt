@@ -30,7 +30,7 @@ function(ADD_PRG)
 endfunction()
 
 #ADD_PRG(TARGET TESTS SOURCES tests/*   headers/*) for
-ADD_PRG(TARGET Tempest SOURCES src/main.cpp src/tempest.cpp src/Draw.cpp src/shapes.cpp src/weapon.cpp headers/tempest.hpp headers/Defs.hpp headers/Draw.hpp headers/shapes.hpp headers/weapon.hpp)
+ADD_PRG(TARGET Tempest SOURCES src/main.cpp src/tempest.cpp src/Draw.cpp src/shapes.cpp src/weapon.cpp src/monsters.cpp headers/tempest.hpp headers/Defs.hpp headers/Draw.hpp headers/shapes.hpp headers/weapon.hpp headers/monsters.hpp)
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/ressources
     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/)

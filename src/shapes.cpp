@@ -71,19 +71,29 @@ void Shapes::DrawTriangle(SDL_Renderer * Renderer, int32_t centreX, int32_t cent
 
         points.push_back(std::make_pair(centreX*0.5 , centreY*1.75));
         points.push_back(std::make_pair(centreX*1.5 ,centreY*1.75));
-        points.push_back(std::make_pair(centreX*0.5 ,centreY*1.75));
+        points.push_back(std::make_pair(centreX ,centreY*0.25));
 
 
         SDL_RenderDrawLine(Renderer, centreX*0.95 ,centreY*1.25 ,centreX, centreY*1.2 );
     	SDL_RenderDrawLine(Renderer, centreX, centreY*1.2  , centreX*1.05 ,centreY*1.25);
     	SDL_RenderDrawLine(Renderer, centreX*1.05 ,centreY*1.25 ,centreX*0.95 ,centreY*1.25 );
+
+        points_centre.push_back(std::make_pair(centreX*0.95 , centreY*1.25));
+        points_centre.push_back(std::make_pair(centreX*1.05 ,centreY*1.25));
+        points_centre.push_back(std::make_pair(centreX ,centreY*1.2));
+
         //
+        for( size_t i = 0 ; i < points.size() ; ++i )
+        {
+            SDL_RenderDrawLine(Renderer, points[i].first,points[i].second ,points_centre[i].first ,points_centre[i].second );
 
-        SDL_RenderDrawLine(Renderer, centreX,centreY*1.75 ,centreX ,centreY*1.25 );
-        SDL_RenderDrawLine(Renderer, centreX,centreY*1.2 ,centreX ,centreY*0.25);
 
-        SDL_RenderDrawLine(Renderer, centreX*0.95 ,centreY*1.25 ,centreX*0.5 ,centreY*1.75 );
-        SDL_RenderDrawLine(Renderer, centreX*1.05 , centreY*1.25 ,centreX*1.5 ,centreY*1.75);
+        }
+        /*#SDL_RenderDrawLine(Renderer, centreX,centreY*1.75 ,centreX ,centreY*1.25 );
+        #SDL_RenderDrawLine(Renderer, centreX,centreY*1.2 ,centreX ,centreY*0.25);
+
+        #SDL_RenderDrawLine(Renderer, centreX*0.95 ,centreY*1.25 ,centreX*0.5 ,centreY*1.75 );
+        #SDL_RenderDrawLine(Renderer, centreX*1.05 , centreY*1.25 ,centreX*1.5 ,centreY*1.75);*/
 
 
 }
