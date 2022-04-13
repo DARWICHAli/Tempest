@@ -78,18 +78,25 @@ void Weapon::MoveWeapon(SDL_Renderer * Renderer, int32_t centreX, int32_t centre
             }
             else
             {
-                if(distance(points.at(!indice? points.size()-1:indice-1), points.at(indice)) < distance(points.at((indice+1)%points.size()), points.at(indice)))
-                {
-                    indice2 = !indice? points.size()-1: indice-1;
-                    p2 = points.at(indice2);
 
-                }
-                else
-                {
-                    indice2 = (indice+1)%points.size();
-                    p2 = points.at(indice2);
-                }
+                indice2 = (indice+1)%points.size();
+                p2 = points.at(indice2);
+                // vec(AC) B est sur AC si AC = AB + BC
+                // if(distance(p1, p2) !=  sqrt(pow(x - p1.first , 2) +pow( y - p1.second , 2) * 1.0) +  sqrt(pow(p2.first - x , 2) +pow( p2.second - y, 2) * 1.0))
+                // {
+                //     indice2 = !indice? points.size()-1: indice-1;
+                //     p2 = points.at(indice2);
+                // }
+                std::cout << int(distance(p1, p2)) << " , "<<  int(sqrt(pow(x - p1.first , 2) +pow( y - p1.second , 2) * 1.0) +  sqrt(pow(p2.first - x , 2) +pow( p2.second - y, 2) * 1.0)) << '\n';
 
+
+
+                // 1 2 3 4 5 1 2 3
+                // a droite 1 2 3 4 5
+                // a gauche 5 4 3 2 1
+                // donc en key  == 1 ie droite vec(X,x+1%N) = indiceG - indiceP
+                // key == 2 = gauche vec(x+1%N,X) = indiceP - indiceG
+                 
                 //DROITE
                 if(key == 1)
                 {
