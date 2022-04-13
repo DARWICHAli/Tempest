@@ -74,7 +74,6 @@ void Shapes::DrawTriangle(SDL_Renderer * Renderer, int32_t centreX, int32_t cent
             points.push_back(std::make_pair(centreX*0.5 , centreY*1.75));
             points.push_back(std::make_pair(centreX*1.5,centreY*1.75));
             points.push_back(std::make_pair(centreX, centreY*0.25 ));
-
         }
 
 
