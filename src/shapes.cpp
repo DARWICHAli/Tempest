@@ -13,6 +13,7 @@ Shapes::Shapes() :
 Shapes::~Shapes(){}
 
 
+
 void Shapes::DrawCircle(SDL_Renderer * renderer, int32_t centreX, int32_t centreY, int32_t radius)
 {
     const int32_t diameter = (radius * 2);
@@ -108,10 +109,6 @@ void Shapes::DrawRectangle(SDL_Renderer * Renderer, int32_t centreX, int32_t cen
 
         	SDL_SetRenderDrawColor(Renderer, 0, 0, 255, SDL_ALPHA_OPAQUE);
 
-        	// SDL_RenderDrawLine(Renderer, centreX*0.5 ,centreY*1.75 ,centreX, centreY*0.25 );
-        	// SDL_RenderDrawLine(Renderer, centreX, centreY*0.25 , centreX*1.5 ,centreY*1.75);
-        	// SDL_RenderDrawLine(Renderer, centreX*1.5,centreY*1.75 ,centreX*0.5 ,centreY*1.75 );
-
             SDL_Rect rec = {int(centreX*0.5) ,int(centreY*0.5),centreX,centreY};
             SDL_RenderDrawRect(Renderer, &rec);
 
@@ -143,17 +140,74 @@ void Shapes::DrawRectangle(SDL_Renderer * Renderer, int32_t centreX, int32_t cen
             }
 }
 
+void Shapes::DrawPlus(SDL_Renderer *renderer, int32_t window_width, int32_t window_height)
+{
+    int centrex = window_width/2;
+    int centrey = window_height/2;
+    std::pair<int, int> p1;
+    std::pair<int, int> p2;
 
+
+    /*
+        ___0.25
+     __|   |___ 0.25
+    |___    ___| 0.25
+       |___|0.25
+         0.25
+    */
+
+    if(!points.size())
+    {
+        points.push_back(std::make_pair( window_width*0.375, window_height*0.875));
+        points.push_back(std::make_pair(window_width*0.625, window_height*0.875 ));
+        points.push_back(std::make_pair(window_width*0.625, window_height*0.75));
+        points.push_back(std::make_pair(window_width*0.75, window_height*0.75));
+        points.push_back(std::make_pair(window_width*0.75, window_height*0.42 ));
+        points.push_back(std::make_pair(window_width*0.625, window_height*0.42));
+        points.push_back(std::make_pair(window_width*0.625, window_height*0.295));
+        points.push_back(std::make_pair(window_width*0.375, window_height*0.295));
+        points.push_back(std::make_pair(window_width*0.375, window_height*0.42));
+        points.push_back(std::make_pair(window_width*0.25, window_height*0.42 ));
+        points.push_back(std::make_pair(window_width*0.25, window_height*0.75));
+        points.push_back(std::make_pair(window_width*0.375, window_height*0.75 ));
+    }
+
+    SDL_SetRenderDrawColor(renderer, 0, 0, 255, SDL_ALPHA_OPAQUE);
+    for (int i = 0; i < points.size(); i++)
+    {
+        SDL_RenderDrawLine(renderer, points.at(i).first , points.at(i).second ,points.at((i+1)%points.size()).first , points.at((i+1)%points.size()).second );
+        p1 = points.at(i);
+        p2 = points.at((i+1)%points.size());
+    }
+
+}
+
+
+
+
+void Shapes::DrawBowtie(SDL_Renderer *renderer, int32_t window_width, int32_t window_height)
+{
+    
+    return;
+}
 
 
 void Shapes::Drawshape(SDL_Renderer *renderer, int32_t window_width,int32_t window_height, int32_t level)
 {
     switch (level) {
+        case 0:
+            break;//circle
         case 1:
-            DrawTriangle(renderer , window_width/2,window_height/2);
+            DrawRectangle(renderer , window_width/2,window_height/2);
             break;
         case 2:
-            DrawRectangle(renderer , window_width/2,window_height/2);
+            DrawPlus(renderer,window_width,window_height);
+            break;
+        case 3:
+            DrawBowtie(renderer,window_width/2,window_height/2);
+            break;
+        case 4:
+            DrawTriangle(renderer , window_width/2,window_height/2);
             break;
     }
 }

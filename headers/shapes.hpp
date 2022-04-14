@@ -41,6 +41,8 @@ public:
     void DrawCircle(SDL_Renderer *, int32_t , int32_t , int32_t );
     void DrawTriangle(SDL_Renderer *, int32_t , int32_t  );
     void DrawRectangle(SDL_Renderer *, int32_t , int32_t  );
+    void DrawPlus(SDL_Renderer *, int32_t , int32_t  );
+    void DrawBowtie(SDL_Renderer *, int32_t , int32_t  );
 
 
 };
