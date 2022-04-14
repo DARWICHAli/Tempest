@@ -39,6 +39,7 @@ public:
     std::vector<std::pair<int, int>> points_centre;
     Shapes ();
     ~Shapes ();
+    void center_reduce(int , int );
     void Drawshape(SDL_Renderer *, int32_t , int32_t , int32_t );
     void DrawCircle(SDL_Renderer *, int32_t , int32_t , int32_t );
     void DrawTriangle(SDL_Renderer *, int32_t , int32_t  );

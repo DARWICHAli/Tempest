@@ -12,6 +12,34 @@ Shapes::Shapes() :
 
 Shapes::~Shapes(){}
 
+void Shapes::center_reduce(int window_width,int window_height)
+{
+    int centerx = window_width/2;
+    int centery = window_height/2;
+    int dist =0;
+    int dist2=0;
+    int x =0;
+    int y =0;
+    float scale_val = 0.3;
+
+    for (int i = 0; i < points.size(); i++)
+    {
+        x+= points.at(i).first*scale_val;
+        y+= points.at(i).second*scale_val;
+    }
+    x/=points.size();//moyenne
+    y/=points.size();
+    dist2 = sqrt(pow(y-centery,2));
+    dist = sqrt(pow(x -centerx,2));
+    //dist-=dist2;
+    for (int i = 0; i < points.size(); i++)
+    {
+        // reduire centrer
+        points_centre.push_back(std::make_pair((points.at(i).first*scale_val)+(dist), (points.at(i).second*scale_val)+(dist2)));
+
+    }
+
+}
 
 
 void Shapes::DrawCircle(SDL_Renderer * renderer, int32_t centreX, int32_t centreY, int32_t radius)
@@ -142,15 +170,7 @@ void Shapes::DrawRectangle(SDL_Renderer * Renderer, int32_t centreX, int32_t cen
 
 void Shapes::DrawPlus(SDL_Renderer *renderer, int32_t window_width, int32_t window_height)
 {
-    int centerx = window_width/2;
-    int centery = window_height/2;
-    int dist =0;
-    int dist2=0;
-    // std::pair<int, int> p1;
-    // std::pair<int, int> p2;
-    int x =0;
-    int y =0;
-    float scale_val = 0.3;
+
 
 
     /*
@@ -175,30 +195,10 @@ void Shapes::DrawPlus(SDL_Renderer *renderer, int32_t window_width, int32_t wind
         points.push_back(std::make_pair(window_width*0.25, window_height*0.42 ));
         points.push_back(std::make_pair(window_width*0.25, window_height*0.75));
         points.push_back(std::make_pair(window_width*0.375, window_height*0.75 ));
-    }
 
-    if(!points_centre.size())
-    {
-        for (int i = 0; i < points.size(); i++)
-        {
-            x+= points.at(i).first*scale_val;
-            y+= points.at(i).second*scale_val;
-        }
-        x/=points.size();//moyenne
-        y/=points.size();
-        dist2 = sqrt(pow(y-centery,2));
-        dist = sqrt(pow(x -centerx,2));
-        //dist-=dist2;
-        for (int i = 0; i < points.size(); i++)
-        {
-            // reduire centrer
-            points_centre.push_back(std::make_pair((points.at(i).first*scale_val)+(dist), (points.at(i).second*scale_val)+(dist2)));
-
-        }
+        center_reduce(window_width ,window_height);
 
     }
-
-
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 255, SDL_ALPHA_OPAQUE);
     for (int i = 0; i < points.size(); i++)
