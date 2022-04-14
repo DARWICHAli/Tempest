@@ -142,10 +142,13 @@ void Shapes::DrawRectangle(SDL_Renderer * Renderer, int32_t centreX, int32_t cen
 
 void Shapes::DrawPlus(SDL_Renderer *renderer, int32_t window_width, int32_t window_height)
 {
-    int centrex = window_width/2;
-    int centrey = window_height/2;
-    std::pair<int, int> p1;
-    std::pair<int, int> p2;
+    int centerx = window_width/2;
+    int centery = window_height/2;
+    int dist =0;
+    // std::pair<int, int> p1;
+    // std::pair<int, int> p2;
+    int x =0;
+    int y =0;
 
 
     /*
@@ -172,13 +175,36 @@ void Shapes::DrawPlus(SDL_Renderer *renderer, int32_t window_width, int32_t wind
         points.push_back(std::make_pair(window_width*0.375, window_height*0.75 ));
     }
 
+    if(!points_centre.size())
+    {
+        for (int i = 0; i < points.size(); i++)
+        {
+            x+= points.at(i).first*0.25;
+            y+= points.at(i).second*0.25;
+        }
+        x/=points.size();//moyenne
+        y/=points.size();
+        dist = sqrt(pow(x -centerx,2)+pow(y- centery,2));
+        for (int i = 0; i < points.size(); i++)
+        {
+            // reduire centrer
+            points_centre.push_back(std::make_pair((points.at(i).first*0.25), (points.at(i).second*0.25)));
+
+        }
+
+    }
+
+
+
     SDL_SetRenderDrawColor(renderer, 0, 0, 255, SDL_ALPHA_OPAQUE);
     for (int i = 0; i < points.size(); i++)
     {
         SDL_RenderDrawLine(renderer, points.at(i).first , points.at(i).second ,points.at((i+1)%points.size()).first , points.at((i+1)%points.size()).second );
-        p1 = points.at(i);
-        p2 = points.at((i+1)%points.size());
+        SDL_RenderDrawLine(renderer, points_centre.at(i).first , points_centre.at(i).second ,points_centre.at((i+1)%points_centre.size()).first , points_centre.at((i+1)%points_centre.size()).second );
+        SDL_RenderDrawLine(renderer, points[i].first,points[i].second ,points_centre[i].first ,points_centre[i].second );
+
     }
+
 
 }
 
@@ -187,7 +213,7 @@ void Shapes::DrawPlus(SDL_Renderer *renderer, int32_t window_width, int32_t wind
 
 void Shapes::DrawBowtie(SDL_Renderer *renderer, int32_t window_width, int32_t window_height)
 {
-    
+
     return;
 }
 

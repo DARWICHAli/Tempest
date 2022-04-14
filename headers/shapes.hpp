@@ -6,6 +6,8 @@
 #include <SDL2/SDL_mixer.h>
 #include <vector>
 #include <iostream>
+#include <algorithm>
+
 
 // 1. Circle
 // 2. Square
