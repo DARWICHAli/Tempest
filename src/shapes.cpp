@@ -150,7 +150,7 @@ void Shapes::DrawPlus(SDL_Renderer *renderer, int32_t window_width, int32_t wind
     // std::pair<int, int> p2;
     int x =0;
     int y =0;
-    float scale_val = 0.25;
+    float scale_val = 0.3;
 
 
     /*
@@ -186,13 +186,13 @@ void Shapes::DrawPlus(SDL_Renderer *renderer, int32_t window_width, int32_t wind
         }
         x/=points.size();//moyenne
         y/=points.size();
-        //dist2 = sqrt(pow(x -(points.at(0).first*scale_val),2)+pow(y- (points.at(0).second*scale_val),2));
-        dist = sqrt(pow(x -centerx,2)+pow(y- centery,2));
+        dist2 = sqrt(pow(y-centery,2));
+        dist = sqrt(pow(x -centerx,2));
         //dist-=dist2;
         for (int i = 0; i < points.size(); i++)
         {
             // reduire centrer
-            points_centre.push_back(std::make_pair((points.at(i).first*scale_val)+(dist), (points.at(i).second*scale_val)+(dist)));
+            points_centre.push_back(std::make_pair((points.at(i).first*scale_val)+(dist), (points.at(i).second*scale_val)+(dist2)));
 
         }
 
