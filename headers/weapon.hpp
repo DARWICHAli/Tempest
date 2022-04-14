@@ -15,7 +15,7 @@ private:
 
     // force
     // type
-    // couleur
+    int couleur;
     // position
     // sound  !
     int32_t x;

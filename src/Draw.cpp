@@ -173,7 +173,7 @@ void Draw::print_game(SDL_Renderer* renderer,Shapes &s)
     //SDL_RenderClear(renderer);
 
     // check level to get the right shape
-    s.Drawshape(renderer,window_width , window_height, 2);
+    s.Drawshape(renderer,window_width , window_height, 10);
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
     SDL_RenderPresent(renderer);
