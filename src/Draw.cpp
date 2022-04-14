@@ -124,11 +124,16 @@ void Draw::init_menu(SDL_Renderer* renderer)
 void Draw::init_game(SDL_Renderer* renderer)
 {
     weapon = calculate_texture("X",BLUE, 1, renderer);
-    //score ...
-    // weapon.rect.x = window_width*0.25 + weapon.width/2;
-    // weapon.rect.y = window_height*0.875 - weapon.height/2;
+    score = calculate_texture("000",GREEN, 1, renderer);
+    life = calculate_texture("XXXXX",YELLOW, 1, renderer);
+
     weapon.rect.x = 0;
     weapon.rect.y = 0;
+    life.rect.x = window_width*0.25;
+    life.rect.y = window_height*0.125;
+    score.rect.x = window_width*0.25;
+    score.rect.y = life.rect.y - 50;
+
     //SDL_Object monster;
     monster = calculate_texture(".",RED, 1, renderer);
 
@@ -161,9 +166,8 @@ void Draw::print_game(SDL_Renderer* renderer,Shapes &s)
     draw_elem (WEAPON, renderer,0);
     draw_elem (MONSTER, renderer,0);
 
-
-    //draw_elem (LIFE, renderer,0);
-    //draw_elem (SCORE, renderer,0);
+    draw_elem (LIFE, renderer,0);
+    draw_elem (SCORE, renderer,0);
 
 
     //SDL_RenderClear(renderer);
@@ -239,8 +243,20 @@ int Draw::print_menu(SDL_Renderer* renderer)
         switch(events.type)
         {
             case SDL_KEYDOWN:
-                SDL_Log("ENTER!");
-                running = 2;
+            switch( events.key.keysym.sym ){
+                case SDLK_RIGHT:
+                    // move holes to right
+                    SDL_Log("RIGHT!");
+                    break;
+                case SDLK_LEFT:
+                    // move holes to left
+                    SDL_Log("LEFT!");
+                    break;
+                case SDLK_RETURN:
+                    SDL_Log("ENTER!");
+                    running = 2;
+                }
+                break;
             case SDL_WINDOWEVENT:
                 if (events.window.event == SDL_WINDOWEVENT_CLOSE)
                     running = 3;
@@ -326,8 +342,25 @@ void Draw::draw_elem(int type, SDL_Renderer* renderer,int indice)
                 SDL_RenderCopy(renderer, e.texture, NULL, &e.rect);
             monsters.push_back(monster);
             break;
+        case LIFE:
+            SDL_RenderCopy(renderer, life.texture, NULL, &life.rect);
+            break;
+        case SCORE:
+            SDL_RenderCopy(renderer, score.texture, NULL, &score.rect);
+            break;
     }
 }
+
+
+// void Draw::setscore(int score, SDL_Renderer* renderer )
+// {
+//     std::string tmp =  "SCORE  "+ std::to_string(time) ;
+//     timer = calculate_texture(tmp , GREEN, 1 , renderer);
+//     timer.rect.x = window_width/2  - timer.width/2;
+//     timer.rect.y = 17*window_height/20 - timer.height/5;
+//     draw_elem (TIME, renderer,0);
+// }
+
 
 
 
