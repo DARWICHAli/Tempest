@@ -13,14 +13,14 @@ Shapes::Shapes() :
 Shapes::~Shapes(){}
 
 
-std::pair<double, double> Shapes::getcoordcentre()
+std::pair<int, int> Shapes::getcoordcentre()
 {
-    double x = .0;
-    double y = .0;
+    int x = 0;
+    int y = 0;
     for (int i = 0; i < points.size(); i++)
     {
-        x+= points_centre.at(i).first;
-        y+= points_centre.at(i).second;
+        x+= points.at(i).first;
+        y+= points.at(i).second;
     }
     x/=points_centre.size();//moyenne
     y/=points_centre.size();
@@ -61,8 +61,16 @@ void Shapes::center(int window_width,int window_height)
 
 void Shapes::center_reduce(int window_width,int window_height)
 {
-    int centerx = window_width/2;
-    int centery = window_height/2;
+    int centerx = 0;
+    int centery = 0;
+    for (int i = 0; i < points.size(); i++)
+    {
+        centerx+= points.at(i).first;
+        centery+= points.at(i).second;
+    }
+    centerx/=points.size();//moyenne
+    centery/=points.size();
+    
     int dist =0;
     int dist2=0;
     int x =0;

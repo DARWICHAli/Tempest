@@ -64,7 +64,7 @@ public:
     void DrawW(SDL_Renderer *, int32_t , int32_t  );
     void DrawFan(SDL_Renderer *, int32_t , int32_t  );
     void DrawInfSym(SDL_Renderer *, int32_t , int32_t  );
-    std::pair<double, double> getcoordcentre();
+    std::pair<int, int> getcoordcentre();
 
 
 

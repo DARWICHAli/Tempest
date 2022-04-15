@@ -89,6 +89,7 @@ private:
 
     std::vector<SDL_Object>monsters;
     SDL_Object weapon;
+    SDL_Object monster_centre;
     SDL_Object monster;
     SDL_Object life;
     SDL_Object score;

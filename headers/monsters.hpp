@@ -15,12 +15,13 @@ public:
     double x;
     double y;
     int d;
+    double z;
 
 public:
     Monsters (double x, double y);
     ~Monsters ();
     void deplacement_Monster(SDL_Renderer *,std::vector<std::pair<int, int>> points,Draw&, double &i);
-    void deplacement_Monster1(SDL_Renderer *,std::vector<std::pair<int, int>> points,Draw&, double &i);
+    void deplacement_Monster1(SDL_Renderer * Renderer ,std::vector<std::pair<int, int>> points,Draw &d1,double &i,double &mx, double &my);
 
 };
 
