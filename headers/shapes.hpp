@@ -29,7 +29,7 @@
 
 enum Type_Shape{CERCLE , SQUARE ,PLUS ,BOW , STYLIZEDCROSS, TRIANGLE ,CLOVER,V ,
 STEPS, U ,COMP_FLAT,HEART,STAR, W ,FAN , INF, WEOPON};
-// 
+//
 // enum Color{RED,BLUE,YELLOW,CYAN,BLACK,GREEN};
 
 
@@ -64,6 +64,8 @@ public:
     void DrawW(SDL_Renderer *, int32_t , int32_t  );
     void DrawFan(SDL_Renderer *, int32_t , int32_t  );
     void DrawInfSym(SDL_Renderer *, int32_t , int32_t  );
+    std::pair<double, double> getcoordcentre();
+
 
 
 };

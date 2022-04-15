@@ -13,6 +13,22 @@ Shapes::Shapes() :
 Shapes::~Shapes(){}
 
 
+std::pair<double, double> Shapes::getcoordcentre()
+{
+    double x = .0;
+    double y = .0;
+    for (int i = 0; i < points.size(); i++)
+    {
+        x+= points_centre.at(i).first;
+        y+= points_centre.at(i).second;
+    }
+    x/=points_centre.size();//moyenne
+    y/=points_centre.size();
+
+    return std::make_pair(x , y);
+}
+
+
 /*
 centrer les points du shape exterieur au centre
 ne marche pas
@@ -287,7 +303,7 @@ void Shapes::DrawV(SDL_Renderer *renderer, int32_t window_width, int32_t window_
 
     }
     SDL_SetRenderDrawColor(renderer, 0, 0, 255, SDL_ALPHA_OPAQUE);
-    for (int i = 0; i < points.size(); i++)
+    for (int i = 0; i < points.size()-1; i++)
     {
         SDL_RenderDrawLine(renderer, points.at(i).first , points.at(i).second ,points.at((i+1)%points.size()).first , points.at((i+1)%points.size()).second );
         SDL_RenderDrawLine(renderer, points_centre.at(i).first , points_centre.at(i).second ,points_centre.at((i+1)%points_centre.size()).first , points_centre.at((i+1)%points_centre.size()).second );
@@ -329,7 +345,9 @@ void Shapes::DrawU(SDL_Renderer *renderer, int32_t window_width, int32_t window_
     for (int i = 0; i < points.size(); i++)
     {
         SDL_RenderDrawLine(renderer, points.at(i).first , points.at(i).second ,points.at((i+1)%points.size()).first , points.at((i+1)%points.size()).second );
+
         SDL_RenderDrawLine(renderer, points_centre.at(i).first , points_centre.at(i).second ,points_centre.at((i+1)%points_centre.size()).first , points_centre.at((i+1)%points_centre.size()).second );
+
         SDL_RenderDrawLine(renderer, points[i].first,points[i].second ,points_centre[i].first ,points_centre[i].second );
 
     }
