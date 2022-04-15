@@ -25,7 +25,7 @@ public:
     ~Weapon ();
     void MoveWeapon( int32_t ,int32_t,int32_t,int32_t,std::vector<std::pair<int, int>> points,Draw&);
     void FireWeapon(int32_t);
-
+    void MoveMissile();
 };
 
 

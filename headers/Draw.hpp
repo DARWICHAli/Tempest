@@ -23,8 +23,17 @@ typedef struct
   SDL_Rect rect;
   int width;
   int height;
+  int direction;
 } SDL_Object;
 
+typedef struct
+{
+  SDL_Texture* texture;
+  SDL_FRect rect;
+  float width;
+  float height;
+  int direction;
+} SDL_FObject;
 
 
 
@@ -35,7 +44,7 @@ typedef struct
 // TEMPEST_TITLE, PLAYER, VS_IA, SCORE_GO, SCORE_NUMGO, LEVEL_GO, LEVEL_NUMGO};
 
 enum Type_Draw{ TEMPEST_TITLE, PLAYER,RATE_URSELF,USE_KEYS,PRESS_ENTER_SELECT,NOVICE,EXPERT,
-LEVEL,HOLE,BONUS,TIME, VECT_LEVELS ,VECT_BONUS , WEAPON ,MONSTER , LIFE, SCORE};
+LEVEL,HOLE,BONUS,TIME, VECT_LEVELS ,VECT_BONUS , WEAPON ,MONSTER ,FIRE, LIFE, SCORE};
 
 class Draw
 {
@@ -43,6 +52,7 @@ public:
     Draw();
     void init_draw(SDL_Renderer*);
     SDL_Object calculate_texture(std::string, SDL_Color, int, SDL_Renderer*);
+    SDL_FObject fcalculate_texture(std::string text,SDL_Color color,int type, SDL_Renderer* renderer);
 
     // void create_grid(std::array<std::array<int, 20>, 10>, SDL_Renderer*, int);
     void draw_elem(int, SDL_Renderer*,int);
@@ -60,6 +70,8 @@ public:
     void settimer(int time, SDL_Renderer* renderer );
     void setweapon(int x , int y);
     void setmonster(double x , double y,int );
+    std::vector<SDL_FObject>monsters;
+    std::vector<SDL_FObject>fire;
 
 private:
     TTF_Font* font_menu1;
@@ -87,10 +99,10 @@ private:
     std::vector<SDL_Object> vect_bonus;
     SDL_Object timer;
 
-    std::vector<SDL_Object>monsters;
+    
     SDL_Object weapon;
-    SDL_Object monster_centre;
-    SDL_Object monster;
+    SDL_FObject monster_centre;
+    
     SDL_Object life;
     SDL_Object score;
 

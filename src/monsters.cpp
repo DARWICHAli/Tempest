@@ -52,14 +52,8 @@ void Monsters::deplacement_Monster1(SDL_Renderer * Renderer ,std::vector<std::pa
     int cy=(points[1].second+points[2].second)/2;
 
 
-    // int Ux =points[1].first-points[0].first;
-    // int Vy = points[1].second-points[0].second;
-    // double norm = sqrt(Ux * Ux + Vy * Vy);
-    // double ux = Ux / norm;
-    // double uy = Vy / norm;
-    // double x_prim;
-    // double y_prim;
-    float sensitivity=.02;
+
+    double sensitivity=0.6;
 
 
     int direction1 = (cx - mx )/sqrt(pow(cx - mx , 2) +pow( cy - my, 2) * 1.0);

@@ -124,3 +124,15 @@ void Weapon::FireWeapon(int32_t type)
 
 
 }
+
+void Weapon:: MoveMissile()
+{
+    /*SDL_FObject monster;
+            monster = draw.fcalculate_texture(".",RED, 1, renderer);
+            monster.rect.x=s.getcoordcentre().first;
+            monster.rect.y=s.getcoordcentre().second;
+            monster.direction=distrib(gen);
+            std::cout<<"dir "<<j<<"="<<monster.direction<<std::endl;
+
+            draw.monsters.push_back(monster);*/
+}

@@ -37,8 +37,8 @@ SDL_Object Draw::calculate_texture(std::string text,SDL_Color color,int type, SD
         case 2:
             font=font_score;
             break;
-  }
-  const char * textprint = text.c_str();
+    }
+    const char * textprint = text.c_str();
   SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, textprint, color);
   SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
   int tempWidth, tempHeight;
@@ -49,6 +49,43 @@ SDL_Object Draw::calculate_texture(std::string text,SDL_Color color,int type, SD
   Message_rect.h = tempHeight; // controls the height of the rect
 
   SDL_Object tmp;
+  tmp.rect = Message_rect;
+  tmp.texture = Message;
+  tmp.width = tempWidth;
+  tmp.height = tempHeight;
+  SDL_FreeSurface(surfaceMessage);
+  //SDL_DestroyTexture(Message);
+  return tmp;
+}
+
+SDL_FObject Draw::fcalculate_texture(std::string text,SDL_Color color,int type, SDL_Renderer* renderer)
+{
+    TTF_Font* font;
+    switch (type) {
+        case 0:
+            font=font_menu1;
+            break;
+        case 1:
+            font=font_menu2;
+            break;
+        case 2:
+            font=font_score;
+            break;
+  }
+
+
+
+  const char * textprint = text.c_str();
+  SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, textprint, color);
+  SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+  int tempWidth, tempHeight;
+  SDL_QueryTexture(Message, NULL, NULL, &tempWidth, &tempHeight);
+  SDL_FRect Message_rect; //create a rect
+
+  Message_rect.w = tempWidth; // controls the width of the rect
+  Message_rect.h = tempHeight; // controls the height of the rect
+
+  SDL_FObject tmp;
   tmp.rect = Message_rect;
   tmp.texture = Message;
   tmp.width = tempWidth;
@@ -135,16 +172,11 @@ void Draw::init_game(SDL_Renderer* renderer)
     score.rect.y = life.rect.y - 50;
 
     //SDL_Object monster;
-    monster_centre = calculate_texture(".",RED, 1, renderer);
+    monster_centre = fcalculate_texture(".",RED, 1, renderer);
 
     monster_centre.rect.x = 0;
     monster_centre.rect.y = 0;
 
-    // monster.rect.x = 0;
-    // monster.rect.y = 0;
-
-    //monsters.push_back(monster);
-    //std::cout <<"this is a test " << monster.rect.x << " ,  "<< monster.rect.y<< '\n';
 
 }
 
@@ -168,21 +200,20 @@ void Draw::print_game(SDL_Renderer* renderer,Shapes &s)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
 
     draw_elem (WEAPON, renderer,0);
+    draw_elem(FIRE,renderer,0);
 
 
     draw_elem (LIFE, renderer,0);
     draw_elem (SCORE, renderer,0);
 
-
+    
     //SDL_RenderClear(renderer);
 
     // check level to get the right shape
-    //s.Drawshape(renderer,window_width , window_height, 10);
-    s.DrawRectangle(renderer,window_width/2 , window_height/2);
-    monster_centre.rect.x=s.getcoordcentre().first;
-    monster_centre.rect.y=s.getcoordcentre().second;
-    monsters.push_back(monster_centre);
-
+    //s.Drawshape(renderer,window_width , window_height, 1);
+    s.DrawTriangle(renderer,window_width/2 , window_height/2);
+    
+    
     draw_elem (MONSTER, renderer,0);
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
@@ -350,10 +381,16 @@ void Draw::draw_elem(int type, SDL_Renderer* renderer,int indice)
         case MONSTER:
             for(auto e: monsters)
             {
-                SDL_RenderCopy(renderer, e.texture, NULL, &e.rect);
+                SDL_RenderCopyF(renderer, e.texture, NULL, &e.rect);
             }
-            // monsters.push_back(monster_centre);
-            //SDL_RenderCopy(renderer, monster.texture, NULL, &monster.rect);
+
+            break;
+        case FIRE:
+            for(auto e: fire)
+            {
+                SDL_RenderCopyF(renderer, e.texture, NULL, &e.rect);
+            }
+
             break;
         case LIFE:
             SDL_RenderCopy(renderer, life.texture, NULL, &life.rect);
@@ -402,6 +439,5 @@ void Draw::setmonster(double x , double y,int indice)
 {
     monsters.at(indice).rect.x = x;
     monsters.at(indice).rect.y = y;
-    // monster.rect.x = x;
-    // monster.rect.y = y;
+  
 }

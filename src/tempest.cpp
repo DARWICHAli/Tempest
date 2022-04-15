@@ -1,6 +1,17 @@
 #include "../headers/tempest.hpp"
 
+#include "../headers/constant.hpp"
 #include <list>
+#include <random>
+
+#ifdef _WIN32
+#include <Windows.h>
+#else
+#include <unistd.h>
+#endif
+#include <iostream>
+#include <cstdlib>
+
 
 Tempest::Tempest():
   time_game{SDL_GetTicks()},
@@ -10,7 +21,7 @@ Tempest::Tempest():
 
 }
 
-int Tempest::game(Weapon w , Monsters m,std::vector<Monsters> &monsters,std::vector<double> &avancement)
+int Tempest::game(Weapon w, Draw &draw)
 {
 
     int mousex = 0;
@@ -21,37 +32,87 @@ int Tempest::game(Weapon w , Monsters m,std::vector<Monsters> &monsters,std::vec
     bool quit = false;
     double i = 0;
     double d;
+    double z=1;
+    
     draw.print_game(renderer,s);
 
-    monsters.at(0).x = s.getcoordcentre().first;
-    monsters.at(0).y = s.getcoordcentre().second;
+    std::random_device rd;  //Will be used to obtain a seed for the random number engine
+    std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
+    std::uniform_int_distribution<> distrib(1, s.points.size());
+    
+    if(draw.monsters.size()==0)
+    {
+        
+        for( int j = 0; j< NBR_MONSTER; j++)
+        {
+            SDL_FObject monster;
+            monster = draw.fcalculate_texture(".",RED, 1, renderer);
+            monster.rect.x=s.getcoordcentre().first;
+            monster.rect.y=s.getcoordcentre().second;
+            monster.direction=distrib(gen);
+            std::cout<<"dir "<<j<<"="<<monster.direction<<std::endl;
 
+            draw.monsters.push_back(monster);
+        }
+    }
+    
     while (!quit) {
         draw.print_game(renderer,s);
-        // if(monsters.size() == 1)
-        // {
-        //     m.x=s.getcoordcentre().first;
-        //     m.y=s.getcoordcentre().second;
-        //     monsters.at(0).x =m.x;
-        //     monsters.at(0).y= m.y;
-        //
-        //     std::cout << "m"<<m.x << m.y<<std::endl;
-        //     // monsters.push_back(m);
-        // }
-        for( int j = 0; j< monsters.size(); j++)
+        z -= 0.7;
+        if (z >= 0)
+            d = 1 - (1 - 0.07) * sqrt(z);
+        else 
+            d = 1;
+        for( int j = 0; j< draw.monsters.size(); j++)
         {
-            /*avancement[j]-=0.07;
-            if (avancement[j] >= 0)
-                d = 1 - (1 - 0.07) * sqrt(avancement[j]);
-            else
-                d = 1;*/
-            //std::cout << "/* message */"<< monsters.at(j).x  << '\n';
-            monsters[j].deplacement_Monster1(renderer,s.points,draw,d,monsters.at(j).x,monsters.at(j).y);
-            //std::cout << "/* message2 */"<< monsters.at(j).x  << '\n';
-            draw.setmonster(monsters.at(j).x,monsters.at(j).y,j);
+           
+        
+   
+            int p1=draw.monsters[j].direction%s.points.size();
+           
+            
+            int p2=(draw.monsters[j].direction+1)%s.points.size();
+            
+        
+            double cx=(s.points[p1].first+s.points[p2].first)/2;
+            
+            double cy=(s.points[p1].second+s.points[p2].second)/2;
+            double normc=sqrt(cx*cx+cy*cy);
+            /*cx=cx/normc;
+            cy=cy/normc;*/
+            double mx=draw.monsters.at(j).rect.x;
+            double my=draw.monsters.at(j).rect.y;
+
+
+            double sensitivity=0.001;
+            /*double direction1 =   (cx * mx - cy * my + s.points[p1].first - s.getcoordcentre().first) * d+ s.getcoordcentre().first;
+        
+            double direction2 = (cy * mx + cx * my + s.points[p1].second - s.getcoordcentre().second) * d+ s.getcoordcentre().second;*/
+            int direction1 = (cx - mx )/sqrt(pow(cx - mx , 2) +pow( cy -my, 2) * 1.0);
+            int direction2 = (cy - my )/sqrt(pow(cx - mx , 2) +pow( cy - my, 2) * 1.0);
+            /*std::cout << "p1" << p1 << std::endl;
+            std::cout << "p2 " << p2 << std::endl;
+            std::cout << s.points[p1].first << std::endl;
+            std::cout << "dir1=" << direction1 << std::endl;
+            std::cout << "dir2= " << direction2 << std::endl;*/
+            
+            
+            /*mx +=  direction1*sensitivity;
+            my +=  direction2*sensitivity;*/
+            mx=(sensitivity*(mx-cx))+mx;
+            my=(sensitivity*(my-cy))+my;
+            std::cout << "mx1= " << mx << std::endl;
+            /*mx=mx*sensitivity;
+            my=my*sensitivity;*/
+            draw.monsters.at(j).rect.x=mx;
+            draw.monsters.at(j).rect.y=my;
+            //std::cout << "my = " << mx<< std::endl;
+
+            draw.setmonster(draw.monsters.at(j).rect.x,draw.monsters.at(j).rect.y,j);
+            std::cout << "mx1= " << draw.monsters.at(j).rect.x << std::endl;
+            //std::cout << "xoxo = " << draw.monsters.at(j).rect.x<< std::endl;
         }
-
-
+        
         SDL_Event event;
         while (!quit && SDL_PollEvent(&event))
         {
@@ -136,10 +197,7 @@ int Tempest::init_game()
     bool quit = false;
     Weapon w;
     Monsters m(0,0);
-    std::vector<Monsters> monsters;
-    std::vector<double> avancement;
-    monsters.push_back(m);
-    avancement.push_back(1);
+
     int mousex= 0;
     int mousey =0;
 
@@ -164,7 +222,8 @@ int Tempest::init_game()
             break;
         else if (play_mode == 2)
         {
-            quit = game(w,m,monsters,avancement);
+
+            quit = game(w,draw);
         }
         else if (play_mode == 1)
         {
