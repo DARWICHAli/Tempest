@@ -59,7 +59,7 @@ public:
     void setHeightWidth(int, int);
     void settimer(int time, SDL_Renderer* renderer );
     void setweapon(int x , int y);
-    void setmonster(double x , double y);
+    void setmonster(double x , double y,int );
 
 private:
     TTF_Font* font_menu1;

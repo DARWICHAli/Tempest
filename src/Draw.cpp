@@ -139,8 +139,12 @@ void Draw::init_game(SDL_Renderer* renderer)
 
     monster_centre.rect.x = 0;
     monster_centre.rect.y = 0;
+
+    // monster.rect.x = 0;
+    // monster.rect.y = 0;
+
     //monsters.push_back(monster);
-    std::cout <<"this is a test " << monster.rect.x << " ,  "<< monster.rect.y<< '\n';
+    //std::cout <<"this is a test " << monster.rect.x << " ,  "<< monster.rect.y<< '\n';
 
 }
 
@@ -164,7 +168,7 @@ void Draw::print_game(SDL_Renderer* renderer,Shapes &s)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
 
     draw_elem (WEAPON, renderer,0);
-    
+
 
     draw_elem (LIFE, renderer,0);
     draw_elem (SCORE, renderer,0);
@@ -178,7 +182,9 @@ void Draw::print_game(SDL_Renderer* renderer,Shapes &s)
     monster_centre.rect.x=s.getcoordcentre().first;
     monster_centre.rect.y=s.getcoordcentre().second;
     monsters.push_back(monster_centre);
+
     draw_elem (MONSTER, renderer,0);
+
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
     SDL_RenderPresent(renderer);
 
@@ -342,10 +348,12 @@ void Draw::draw_elem(int type, SDL_Renderer* renderer,int indice)
             SDL_RenderCopy(renderer, weapon.texture, NULL, &weapon.rect);
             break;
         case MONSTER:
-            /*for(auto e: monsters)
+            for(auto e: monsters)
+            {
                 SDL_RenderCopy(renderer, e.texture, NULL, &e.rect);
-            monsters.push_back(monster_centre);*/
-            SDL_RenderCopy(renderer, monster_centre.texture, NULL, &monster_centre.rect);
+            }
+            // monsters.push_back(monster_centre);
+            //SDL_RenderCopy(renderer, monster.texture, NULL, &monster.rect);
             break;
         case LIFE:
             SDL_RenderCopy(renderer, life.texture, NULL, &life.rect);
@@ -390,8 +398,10 @@ void Draw::setweapon(int x , int y)
     weapon.rect.x = x;
     weapon.rect.y = y;
 }
-void Draw::setmonster(double x , double y)
+void Draw::setmonster(double x , double y,int indice)
 {
-    monster.rect.x = x;
-    monster.rect.y = y;
+    monsters.at(indice).rect.x = x;
+    monsters.at(indice).rect.y = y;
+    // monster.rect.x = x;
+    // monster.rect.y = y;
 }

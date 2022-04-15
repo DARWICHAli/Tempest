@@ -20,27 +20,37 @@ int Tempest::game(Weapon w , Monsters m,std::vector<Monsters> &monsters,std::vec
     int type = 0; // si on utlise mouse ou keyboard ,, a modifier après
     bool quit = false;
     double i = 0;
-    
     double d;
+    draw.print_game(renderer,s);
+
+    monsters.at(0).x = s.getcoordcentre().first;
+    monsters.at(0).y = s.getcoordcentre().second;
+
     while (!quit) {
         draw.print_game(renderer,s);
-        m.x=s.getcoordcentre().first;
-        m.y=s.getcoordcentre().second;
-        std::cout << "m"<<m.x<<std::endl;
-        monsters.push_back(m);
+        // if(monsters.size() == 1)
+        // {
+        //     m.x=s.getcoordcentre().first;
+        //     m.y=s.getcoordcentre().second;
+        //     monsters.at(0).x =m.x;
+        //     monsters.at(0).y= m.y;
+        //
+        //     std::cout << "m"<<m.x << m.y<<std::endl;
+        //     // monsters.push_back(m);
+        // }
         for( int j = 0; j< monsters.size(); j++)
         {
             /*avancement[j]-=0.07;
             if (avancement[j] >= 0)
                 d = 1 - (1 - 0.07) * sqrt(avancement[j]);
-            else 
+            else
                 d = 1;*/
-            
-            monsters[j].deplacement_Monster1(renderer,s.points,draw,d,monsters[j].x,monsters[j].y);
-            
-            
+            //std::cout << "/* message */"<< monsters.at(j).x  << '\n';
+            monsters[j].deplacement_Monster1(renderer,s.points,draw,d,monsters.at(j).x,monsters.at(j).y);
+            //std::cout << "/* message2 */"<< monsters.at(j).x  << '\n';
+            draw.setmonster(monsters.at(j).x,monsters.at(j).y,j);
         }
-        
+
 
         SDL_Event event;
         while (!quit && SDL_PollEvent(&event))
