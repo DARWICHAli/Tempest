@@ -276,7 +276,11 @@ void Shapes::DrawPlus(SDL_Renderer *renderer, int32_t window_width, int32_t wind
 
 void Shapes::DrawBowtie(SDL_Renderer *renderer, int32_t window_width, int32_t window_height)
 {
-
+    if(!points.size())
+    {
+        points.push_back(std::make_pair(window_width*0.8,window_height*0.4));
+        center_reduce(window_width ,window_height);
+    }
     // if(!points.size())
     // {
     //     points.push_back(std::make_pair());
@@ -289,9 +293,22 @@ void Shapes::DrawBowtie(SDL_Renderer *renderer, int32_t window_width, int32_t wi
     // }
     return;
 }
-void Shapes::DrawStylizedCross(SDL_Renderer *renderer, int32_t window_width, int32_t window_height ){    return;}
+void Shapes::DrawStylizedCross(SDL_Renderer *renderer, int32_t window_width, int32_t window_height ){
+    if(!points.size())
+    {
+        points.push_back(std::make_pair(window_width*0.8,window_height*0.4));
+        center_reduce(window_width ,window_height);
+    }
+}
 void Shapes::DrawClover(SDL_Renderer *renderer, int32_t window_width, int32_t window_height )
 {
+    if(!points.size())
+    {
+        points.push_back(std::make_pair(window_width*0.8,window_height*0.4));
+        center_reduce(window_width ,window_height);
+    }
+
+
 
 }
 void Shapes::DrawV(SDL_Renderer *renderer, int32_t window_width, int32_t window_height)
@@ -321,7 +338,11 @@ void Shapes::DrawV(SDL_Renderer *renderer, int32_t window_width, int32_t window_
 }
 void Shapes::DrawSteps(SDL_Renderer *renderer, int32_t window_width, int32_t window_height)
 {
-
+    if(!points.size())
+    {
+        points.push_back(std::make_pair(window_width*0.8,window_height*0.4));
+        center_reduce(window_width ,window_height);
+    }
 }
 void Shapes::DrawU(SDL_Renderer *renderer, int32_t window_width, int32_t window_height )
 {
@@ -388,11 +409,39 @@ void Shapes::DrawCompFlat(SDL_Renderer *renderer, int32_t window_width, int32_t 
 
     }
 }
-void Shapes::DrawHeart(SDL_Renderer *renderer, int32_t window_width, int32_t window_height ){    return;}
-void Shapes::DrawStar(SDL_Renderer *renderer, int32_t window_width, int32_t window_height ){    return;}
-void Shapes::DrawW(SDL_Renderer *renderer, int32_t window_width, int32_t window_height){    return;}
-void Shapes::DrawFan(SDL_Renderer *renderer, int32_t window_width, int32_t window_height ){    return;}
-void Shapes::DrawInfSym(SDL_Renderer *renderer, int32_t window_width, int32_t window_height ){    return;}
+void Shapes::DrawHeart(SDL_Renderer *renderer, int32_t window_width, int32_t window_height ){
+            if(!points.size())
+    {
+        points.push_back(std::make_pair(window_width*0.8,window_height*0.4));
+        center_reduce(window_width ,window_height);
+    }}
+void Shapes::DrawStar(SDL_Renderer *renderer, int32_t window_width, int32_t window_height ){
+            if(!points.size())
+    {
+        points.push_back(std::make_pair(window_width*0.8,window_height*0.4));
+        center_reduce(window_width ,window_height);
+    }}
+void Shapes::DrawW(SDL_Renderer *renderer, int32_t window_width, int32_t window_height){
+    if(!points.size())
+    {
+        points.push_back(std::make_pair(window_width*0.8,window_height*0.4));
+        center_reduce(window_width ,window_height);
+    }
+}
+void Shapes::DrawFan(SDL_Renderer *renderer, int32_t window_width, int32_t window_height ){
+    if(!points.size())
+    {
+        points.push_back(std::make_pair(window_width*0.8,window_height*0.4));
+        center_reduce(window_width ,window_height);
+    }
+}
+void Shapes::DrawInfSym(SDL_Renderer *renderer, int32_t window_width, int32_t window_height ){
+    if(!points.size())
+    {
+        points.push_back(std::make_pair(window_width*0.8,window_height*0.4));
+        center_reduce(window_width ,window_height);
+    }
+}
 
 void Shapes::Drawshape(SDL_Renderer *renderer, int32_t window_width,int32_t window_height, int32_t level)
 {
@@ -444,6 +493,7 @@ void Shapes::Drawshape(SDL_Renderer *renderer, int32_t window_width,int32_t wind
         case 15:
             DrawInfSym(renderer , window_width/2,window_height/2);
             break;
+
     }
 }
 

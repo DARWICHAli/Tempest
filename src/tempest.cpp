@@ -21,6 +21,8 @@ Tempest::Tempest():
 
 }
 
+
+
 int Tempest::game(Weapon w, Draw &draw)
 {
 
@@ -35,7 +37,8 @@ int Tempest::game(Weapon w, Draw &draw)
     double sensitivity=0.001;
     double z=1;
 
-    draw.print_game(renderer,s);
+    int level = 1;
+    draw.print_game(renderer,s, level);
 
 
     double cenx=s.getcoordcentre().first;
@@ -60,14 +63,39 @@ int Tempest::game(Weapon w, Draw &draw)
     }
 
     while (!quit) {
-        /*
-        if(no monster )
-         clear board
-         init
-         level++
-         print_game(level)
-        */
-        draw.print_game(renderer,s);
+
+        if(draw.monsters.size() == 0)
+        {
+            // clear board
+            // init
+            // level++
+            // print_game(level)
+            SDL_Log("Clear level!");
+            //clear_level();
+            s.points.clear();
+            s.points_centre.clear();
+
+            level++%15;
+            draw.print_game(renderer,s, level);
+
+            double cenx=s.getcoordcentre().first;
+            double ceny=s.getcoordcentre().second;
+            std::uniform_int_distribution<> distrib(1, s.points.size());
+            for( int j = 0; j< NBR_MONSTER; j++)
+            {
+                SDL_FObject monster;
+                monster = draw.fcalculate_texture(".",RED, 1, renderer);
+                monster.rect.x=cenx;
+                monster.rect.y=ceny;
+                std::cout<<monster.rect.x<<std::endl;
+                monster.direction=distrib(gen);
+                draw.monsters.push_back(monster);
+            }
+
+        }
+
+
+        draw.print_game(renderer,s,level);
         z -= 0.7;
         if (z >= 0)
             d = 1 - (1 - 0.07) * sqrt(z);

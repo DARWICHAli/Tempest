@@ -189,7 +189,7 @@ void Draw::init_draw(SDL_Renderer* renderer)
   // init_Game_over(renderer);
 }
 
-void Draw::print_game(SDL_Renderer* renderer,Shapes &s)
+void Draw::print_game(SDL_Renderer* renderer,Shapes &s, int level)
 {
     SDL_RenderClear(renderer);
 
@@ -203,7 +203,7 @@ void Draw::print_game(SDL_Renderer* renderer,Shapes &s)
     draw_elem (SCORE, renderer,0);
 
     // check level to get the right shape
-    s.Drawshape(renderer,window_width , window_height, 1);
+    s.Drawshape(renderer,window_width , window_height, level);
     //s.DrawTriangle(renderer,window_width/2 , window_height/2);
 
     draw_elem(FIRE,renderer,0);

@@ -57,7 +57,7 @@ public:
     // void create_grid(std::array<std::array<int, 20>, 10>, SDL_Renderer*, int);
     void draw_elem(int, SDL_Renderer*,int);
     int print_menu(SDL_Renderer*);
-    void print_game(SDL_Renderer*, Shapes &s);
+    void print_game(SDL_Renderer*, Shapes &s,int level);
     // int print_GameOver(SDL_Renderer*);
     // void init_score(SDL_Renderer*);
 
@@ -99,10 +99,10 @@ private:
     std::vector<SDL_Object> vect_bonus;
     SDL_Object timer;
 
-    
+
     SDL_Object weapon;
     SDL_FObject monster_centre;
-    
+
     SDL_Object life;
     SDL_Object score;
 
