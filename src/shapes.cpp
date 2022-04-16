@@ -70,7 +70,7 @@ void Shapes::center_reduce(int window_width,int window_height)
     }
     centerx/=points.size();//moyenne
     centery/=points.size();
-    
+
     int dist =0;
     int dist2=0;
     int x =0;
@@ -200,7 +200,7 @@ void Shapes::DrawRectangle(SDL_Renderer * Renderer, int32_t centreX, int32_t cen
                 points.push_back(std::make_pair(centreX*0.5 , centreY*1.5));
                 points.push_back(std::make_pair(centreX*1.5 , centreY*1.5));
                 points.push_back(std::make_pair(centreX*1.5,centreY*0.5));
-                points.push_back(std::make_pair(centreX*0.5, centreY*0.5 ));
+                points.push_back(std::make_pair(centreX*0.5, centreY*0.5));
             }
 
             int lenx = centreX/10;

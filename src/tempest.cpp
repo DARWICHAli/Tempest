@@ -34,86 +34,111 @@ int Tempest::game(Weapon w, Draw &draw)
     double d;
     double sensitivity=0.001;
     double z=1;
-    
+
     draw.print_game(renderer,s);
 
+
+    double cenx=s.getcoordcentre().first;
+    double ceny=s.getcoordcentre().second;
     std::random_device rd;  //Will be used to obtain a seed for the random number engine
     std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
     std::uniform_int_distribution<> distrib(1, s.points.size());
-    
+
     if(draw.monsters.size()==0)
     {
-        
+
         for( int j = 0; j< NBR_MONSTER; j++)
         {
             SDL_FObject monster;
             monster = draw.fcalculate_texture(".",RED, 1, renderer);
-            monster.rect.x=s.getcoordcentre().first;
-            monster.rect.y=s.getcoordcentre().second;
+            monster.rect.x=cenx;
+            monster.rect.y=ceny;
             std::cout<<monster.rect.x<<std::endl;
             monster.direction=distrib(gen);
-            
-
             draw.monsters.push_back(monster);
         }
     }
-    
+
     while (!quit) {
+        /*
+        if(no monster )
+         clear board
+         init
+         level++
+         print_game(level)
+        */
         draw.print_game(renderer,s);
         z -= 0.7;
         if (z >= 0)
             d = 1 - (1 - 0.07) * sqrt(z);
-        else 
+        else
             d = 1;
         for( int j = 0; j< draw.monsters.size(); j++)
         {
-           
-        
-   
+
             int p1=draw.monsters[j].direction%s.points.size();
-           
-            
             int p2=(draw.monsters[j].direction+1)%s.points.size();
-            
-        
+
+
             double cx=(s.points[p1].first+s.points[p2].first)/2;
-            
             double cy=(s.points[p1].second+s.points[p2].second)/2;
-            double normc=sqrt(cx*cx+cy*cy);
+            //double normc=sqrt(cx*cx+cy*cy);
             /*cx=cx/normc;
             cy=cy/normc;*/
             double mx=draw.monsters.at(j).rect.x;
             double my=draw.monsters.at(j).rect.y;
 
 
-            
+
             /*double direction1 =   (cx * mx - cy * my + s.points[p1].first - s.getcoordcentre().first) * d+ s.getcoordcentre().first;
-        
+
             double direction2 = (cy * mx + cx * my + s.points[p1].second - s.getcoordcentre().second) * d+ s.getcoordcentre().second;*/
-            int direction1 = (cx - mx )/sqrt(pow(cx - mx , 2) +pow( cy -my, 2) * 1.0);
-            int direction2 = (cy - my )/sqrt(pow(cx - mx , 2) +pow( cy - my, 2) * 1.0);
-        
-            mx=(sensitivity*(mx-cx))+mx;
-            my=(sensitivity*(my-cy))+my;
-            
+            // int direction1 = (cx - mx )/sqrt(pow(cx - mx , 2) +pow( cy -my, 2) * 1.0);
+            // int direction2 = (cy - my )/sqrt(pow(cx - mx , 2) +pow( cy - my, 2) * 1.0);
+
+            // mx=(sensitivity*(mx-cx))+mx;
+            // my=(sensitivity*(my-cy))+my;
+            mx=(sensitivity*(cx-mx))+mx;
+            my=(sensitivity*(cy-my))+my;
+
             draw.monsters.at(j).rect.x=mx;
             draw.monsters.at(j).rect.y=my;
-            
-        }
-        for(auto e : draw.fire)
-        {
-            //std::cout << "i'm here" << std::endl;
-            double cx=960;
-            double cy=675;
-            /*std::cout << "cx="<<cx << std::endl;
-            std::cout << "cy="<<cy << std::endl;*/
-           std::cout << "x="<<e.rect.x << std::endl;
-            e.rect.x=(sensitivity*(-cx+e.rect.x))+e.rect.x;
-            e.rect.y=(sensitivity*(-cy+e.rect.y))+e.rect.y;
-          std::cout << "xaprès="<<e.rect.x << std::endl;
+
+
+            if(abs(draw.monsters.at(j).rect.x - cx)< 1 &&  abs(draw.monsters.at(j).rect.y - cy)< 1 )
+                draw.monsters.erase(draw.monsters.begin() + j);
+
+
+
 
         }
-       
+        //for(auto e : draw.fire)
+        for( int i = 0; i< draw.fire.size(); i++)
+        {
+            draw.fire[i].rect.x=(sensitivity*(cenx-draw.fire[i].rect.x))+draw.fire[i].rect.x;
+            draw.fire[i].rect.y=(sensitivity*(ceny-draw.fire[i].rect.y))+draw.fire[i].rect.y;
+
+            for (size_t j = 0; j < draw.monsters.size(); j++) {
+                double tmp1x = draw.monsters.at(j).rect.x;
+                double tmp1y = draw.monsters.at(j).rect.y;
+                double tmp2x = draw.fire.at(i).rect.x;
+                double tmp2y = draw.fire.at(i).rect.y;
+
+
+                if(abs(tmp1x - tmp2x)< 1 && abs(tmp1y - tmp2y)< 1 )
+                {
+                    draw.monsters.erase(draw.monsters.begin() + j);
+                    draw.fire.erase(draw.fire.begin() + i);
+                }
+            }
+            if(abs(draw.fire[i].rect.x - cenx)< 1 && abs(draw.fire[i].rect.y - ceny)< 1 )
+                draw.fire.erase(draw.fire.begin() + i);
+
+
+        }
+
+
+
 
         SDL_Event event;
         while (!quit && SDL_PollEvent(&event))

@@ -171,7 +171,7 @@ void Draw::init_game(SDL_Renderer* renderer)
     score.rect.x = window_width*0.25;
     score.rect.y = life.rect.y - 50;
 
-    
+
 
 
 }
@@ -203,16 +203,16 @@ void Draw::print_game(SDL_Renderer* renderer,Shapes &s)
     draw_elem (SCORE, renderer,0);
 
     // check level to get the right shape
-    //s.Drawshape(renderer,window_width , window_height, 1);
-    s.DrawTriangle(renderer,window_width/2 , window_height/2);
-    
+    s.Drawshape(renderer,window_width , window_height, 1);
+    //s.DrawTriangle(renderer,window_width/2 , window_height/2);
+
     draw_elem(FIRE,renderer,0);
     draw_elem (MONSTER, renderer,0);
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
     SDL_RenderPresent(renderer);
 
-   
+
     SDL_RenderClear(renderer);
 }
 
@@ -405,5 +405,5 @@ void Draw::setmonster(double x , double y,int indice)
 {
     monsters.at(indice).rect.x = x;
     monsters.at(indice).rect.y = y;
-  
+
 }

@@ -9,7 +9,7 @@
 #include <algorithm>
 
 
-#define NBR_MONSTER 50
+#define NBR_MONSTER 1
 
 
 #endif
