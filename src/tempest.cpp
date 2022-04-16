@@ -32,6 +32,7 @@ int Tempest::game(Weapon w, Draw &draw)
     bool quit = false;
     double i = 0;
     double d;
+    double sensitivity=0.001;
     double z=1;
     
     draw.print_game(renderer,s);
@@ -49,8 +50,9 @@ int Tempest::game(Weapon w, Draw &draw)
             monster = draw.fcalculate_texture(".",RED, 1, renderer);
             monster.rect.x=s.getcoordcentre().first;
             monster.rect.y=s.getcoordcentre().second;
+            std::cout<<monster.rect.x<<std::endl;
             monster.direction=distrib(gen);
-            std::cout<<"dir "<<j<<"="<<monster.direction<<std::endl;
+            
 
             draw.monsters.push_back(monster);
         }
@@ -84,35 +86,35 @@ int Tempest::game(Weapon w, Draw &draw)
             double my=draw.monsters.at(j).rect.y;
 
 
-            double sensitivity=0.001;
+            
             /*double direction1 =   (cx * mx - cy * my + s.points[p1].first - s.getcoordcentre().first) * d+ s.getcoordcentre().first;
         
             double direction2 = (cy * mx + cx * my + s.points[p1].second - s.getcoordcentre().second) * d+ s.getcoordcentre().second;*/
             int direction1 = (cx - mx )/sqrt(pow(cx - mx , 2) +pow( cy -my, 2) * 1.0);
             int direction2 = (cy - my )/sqrt(pow(cx - mx , 2) +pow( cy - my, 2) * 1.0);
-            /*std::cout << "p1" << p1 << std::endl;
-            std::cout << "p2 " << p2 << std::endl;
-            std::cout << s.points[p1].first << std::endl;
-            std::cout << "dir1=" << direction1 << std::endl;
-            std::cout << "dir2= " << direction2 << std::endl;*/
-            
-            
-            /*mx +=  direction1*sensitivity;
-            my +=  direction2*sensitivity;*/
+        
             mx=(sensitivity*(mx-cx))+mx;
             my=(sensitivity*(my-cy))+my;
-            std::cout << "mx1= " << mx << std::endl;
-            /*mx=mx*sensitivity;
-            my=my*sensitivity;*/
+            
             draw.monsters.at(j).rect.x=mx;
             draw.monsters.at(j).rect.y=my;
-            //std::cout << "my = " << mx<< std::endl;
-
-            draw.setmonster(draw.monsters.at(j).rect.x,draw.monsters.at(j).rect.y,j);
-            std::cout << "mx1= " << draw.monsters.at(j).rect.x << std::endl;
-            //std::cout << "xoxo = " << draw.monsters.at(j).rect.x<< std::endl;
+            
         }
-        
+        for(auto e : draw.fire)
+        {
+            //std::cout << "i'm here" << std::endl;
+            double cx=960;
+            double cy=675;
+            /*std::cout << "cx="<<cx << std::endl;
+            std::cout << "cy="<<cy << std::endl;*/
+           std::cout << "x="<<e.rect.x << std::endl;
+            e.rect.x=(sensitivity*(-cx+e.rect.x))+e.rect.x;
+            e.rect.y=(sensitivity*(-cy+e.rect.y))+e.rect.y;
+          std::cout << "xaprès="<<e.rect.x << std::endl;
+
+        }
+       
+
         SDL_Event event;
         while (!quit && SDL_PollEvent(&event))
         {
@@ -140,7 +142,7 @@ int Tempest::game(Weapon w, Draw &draw)
                             break;
                         case SDLK_DOWN:
                             SDL_Log("DOWN!");
-                            w.FireWeapon(1);
+                            w.FireWeapon(0,draw,renderer);
                             break;
                         default:
                             break;

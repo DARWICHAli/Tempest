@@ -8,6 +8,7 @@
 #include <iostream>
 #include "../headers/Draw.hpp"
 #include <algorithm>
+#include "../headers/shapes.hpp"
 
 class Weapon {
 private:
@@ -24,8 +25,8 @@ public:
     Weapon ();
     ~Weapon ();
     void MoveWeapon( int32_t ,int32_t,int32_t,int32_t,std::vector<std::pair<int, int>> points,Draw&);
-    void FireWeapon(int32_t);
-    void MoveMissile();
+    void FireWeapon(int32_t,Draw &d,SDL_Renderer* renderer);
+    void MoveMissile(Shapes&s,Draw &d);
 };
 
 

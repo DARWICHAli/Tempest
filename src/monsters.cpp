@@ -1,13 +1,8 @@
 #include "../headers/monsters.hpp"
 #include "../headers/Draw.hpp"
 #include <math.h>
-#ifdef _WIN32
-#include <Windows.h>
-#else
-#include <unistd.h>
-#endif
-#include <iostream>
-#include <cstdlib>
+
+
 
 
 Monsters::Monsters (double x,double y):

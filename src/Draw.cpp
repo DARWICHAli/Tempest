@@ -171,11 +171,7 @@ void Draw::init_game(SDL_Renderer* renderer)
     score.rect.x = window_width*0.25;
     score.rect.y = life.rect.y - 50;
 
-    //SDL_Object monster;
-    monster_centre = fcalculate_texture(".",RED, 1, renderer);
-
-    monster_centre.rect.x = 0;
-    monster_centre.rect.y = 0;
+    
 
 
 }
@@ -200,53 +196,23 @@ void Draw::print_game(SDL_Renderer* renderer,Shapes &s)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
 
     draw_elem (WEAPON, renderer,0);
-    draw_elem(FIRE,renderer,0);
+    //draw_elem(FIRE,renderer,0);
 
 
     draw_elem (LIFE, renderer,0);
     draw_elem (SCORE, renderer,0);
 
-    
-    //SDL_RenderClear(renderer);
-
     // check level to get the right shape
     //s.Drawshape(renderer,window_width , window_height, 1);
     s.DrawTriangle(renderer,window_width/2 , window_height/2);
     
-    
+    draw_elem(FIRE,renderer,0);
     draw_elem (MONSTER, renderer,0);
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
     SDL_RenderPresent(renderer);
 
-    /*std::cout << s.points[1].first<<std::endl;
-    double d = sqrt(pow((s.points[0].first-s.points[1].first),2) + (pow((s.points[0].second-s.points[1].second),2)));
-
-    double Ux=s.points[1].first-s.points[0].first;
-    std::cout << "ok"<<std::endl;
-    double Uy=s.points[1].second-s.points[0].second;
-    double x_prim= (Ux*monster.rect.x)-(Uy*monster.rect.y);
-    double y_prim= (Uy*monster.rect.x)+(Ux*monster.rect.y);
-    double k=s.points[0].first+s.points[0].second;
-
-    //double h;
-
-    for (double i=0; i<=1; i=i+0.01)
-    {
-        std::cout <<  monster.rect.x<<std::endl;
-        //sleep(2);
-        /*x_prim=x_prim*(1+i);
-        y_prim=y_prim*(1+i);
-        monster.rect.x = (x_prim+y_prim)/k;
-        monster.rect.y = monster.rect.y*(1+i);
-
-        SDL_RenderCopy(renderer, monster.texture, NULL, &monster.rect);
-        SDL_RenderPresent(renderer);
-        //SDL_RenderClear(renderer);
-    }
-    sleep(2);*/
-
-    //SDL_RenderPresent(renderer);
+   
     SDL_RenderClear(renderer);
 }
 

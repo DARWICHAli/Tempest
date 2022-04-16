@@ -109,12 +109,16 @@ void Weapon::MoveWeapon( int32_t centreX, int32_t centreY, int32_t key , int32_t
 
 
 
-void Weapon::FireWeapon(int32_t type)
+void Weapon::FireWeapon(int32_t type, Draw&d,SDL_Renderer* renderer)
 {
-
+    SDL_FObject f;
     if(type == 0)
     {
-        //sound("ogg_blasterBullet.ogg");
+        
+        f = d.fcalculate_texture(".",GREEN, 1, renderer);
+        f.rect.x=x;
+        f.rect.y=y;
+        d.fire.push_back(f);
 
     }
     else if(type == 1)
@@ -125,14 +129,21 @@ void Weapon::FireWeapon(int32_t type)
 
 }
 
-void Weapon:: MoveMissile()
+void Weapon:: MoveMissile(Shapes &s,Draw &d)
 {
-    /*SDL_FObject monster;
-            monster = draw.fcalculate_texture(".",RED, 1, renderer);
-            monster.rect.x=s.getcoordcentre().first;
-            monster.rect.y=s.getcoordcentre().second;
-            monster.direction=distrib(gen);
-            std::cout<<"dir "<<j<<"="<<monster.direction<<std::endl;
+    double sensitivity=0.02;
+    for(auto e : d.fire)
+    {
+        std::cout << "i'm here" << std::endl;
+        double cx=s.getcoordcentre().first;
+        double cy=s.getcoordcentre().second;
+        std::cout << "cx="<<cx << std::endl;
+        std::cout << "cy="<<cy << std::endl;
+        std::cout << "x="<<e.rect.x << std::endl;
+        e.rect.x=(sensitivity*(-cx+e.rect.x))+e.rect.x;
+        e.rect.y=(sensitivity*(-cy+e.rect.y))+e.rect.y;
+        std::cout << "xaprès="<<e.rect.x << std::endl;
 
-            draw.monsters.push_back(monster);*/
+    }
+    
 }
