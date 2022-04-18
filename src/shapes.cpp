@@ -76,7 +76,7 @@ void Shapes::center_reduce(int window_width,int window_height)
     int dist2=0;
     int x =0;
     int y =0;
-    float scale_val = 0.3;
+    float scale_val = 0.007;
 
     //reduce
     for (int i = 0; i < points.size(); i++)
@@ -144,27 +144,33 @@ void Shapes::DrawCircle(SDL_Renderer * renderer, int32_t centreX, int32_t centre
 void Shapes::DrawTriangle(SDL_Renderer * renderer, int32_t centreX, int32_t centreY)
 {
 
+        // SDL_SetRenderDrawColor(Renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+    	// //Clear the screen.
+    	// SDL_RenderClear(Renderer);
+
+    	//Setting the actual draw color.
+
+
         if(!points.size())
         {
             points.push_back(std::make_pair(centreX*0.5 , centreY*1.75));
             points.push_back(std::make_pair(centreX*1.5,centreY*1.75));
             points.push_back(std::make_pair(centreX, centreY*0.25 ));
-
-            //center(window_width,window_height);
             center_reduce(centreX*2 ,centreY*2);
 
         }
 
-        SDL_SetRenderDrawColor(renderer, 0, 0, 255, SDL_ALPHA_OPAQUE);
-        SDL_RenderDrawPoint(renderer,centreX,centreY);
 
+
+        SDL_SetRenderDrawColor(Renderer, 0, 0, 255, SDL_ALPHA_OPAQUE);
         for (int i = 0; i < points.size(); i++)
         {
-            SDL_RenderDrawLine(renderer, points.at(i).first , points.at(i).second ,points.at((i+1)%points.size()).first , points.at((i+1)%points.size()).second );
-            SDL_RenderDrawLine(renderer, points_centre.at(i).first , points_centre.at(i).second ,points_centre.at((i+1)%points_centre.size()).first , points_centre.at((i+1)%points_centre.size()).second );
-            SDL_RenderDrawLine(renderer, points[i].first,points[i].second ,points_centre[i].first ,points_centre[i].second );
+            SDL_RenderDrawLine(Renderer, points.at(i).first , points.at(i).second ,points.at((i+1)%points.size()).first , points.at((i+1)%points.size()).second );
+            SDL_RenderDrawLine(Renderer, points_centre.at(i).first , points_centre.at(i).second ,points_centre.at((i+1)%points_centre.size()).first , points_centre.at((i+1)%points_centre.size()).second );
+            SDL_RenderDrawLine(Renderer, points[i].first,points[i].second ,points_centre[i].first ,points_centre[i].second );
 
         }
+
 }
 
 
@@ -172,50 +178,25 @@ void Shapes::DrawRectangle(SDL_Renderer * renderer, int32_t centreX, int32_t cen
 {
 
 
-            // SDL_Rect rec = {int(centreX*0.5) ,int(centreY*0.5),centreX,centreY};
-            // SDL_RenderDrawRect(Renderer, &rec);
 
-            if(!points.size())
-            {
-                points.push_back(std::make_pair(centreX*0.5 , centreY*1.5));
-                points.push_back(std::make_pair(centreX*1.5 , centreY*1.5));
-                points.push_back(std::make_pair(centreX*1.5,centreY*0.5));
-                points.push_back(std::make_pair(centreX*0.5, centreY*0.5));
+    if(!points.size())
+    {
+        points.push_back(std::make_pair(centreX*0.5 , centreY*1.5));
+        points.push_back(std::make_pair(centreX*1.5 , centreY*1.5));
+        points.push_back(std::make_pair(centreX*1.5,centreY*0.5));
+        points.push_back(std::make_pair(centreX*0.5, centreY*0.5));
+        center_reduce(centreX*2,centreY*2);
+    }
+    SDL_SetRenderDrawColor(Renderer, 0, 0, 255, SDL_ALPHA_OPAQUE);
+    for (int i = 0; i < points.size(); i++)
+    {
+        SDL_RenderDrawLine(Renderer, points.at(i).first , points.at(i).second ,points.at((i+1)%points.size()).first , points.at((i+1)%points.size()).second );
+        SDL_RenderDrawLine(Renderer, points_centre.at(i).first , points_centre.at(i).second ,points_centre.at((i+1)%points_centre.size()).first , points_centre.at((i+1)%points_centre.size()).second );
+        SDL_RenderDrawLine(Renderer, points[i].first,points[i].second ,points_centre[i].first ,points_centre[i].second );
 
-                center_reduce(centreX*2 ,centreY*2);
+    }
 
-            }
 
-            SDL_SetRenderDrawColor(renderer, 0, 0, 255, SDL_ALPHA_OPAQUE);
-            SDL_RenderDrawPoint(renderer,centreX,centreY);
-            for (int i = 0; i < points.size(); i++)
-            {
-                SDL_RenderDrawLine(renderer, points.at(i).first , points.at(i).second ,points.at((i+1)%points.size()).first , points.at((i+1)%points.size()).second );
-                SDL_RenderDrawLine(renderer, points_centre.at(i).first , points_centre.at(i).second ,points_centre.at((i+1)%points_centre.size()).first , points_centre.at((i+1)%points_centre.size()).second );
-                SDL_RenderDrawLine(renderer, points[i].first,points[i].second ,points_centre[i].first ,points_centre[i].second );
-
-            }
-
-            /*
-            int lenx = centreX/10;
-            int leny = centreY/10;
-
-            SDL_Rect rec2 = {int(centreX*0.95) ,int(centreY*0.95),lenx,leny};
-            SDL_RenderDrawRect(Renderer, &rec2);
-
-            if(!points_centre.size())
-            {
-                points_centre.push_back(std::make_pair(centreX*0.95 , centreY*0.95+leny ));
-                points_centre.push_back(std::make_pair(centreX*0.95+lenx , centreY*0.95+leny));
-                points_centre.push_back(std::make_pair(centreX*0.95+lenx ,centreY*0.95));
-                points_centre.push_back(std::make_pair(centreX*0.95 ,centreY*0.95));
-
-            }
-            for( size_t i = 0 ; i < points.size() ; ++i )
-            {
-                SDL_RenderDrawLine(Renderer, points[i].first,points[i].second ,points_centre[i].first ,points_centre[i].second );
-            }
-            */
 }
 
 void Shapes::DrawPlus(SDL_Renderer *renderer, int32_t window_width, int32_t window_height)

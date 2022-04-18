@@ -9,7 +9,8 @@
 #include <algorithm>
 
 
-#define NBR_MONSTER 1
+#define NBR_MONSTER 5
+#define SCALE_VAL 0.007
 
 
 #endif
