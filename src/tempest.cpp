@@ -37,7 +37,7 @@ int Tempest::game(Weapon w, Draw &draw)
     double sensitivity=0.001;
     double z=1;
 
-    int level = 1;
+    int level = 5;
     draw.print_game(renderer,s, level);
 
 
@@ -61,7 +61,7 @@ int Tempest::game(Weapon w, Draw &draw)
             monster.direction=distrib(gen);
             monster.apper=j+5;
             draw.monsters.push_back(monster);
-            
+
         }
     }
 
@@ -110,7 +110,7 @@ int Tempest::game(Weapon w, Draw &draw)
         {
             h =1- (1 - SCALE_VAL) * pow(z,2);
             //std::cout << "I'm here1 "  << std::endl;
-            
+
         }
         else
         {
@@ -131,11 +131,11 @@ int Tempest::game(Weapon w, Draw &draw)
 
             std::cout << "d = " << d << std::endl;
 
-            
+
             double norm =  sqrt((ux*ux)+(uy*uy));
             ux=ux/norm;
             uy=uy/norm;
-            
+
             double cx=(s.points[p1].first+s.points[p2].first)/2;
             double cy=(s.points[p1].second+s.points[p2].second)/2;
 
@@ -143,8 +143,8 @@ int Tempest::game(Weapon w, Draw &draw)
             double uy_prim = s.getcoordcentre().second-cy;
 
             double n = sqrt(ux_prim*ux_prim+uy_prim*uy_prim);
-            
-        
+
+
                 double mx=draw.monsters.at(j).rect.x;
                 double my=draw.monsters.at(j).rect.y;
 
@@ -152,12 +152,12 @@ int Tempest::game(Weapon w, Draw &draw)
                 double x_prim= (((ux*mx)-(uy*my))*d )+cx;
                 double y_prim= (((uy*mx)+(ux*my))*d)+cy;
 
-                
+
                 draw.monsters.at(j).rect.x=x_prim;
                 draw.monsters.at(j).rect.y=y_prim;
 
-        
-            
+
+
 
             std::cout << "x apres = " << draw.monsters.at(j).rect.x << std::endl;
             std::cout << "y apres = " << draw.monsters.at(j).rect.y << std::endl;
@@ -188,15 +188,15 @@ int Tempest::game(Weapon w, Draw &draw)
              draw.monsters.at(j).rect.x=x+cx;
              draw.monsters.at(j).rect.y=y+cy;
 
-             
-
-            
-
-            
 
 
 
-            
+
+
+
+
+
+
 
 
             /*double direction1 =   (cx * mx - cy * my + s.points[p1].first - s.getcoordcentre().first) * d+ s.getcoordcentre().first;
@@ -210,9 +210,9 @@ int Tempest::game(Weapon w, Draw &draw)
             /*mx=(sensitivity*(cx-mx))+mx;
             my=(sensitivity*(cy-my))+my;*/
 
-            
 
-            
+
+
 
 
 

@@ -10,7 +10,7 @@
 
 
 #define NBR_MONSTER 5
-#define SCALE_VAL 0.007
+#define SCALE_VAL 0.07
 
 
 #endif

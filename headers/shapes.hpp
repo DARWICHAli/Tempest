@@ -7,6 +7,7 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include "../headers/constant.hpp"
 
 
 // 1. Circle
@@ -47,6 +48,8 @@ public:
     ~Shapes ();
     void center_reduce(int , int );
     void center(int window_width,int window_height);
+    void Display(SDL_Renderer * Renderer, int color, int cycl);
+
     void Drawshape(SDL_Renderer *, int32_t , int32_t , int32_t );
     void DrawCircle(SDL_Renderer *, int32_t , int32_t , int32_t );
     void DrawTriangle(SDL_Renderer *, int32_t , int32_t  );
