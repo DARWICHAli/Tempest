@@ -16,6 +16,7 @@ public:
     double y;
     int d;
     double z;
+    int apper;
 
 public:
     Monsters (double x, double y);

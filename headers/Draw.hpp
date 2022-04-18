@@ -33,6 +33,7 @@ typedef struct
   float width;
   float height;
   int direction;
+  int apper;
 } SDL_FObject;
 
 

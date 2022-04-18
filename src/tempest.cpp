@@ -33,7 +33,7 @@ int Tempest::game(Weapon w, Draw &draw)
     int type = 0; // si on utlise mouse ou keyboard ,, a modifier après
     bool quit = false;
     double i = 0;
-    double d;
+    double h;
     double sensitivity=0.001;
     double z=1;
 
@@ -43,6 +43,7 @@ int Tempest::game(Weapon w, Draw &draw)
 
     double cenx=s.getcoordcentre().first;
     double ceny=s.getcoordcentre().second;
+
     std::random_device rd;  //Will be used to obtain a seed for the random number engine
     std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
     std::uniform_int_distribution<> distrib(1, s.points.size());
@@ -58,12 +59,18 @@ int Tempest::game(Weapon w, Draw &draw)
             monster.rect.y=ceny;
             std::cout<<monster.rect.x<<std::endl;
             monster.direction=distrib(gen);
+            monster.apper=j+5;
             draw.monsters.push_back(monster);
+            
         }
     }
 
     while (!quit) {
-
+        SDL_SetRenderDrawColor(renderer, 0, 255, 255, SDL_ALPHA_OPAQUE);
+        SDL_RenderDrawPoint(renderer,cenx,ceny);
+        std::cout << "cx =" << cenx  << std::endl;
+             std::cout << "cy =" << ceny<< std::endl;
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
         if(draw.monsters.size() == 0)
         {
             // clear board
@@ -80,6 +87,7 @@ int Tempest::game(Weapon w, Draw &draw)
 
             double cenx=s.getcoordcentre().first;
             double ceny=s.getcoordcentre().second;
+
             std::uniform_int_distribution<> distrib(1, s.points.size());
             for( int j = 0; j< NBR_MONSTER; j++)
             {
@@ -89,6 +97,7 @@ int Tempest::game(Weapon w, Draw &draw)
                 monster.rect.y=ceny;
                 std::cout<<monster.rect.x<<std::endl;
                 monster.direction=distrib(gen);
+                monster.apper=pow(j,1000000000);
                 draw.monsters.push_back(monster);
             }
 
@@ -96,26 +105,98 @@ int Tempest::game(Weapon w, Draw &draw)
 
 
         draw.print_game(renderer,s,level);
-        z -= 0.7;
-        if (z >= 0)
-            d = 1 - (1 - 0.07) * sqrt(z);
+        double d;
+        if (z > 0)
+        {
+            h =1- (1 - SCALE_VAL) * pow(z,2);
+            //std::cout << "I'm here1 "  << std::endl;
+            
+        }
         else
-            d = 1;
+        {
+            h = 1;
+            //std::cout << "I'm here2 "  << std::endl;
+        }
+        z -= 0.00007;
+        i++;
         for( int j = 0; j< draw.monsters.size(); j++)
         {
+            /*if (i > draw.monsters[j].apper)
+            {
+                int p1=draw.monsters[j].direction%s.points.size();
+            int p2=(draw.monsters[j].direction+1)%s.points.size();
+
+            double ux = s.points[p2].first-s.points[p1].first;
+            double uy=s.points[p2].second-s.points[p1].second;
+
+            std::cout << "d = " << d << std::endl;
+
+            
+            double norm =  sqrt((ux*ux)+(uy*uy));
+            ux=ux/norm;
+            uy=uy/norm;
+            
+            double cx=(s.points[p1].first+s.points[p2].first)/2;
+            double cy=(s.points[p1].second+s.points[p2].second)/2;
+
+            double ux_prim = s.getcoordcentre().first-cx;
+            double uy_prim = s.getcoordcentre().second-cy;
+
+            double n = sqrt(ux_prim*ux_prim+uy_prim*uy_prim);
+            
+        
+                double mx=draw.monsters.at(j).rect.x;
+                double my=draw.monsters.at(j).rect.y;
+
+
+                double x_prim= (((ux*mx)-(uy*my))*d )+cx;
+                double y_prim= (((uy*mx)+(ux*my))*d)+cy;
+
+                
+                draw.monsters.at(j).rect.x=x_prim;
+                draw.monsters.at(j).rect.y=y_prim;
+
+        
+            
+
+            std::cout << "x apres = " << draw.monsters.at(j).rect.x << std::endl;
+            std::cout << "y apres = " << draw.monsters.at(j).rect.y << std::endl;
+            if(abs(draw.monsters.at(j).rect.x - cx)< 1 &&  abs(draw.monsters.at(j).rect.y - cy)< 1 )
+                draw.monsters.erase(draw.monsters.begin() + j);
+
+
+            }*/
+            double cx = s.getcoordcentre().first;
+            double cy = s.getcoordcentre().second;
 
             int p1=draw.monsters[j].direction%s.points.size();
             int p2=(draw.monsters[j].direction+1)%s.points.size();
 
+            double mx=(s.points[p1].first+s.points[p2].first)/2;
+            double my=(s.points[p1].second+s.points[p2].second)/2;
 
-            double cx=(s.points[p1].first+s.points[p2].first)/2;
-            double cy=(s.points[p1].second+s.points[p2].second)/2;
-            //double normc=sqrt(cx*cx+cy*cy);
-            /*cx=cx/normc;
-            cy=cy/normc;*/
-            double mx=draw.monsters.at(j).rect.x;
-            double my=draw.monsters.at(j).rect.y;
+            double ux = s.points[p2].first-s.points[p1].first;
+            double uy=s.points[p2].second-s.points[p1].second;
 
+            double norm =  sqrt((ux*ux)+(uy*uy));
+            ux=ux/norm;
+            uy=uy/norm;
+
+            double x = ((ux*cx) - (uy*cy)+mx)*h;
+            double y = ((uy*cx)+(ux*cy)+my)*h;
+
+             draw.monsters.at(j).rect.x=x+cx;
+             draw.monsters.at(j).rect.y=y+cy;
+
+             
+
+            
+
+            
+
+
+
+            
 
 
             /*double direction1 =   (cx * mx - cy * my + s.points[p1].first - s.getcoordcentre().first) * d+ s.getcoordcentre().first;
@@ -126,15 +207,12 @@ int Tempest::game(Weapon w, Draw &draw)
 
             // mx=(sensitivity*(mx-cx))+mx;
             // my=(sensitivity*(my-cy))+my;
-            mx=(sensitivity*(cx-mx))+mx;
-            my=(sensitivity*(cy-my))+my;
+            /*mx=(sensitivity*(cx-mx))+mx;
+            my=(sensitivity*(cy-my))+my;*/
 
-            draw.monsters.at(j).rect.x=mx;
-            draw.monsters.at(j).rect.y=my;
+            
 
-
-            if(abs(draw.monsters.at(j).rect.x - cx)< 1 &&  abs(draw.monsters.at(j).rect.y - cy)< 1 )
-                draw.monsters.erase(draw.monsters.begin() + j);
+            
 
 
 
