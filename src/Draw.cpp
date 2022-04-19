@@ -224,6 +224,10 @@ void Draw::print_game(SDL_Renderer* renderer,Shapes &s, int level)
     //s.DrawTriangle(renderer,window_width/2 , window_height/2);
     draw_elem(FIRE,renderer,0);
     draw_elem (MONSTER, renderer,0);
+
+    //test centre;
+    SDL_RenderDrawPoint(renderer, window_width/2, window_height/2);
+
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
     SDL_RenderPresent(renderer);
     SDL_RenderClear(renderer);
