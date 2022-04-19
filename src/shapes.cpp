@@ -185,11 +185,16 @@ void Shapes::DrawRectangle(SDL_Renderer * Renderer, int32_t centreX, int32_t cen
 
     if(!points.size())
     {
-        points.push_back(std::make_pair(centreX*0.5 , centreY*1.5));
-        points.push_back(std::make_pair(centreX*1.5 , centreY*1.5));
-        points.push_back(std::make_pair(centreX*1.5,centreY*0.5));
-        points.push_back(std::make_pair(centreX*0.5, centreY*0.5));
-        center_reduce(centreX*2,centreY*2);
+        points.push_back(std::make_pair(centreX*0.25 , centreY*.75));
+        points.push_back(std::make_pair(centreX*0.75 , centreY*0.75));
+        points.push_back(std::make_pair(centreX*0.75,centreY*0.25));
+        points.push_back(std::make_pair(centreX*0.25, centreY*0.25));
+        //center_reduce(centreX,centreY);
+        points_centre.push_back(std::make_pair(375, 425));
+        points_centre.push_back(std::make_pair(425, 425));
+        points_centre.push_back(std::make_pair(425, 375));
+        points_centre.push_back(std::make_pair(375, 375));
+
     }
     Display(Renderer, 1, 1);
 
@@ -352,7 +357,7 @@ void Shapes::DrawCompFlat(SDL_Renderer *renderer, int32_t window_width, int32_t 
 
 }
 void Shapes::DrawHeart(SDL_Renderer *renderer, int32_t window_width, int32_t window_height ){
-    f(!points.size())
+    if(!points.size())
     {
         points.push_back(std::make_pair(window_width*0.85,window_height*0.8));
         points.push_back(std::make_pair(window_width*0.8,window_height*0.4));
@@ -404,7 +409,7 @@ void Shapes::Drawshape(SDL_Renderer *renderer, int32_t window_width,int32_t wind
         case 0:
             break;//circle
         case 1:
-            DrawRectangle(renderer , window_width/2,window_height/2);
+            DrawRectangle(renderer , window_width , window_height);
             break;
         case 2:
             DrawPlus(renderer,window_width,window_height);

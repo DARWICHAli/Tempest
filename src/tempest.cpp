@@ -37,12 +37,14 @@ int Tempest::game(Weapon w, Draw &draw)
     double sensitivity=0.001;
     double z=1;
 
-    int level = 5;
+    int level = 1;
     draw.print_game(renderer,s, level);
 
 
-    double cenx=s.getcoordcentre().first;
-    double ceny=s.getcoordcentre().second;
+    // double cenx=s.getcoordcentre().first;
+    // double ceny=s.getcoordcentre().second;
+    double cenx=WW/2;
+    double ceny=WH/2;
 
     std::random_device rd;  //Will be used to obtain a seed for the random number engine
     std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
@@ -57,7 +59,8 @@ int Tempest::game(Weapon w, Draw &draw)
             monster = draw.fcalculate_texture(".",RED, 1, renderer);
             monster.rect.x=cenx;
             monster.rect.y=ceny;
-            std::cout<<monster.rect.x<<std::endl;
+            //std::cout << "this is a test" << cenx<<" "<< ceny<< '\n';
+
             monster.direction=distrib(gen);
             monster.apper=j+5;
             draw.monsters.push_back(monster);
@@ -66,27 +69,22 @@ int Tempest::game(Weapon w, Draw &draw)
     }
 
     while (!quit) {
-        SDL_SetRenderDrawColor(renderer, 0, 255, 255, SDL_ALPHA_OPAQUE);
-        SDL_RenderDrawPoint(renderer,cenx,ceny);
-        std::cout << "cx =" << cenx  << std::endl;
-             std::cout << "cy =" << ceny<< std::endl;
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+
+        std::cout << "this is " << draw.monsters.size()<< '\n';
+
         if(draw.monsters.size() == 0)
         {
-            // clear board
-            // init
-            // level++
-            // print_game(level)
             SDL_Log("Clear level!");
-            //clear_level();
             s.points.clear();
             s.points_centre.clear();
 
+            draw.monsters.clear();
+            draw.fire.clear();
             level++%15;
             draw.print_game(renderer,s, level);
 
-            double cenx=s.getcoordcentre().first;
-            double ceny=s.getcoordcentre().second;
+            // cenx=s.getcoordcentre().first;
+            // ceny=s.getcoordcentre().second;
 
             std::uniform_int_distribution<> distrib(1, s.points.size());
             for( int j = 0; j< NBR_MONSTER; j++)
@@ -95,7 +93,7 @@ int Tempest::game(Weapon w, Draw &draw)
                 monster = draw.fcalculate_texture(".",RED, 1, renderer);
                 monster.rect.x=cenx;
                 monster.rect.y=ceny;
-                std::cout<<monster.rect.x<<std::endl;
+                //std::cout << "this is a test " << cenx<<" "<< ceny<< '\n';
                 monster.direction=distrib(gen);
                 monster.apper=pow(j,1000000000);
                 draw.monsters.push_back(monster);
@@ -131,7 +129,6 @@ int Tempest::game(Weapon w, Draw &draw)
 
             std::cout << "d = " << d << std::endl;
 
-
             double norm =  sqrt((ux*ux)+(uy*uy));
             ux=ux/norm;
             uy=uy/norm;
@@ -157,8 +154,6 @@ int Tempest::game(Weapon w, Draw &draw)
                 draw.monsters.at(j).rect.y=y_prim;
 
 
-
-
             std::cout << "x apres = " << draw.monsters.at(j).rect.x << std::endl;
             std::cout << "y apres = " << draw.monsters.at(j).rect.y << std::endl;
             if(abs(draw.monsters.at(j).rect.x - cx)< 1 &&  abs(draw.monsters.at(j).rect.y - cy)< 1 )
@@ -166,8 +161,9 @@ int Tempest::game(Weapon w, Draw &draw)
 
 
             }*/
-            double cx = s.getcoordcentre().first;
-            double cy = s.getcoordcentre().second;
+            // double cx = s.getcoordcentre().first;
+            // double cy = s.getcoordcentre().second;
+
 
             int p1=draw.monsters[j].direction%s.points.size();
             int p2=(draw.monsters[j].direction+1)%s.points.size();
@@ -176,27 +172,17 @@ int Tempest::game(Weapon w, Draw &draw)
             double my=(s.points[p1].second+s.points[p2].second)/2;
 
             double ux = s.points[p2].first-s.points[p1].first;
-            double uy=s.points[p2].second-s.points[p1].second;
+            double uy =  s.points[p2].second-s.points[p1].second;
 
             double norm =  sqrt((ux*ux)+(uy*uy));
             ux=ux/norm;
             uy=uy/norm;
 
-            double x = ((ux*cx) - (uy*cy)+mx)*h;
-            double y = ((uy*cx)+(ux*cy)+my)*h;
+            double x = ((ux*cenx) - (uy*ceny)+mx)*h;
+            double y = ((uy*cenx)+(ux*ceny)+my)*h;
 
-             draw.monsters.at(j).rect.x=x+cx;
-             draw.monsters.at(j).rect.y=y+cy;
-
-
-
-
-
-
-
-
-
-
+             draw.monsters.at(j).rect.x= x+cenx;
+             draw.monsters.at(j).rect.y= y+ceny;
 
 
             /*double direction1 =   (cx * mx - cy * my + s.points[p1].first - s.getcoordcentre().first) * d+ s.getcoordcentre().first;
@@ -210,15 +196,7 @@ int Tempest::game(Weapon w, Draw &draw)
             /*mx=(sensitivity*(cx-mx))+mx;
             my=(sensitivity*(cy-my))+my;*/
 
-
-
-
-
-
-
-
         }
-        //for(auto e : draw.fire)
         for( int i = 0; i< draw.fire.size(); i++)
         {
             draw.fire[i].rect.x=(sensitivity*(cenx-draw.fire[i].rect.x))+draw.fire[i].rect.x;
@@ -295,14 +273,13 @@ int Tempest::game(Weapon w, Draw &draw)
 
 int Tempest::init_game()
 {
-    SDL_Rect r;
-    if (SDL_GetDisplayBounds(0, &r) != 0) {
-        SDL_Log("SDL_GetDisplayBounds failed: %s", SDL_GetError());
-        return 1;
-    }
-    screen_width = r.w;
-    screen_height = r.h;
-
+    // SDL_Rect r;
+    // if (SDL_GetDisplayBounds(0, &r) != 0) {
+    //     SDL_Log("SDL_GetDisplayBounds failed: %s", SDL_GetError());
+    //     return 1;
+    // }
+    screen_width = WW/*r.w*/;
+    screen_height = WH/*r.h*/;
     window = SDL_CreateWindow("Tempest", 0, 0, screen_width, screen_height,  SDL_WINDOW_SHOWN|SDL_WINDOW_ALLOW_HIGHDPI);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     SDL_Renderer* renderer_bot = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);

@@ -99,7 +99,7 @@ void Draw::init_menu(SDL_Renderer* renderer)
 {
 
     tempest_title = calculate_texture("MCMLXXX ATARI", BLUE, 1, renderer);
-    player = calculate_texture("PLAYER    1", WHITE, 0, renderer);
+    player = calculate_texture("PLAYER    1", WHITE, 1, renderer);
     rate_urself = calculate_texture("RATE YOURSELF", GREEN, 1, renderer);
     use_keys = calculate_texture("USE KEYS TO CHANGE", SOFT_BLUE, 1, renderer);
     select = calculate_texture("PRESS ENTER TO SELECT", YELLOW, 1 , renderer);
@@ -122,25 +122,26 @@ void Draw::init_menu(SDL_Renderer* renderer)
 
     tempest_title.rect.x = window_width/2 - tempest_title.width/2;
     tempest_title.rect.y = window_height/20 - tempest_title.height/5;
+
     player.rect.x = window_width/2 - player.width/2;
     player.rect.y  = tempest_title.rect.y +  window_width/10 ;
     rate_urself.rect.x = window_width/2  - rate_urself.width/2;
-    rate_urself.rect.y = player.rect.y + window_width/12;
+    rate_urself.rect.y = player.rect.y + rate_urself.height;
     use_keys.rect.x = window_width/2  - use_keys.width/2;
-    use_keys.rect.y = rate_urself.rect.y + window_width/35;
+    use_keys.rect.y = rate_urself.rect.y + use_keys.height;
     select.rect.x = window_width/2  - select.width/2;
-    select.rect.y = use_keys.rect.y + window_width/35;
+    select.rect.y = use_keys.rect.y + select.height;
 
     novice.rect.x = window_width/3  + novice.width/2;
-    novice.rect.y = select.rect.y + window_width/30;
+    novice.rect.y = select.rect.y + novice.height;
     expert.rect.x = 2*window_width/3  + expert.width/2;//
-    expert.rect.y = select.rect.y + window_width/30;
+    expert.rect.y = select.rect.y + expert.height;
     level.rect.x = window_width/3 -  novice.width/2;
-    level.rect.y = novice.rect.y + window_width/30;
+    level.rect.y = novice.rect.y + level.height;
     hole.rect.x = window_width/3-  novice.width/2 ;
-    hole.rect.y = level.rect.y + window_width/32;
+    hole.rect.y = level.rect.y + hole.height;
     bonus.rect.x = window_width/3 -  novice.width/2;
-    bonus.rect.y = hole.rect.y + window_width/32;
+    bonus.rect.y = hole.rect.y + bonus.height;
     timer.rect.x = window_width/2  - timer.width/2;
     timer.rect.y = 17*window_height/20 - timer.height/5;
 
@@ -212,7 +213,6 @@ void Draw::print_game(SDL_Renderer* renderer,Shapes &s, int level)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
     SDL_RenderPresent(renderer);
 
-
     SDL_RenderClear(renderer);
 }
 
@@ -240,6 +240,7 @@ int Draw::print_menu(SDL_Renderer* renderer)
 
 
     draw_elem (TIME, renderer,0);
+
     SDL_RenderPresent(renderer);
 
     SDL_Event events;
@@ -349,7 +350,6 @@ void Draw::draw_elem(int type, SDL_Renderer* renderer,int indice)
             {
                 SDL_RenderCopyF(renderer, e.texture, NULL, &e.rect);
             }
-
             break;
         case FIRE:
             for(auto e: fire)
