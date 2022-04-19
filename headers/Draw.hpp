@@ -54,24 +54,28 @@ public:
     void init_draw(SDL_Renderer*);
     SDL_Object calculate_texture(std::string, SDL_Color, int, SDL_Renderer*);
     SDL_FObject fcalculate_texture(std::string text,SDL_Color color,int type, SDL_Renderer* renderer);
+    void clearlevel();
+    void actionfire(int cenx ,int ceny);
+    void movemonsters(Shapes s,int cenx ,int ceny, double &z);
 
-    // void create_grid(std::array<std::array<int, 20>, 10>, SDL_Renderer*, int);
     void draw_elem(int, SDL_Renderer*,int);
     int print_menu(SDL_Renderer*);
     void print_game(SDL_Renderer*, Shapes &s,int level);
-    // int print_GameOver(SDL_Renderer*);
-    // void init_score(SDL_Renderer*);
-
-    // void init_score_num(int, int, SDL_Renderer*);
-    // void init_score_numGO(int, int, SDL_Renderer*);
     void init_menu(SDL_Renderer*);
     void init_game(SDL_Renderer*);
+    void initmonsters(SDL_Renderer*,Shapes s,int cenx,int ceny);
+
+
     // void init_Game_over(SDL_Renderer*);
     void setHeightWidth(int, int);
     void settimer(int time, SDL_Renderer* renderer );
     void setweapon(int x , int y);
-    void setmonster(double x , double y,int );
-    std::vector<SDL_FObject>monsters;
+
+    void setmonster(SDL_FObject);
+    void delmonster(int indice , int type_er);
+    int getmonstersize();
+    SDL_FObject getmonster(int indice);
+
     std::vector<SDL_FObject>fire;
 
 private:
@@ -103,10 +107,12 @@ private:
 
     SDL_Object weapon;
     SDL_FObject monster_centre;
-
+    std::vector<SDL_FObject>monsters;
     SDL_Object life;
     SDL_Object score;
 
 };
+
+
 
 #endif

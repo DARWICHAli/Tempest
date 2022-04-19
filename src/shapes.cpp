@@ -10,6 +10,13 @@ Shapes::Shapes() :
     type{TRIANGLE}
 {}
 
+void Shapes::clearlevelShape()
+{
+    points.clear();
+    points_centre.clear();
+    return;
+}
+
 Shapes::~Shapes(){}
 
 
@@ -456,9 +463,3 @@ void Shapes::Drawshape(SDL_Renderer *renderer, int32_t window_width,int32_t wind
 
     }
 }
-
-
-
-// crée grille
-// créer weapons
-// monster

@@ -177,6 +177,26 @@ void Draw::init_game(SDL_Renderer* renderer)
 
 }
 
+void Draw::initmonsters(SDL_Renderer*renderer,Shapes s,int cenx,int ceny)
+{
+
+        std::random_device rd;  //Will be used to obtain a seed for the random number engine
+        std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
+        std::uniform_int_distribution<> distrib(1, s.points.size());
+
+        for( int j = 0; j< NBR_MONSTER; j++)
+        {
+            SDL_FObject monster;
+            monster = fcalculate_texture(".",RED, 1, renderer);
+            monster.rect.x=cenx;
+            monster.rect.y=ceny;
+            monster.direction=distrib(gen);
+            monster.apper=j+5;
+            //draw.setmonster(monster);
+            monsters.push_back(monster);
+
+        }
+}
 
 
 
@@ -197,23 +217,21 @@ void Draw::print_game(SDL_Renderer* renderer,Shapes &s, int level)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
 
     draw_elem (WEAPON, renderer,0);
-    //draw_elem(FIRE,renderer,0);
-
-
     draw_elem (LIFE, renderer,0);
     draw_elem (SCORE, renderer,0);
-
     // check level to get the right shape
     s.Drawshape(renderer,window_width , window_height, level);
     //s.DrawTriangle(renderer,window_width/2 , window_height/2);
-
     draw_elem(FIRE,renderer,0);
     draw_elem (MONSTER, renderer,0);
-
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
     SDL_RenderPresent(renderer);
-
     SDL_RenderClear(renderer);
+
+    if(!monsters.size())//il n'y a pas des monstre
+    {
+        initmonsters(renderer,s,window_width/2,window_height/2);
+    }
 }
 
 
@@ -295,6 +313,135 @@ int Draw::print_menu(SDL_Renderer* renderer)
 }
 
 
+void Draw::clearlevel()
+{
+    monsters.clear();
+    fire.clear();
+    return;
+}
+
+void Draw::actionfire(int cenx ,int ceny)
+{
+    double sensitivity=0.001;
+    for( int i = 0; i< fire.size(); i++)
+    {
+        fire[i].rect.x=(sensitivity*(cenx-fire[i].rect.x))+fire[i].rect.x;
+        fire[i].rect.y=(sensitivity*(ceny-fire[i].rect.y))+fire[i].rect.y;
+
+        for (size_t j = 0; j < monsters.size(); j++) {
+            double tmp1x = monsters.at(j).rect.x;
+            double tmp1y = monsters.at(j).rect.y;
+            double tmp2x = fire.at(i).rect.x;
+            double tmp2y = fire.at(i).rect.y;
+
+            if(abs(tmp1x - tmp2x)< 1 && abs(tmp1y - tmp2y)< 1 )
+            {
+                // draw.delmonster(j,0);
+                monsters.erase(monsters.begin() + i);
+                fire.erase(fire.begin() + i);
+            }
+        }
+        if(abs(fire[i].rect.x - cenx)< 1 && abs(fire[i].rect.y - ceny)< 1 )
+            fire.erase(fire.begin() + i);
+    }
+    return;
+}
+
+void Draw::movemonsters(Shapes s,int cenx ,int ceny, double &z)
+{
+    double h;
+    if (z > 0)
+    {
+        h =1- (1 - SCALE_VAL) * pow(z,2);
+    }
+    else
+    {
+        h = 1;
+    }
+    z -= 0.00007;
+    //i++;
+    for( int j = 0; j< monsters.size(); j++)
+    {
+        /*if (i > draw.getmonster(j).apper)
+        {
+            int p1=draw.getmonster(j).direction%s.points.size();
+        int p2=(draw.getmonster(j).direction+1)%s.points.size();
+
+        double ux = s.points[p2].first-s.points[p1].first;
+        double uy=s.points[p2].second-s.points[p1].second;
+
+        std::cout << "d = " << d << std::endl;
+
+        double norm =  sqrt((ux*ux)+(uy*uy));
+        ux=ux/norm;
+        uy=uy/norm;
+
+        double cx=(s.points[p1].first+s.points[p2].first)/2;
+        double cy=(s.points[p1].second+s.points[p2].second)/2;
+
+        double ux_prim = s.getcoordcentre().first-cx;
+        double uy_prim = s.getcoordcentre().second-cy;
+
+        double n = sqrt(ux_prim*ux_prim+uy_prim*uy_prim);
+
+
+            double mx=draw.getmonster(j).rect.x;
+            double my=draw.getmonster(j).rect.y;
+
+
+            double x_prim= (((ux*mx)-(uy*my))*d )+cx;
+            double y_prim= (((uy*mx)+(ux*my))*d)+cy;
+
+
+            draw.getmonster(j).rect.x=x_prim;
+            draw.getmonster(j).rect.y=y_prim;
+
+
+        std::cout << "x apres = " << draw.getmonster(j).rect.x << std::endl;
+        std::cout << "y apres = " << draw.getmonster(j).rect.y << std::endl;
+        if(abs(draw.getmonster(j).rect.x - cx)< 1 &&  abs(draw.getmonster(j).rect.y - cy)< 1 )
+            draw.monsters.erase(draw.monsters.begin() + j);
+
+
+        }*/
+        // double cx = s.getcoordcentre().first;
+        // double cy = s.getcoordcentre().second;
+
+
+        int p1= monsters.at(j).direction%s.points.size();
+        int p2=(monsters.at(j).direction+1)%s.points.size();
+
+        double mx=(s.points[p1].first+s.points[p2].first)/2;
+        double my=(s.points[p1].second+s.points[p2].second)/2;
+
+        double ux = s.points[p2].first-s.points[p1].first;
+        double uy =  s.points[p2].second-s.points[p1].second;
+
+        double norm =  sqrt((ux*ux)+(uy*uy));
+        ux=ux/norm;
+        uy=uy/norm;
+
+        double x = ((ux*cenx) - (uy*ceny)+mx)*h;
+        double y = ((uy*cenx)+(ux*ceny)+my)*h;
+
+        monsters.at(j).rect.x = x+cenx;
+        monsters.at(j).rect.y= y+ceny;
+
+
+        /*double direction1 =   (cx * mx - cy * my + s.points[p1].first - s.getcoordcentre().first) * d+ s.getcoordcentre().first;
+
+        double direction2 = (cy * mx + cx * my + s.points[p1].second - s.getcoordcentre().second) * d+ s.getcoordcentre().second;*/
+        // int direction1 = (cx - mx )/sqrt(pow(cx - mx , 2) +pow( cy -my, 2) * 1.0);
+        // int direction2 = (cy - my )/sqrt(pow(cx - mx , 2) +pow( cy - my, 2) * 1.0);
+
+        // mx=(sensitivity*(mx-cx))+mx;
+        // my=(sensitivity*(my-cy))+my;
+        /*mx=(sensitivity*(cx-mx))+mx;
+        my=(sensitivity*(cy-my))+my;*/
+
+    }
+}
+
 
 
 
@@ -356,7 +503,6 @@ void Draw::draw_elem(int type, SDL_Renderer* renderer,int indice)
             {
                 SDL_RenderCopyF(renderer, e.texture, NULL, &e.rect);
             }
-
             break;
         case LIFE:
             SDL_RenderCopy(renderer, life.texture, NULL, &life.rect);
@@ -401,9 +547,35 @@ void Draw::setweapon(int x , int y)
     weapon.rect.x = x;
     weapon.rect.y = y;
 }
-void Draw::setmonster(double x , double y,int indice)
-{
-    monsters.at(indice).rect.x = x;
-    monsters.at(indice).rect.y = y;
+// void Draw::setmonster(double x , double y,int indice)
+// {
+//     monsters.at(indice).rect.x = x;
+//     monsters.at(indice).rect.y = y;
+//
+// }
 
+
+void Draw::setmonster(SDL_FObject monster)
+{
+    monsters.push_back(monster);
+}
+void Draw::delmonster(int indice , int type_er)
+{
+    if(type_er)
+    {
+        monsters.clear();
+    }
+    else
+    {
+        monsters.erase(monsters.begin() + indice);
+    }
+}
+
+int Draw::getmonstersize()
+{
+    return int(monsters.size());
+}
+SDL_FObject Draw::getmonster(int indice)
+{
+    return monsters.at(indice);
 }

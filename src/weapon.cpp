@@ -44,6 +44,9 @@ float distance(std::pair<int, int> p1,std::pair<int, int> p2)
 
 void Weapon::MoveWeapon( int32_t centreX, int32_t centreY, int32_t key , int32_t  type ,std::vector<std::pair<int, int>> points,Draw &d)
 {
+    if(!key)
+        return;
+        
     float direction1;
     float direction2;
     std::pair<int, int> p1;
@@ -114,7 +117,7 @@ void Weapon::FireWeapon(int32_t type, Draw&d,SDL_Renderer* renderer)
     SDL_FObject f;
     if(type == 0)
     {
-        
+
         f = d.fcalculate_texture(".",GREEN, 1, renderer);
         f.rect.x=x;
         f.rect.y=y;
@@ -145,5 +148,5 @@ void Weapon:: MoveMissile(Shapes &s,Draw &d)
         std::cout << "xaprès="<<e.rect.x << std::endl;
 
     }
-    
+
 }

@@ -33,196 +33,43 @@ int Tempest::game(Weapon w, Draw &draw)
     int type = 0; // si on utlise mouse ou keyboard ,, a modifier après
     bool quit = false;
     double i = 0;
-    double h;
+    //double h;
     double sensitivity=0.001;
     double z=1;
+    int monstertaille = 0;
+    int level = 5;
 
-    int level = 1;
+
     draw.print_game(renderer,s, level);
-
+    monstertaille = draw.getmonstersize();
 
     // double cenx=s.getcoordcentre().first;
     // double ceny=s.getcoordcentre().second;
-    double cenx=WW/2;
-    double ceny=WH/2;
-
-    std::random_device rd;  //Will be used to obtain a seed for the random number engine
-    std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
-    std::uniform_int_distribution<> distrib(1, s.points.size());
-
-    if(draw.monsters.size()==0)
-    {
-
-        for( int j = 0; j< NBR_MONSTER; j++)
-        {
-            SDL_FObject monster;
-            monster = draw.fcalculate_texture(".",RED, 1, renderer);
-            monster.rect.x=cenx;
-            monster.rect.y=ceny;
-            //std::cout << "this is a test" << cenx<<" "<< ceny<< '\n';
-
-            monster.direction=distrib(gen);
-            monster.apper=j+5;
-            draw.monsters.push_back(monster);
-
-        }
-    }
+    double cenx= WW/2;
+    double ceny= WH/2;
 
     while (!quit) {
 
-        std::cout << "this is " << draw.monsters.size()<< '\n';
+        monstertaille = draw.getmonstersize();
 
-        if(draw.monsters.size() == 0)
+        if(monstertaille == 0)
         {
             SDL_Log("Clear level!");
-            s.points.clear();
-            s.points_centre.clear();
-
-            draw.monsters.clear();
-            draw.fire.clear();
+            draw.clearlevel();
+            s.clearlevelShape();
             level++%15;
             draw.print_game(renderer,s, level);
-
-            // cenx=s.getcoordcentre().first;
-            // ceny=s.getcoordcentre().second;
-
-            std::uniform_int_distribution<> distrib(1, s.points.size());
-            for( int j = 0; j< NBR_MONSTER; j++)
-            {
-                SDL_FObject monster;
-                monster = draw.fcalculate_texture(".",RED, 1, renderer);
-                monster.rect.x=cenx;
-                monster.rect.y=ceny;
-                //std::cout << "this is a test " << cenx<<" "<< ceny<< '\n';
-                monster.direction=distrib(gen);
-                monster.apper=pow(j,1000000000);
-                draw.monsters.push_back(monster);
-            }
-
+            monstertaille = draw.getmonstersize();
         }
-
 
         draw.print_game(renderer,s,level);
-        double d;
-        if (z > 0)
-        {
-            h =1- (1 - SCALE_VAL) * pow(z,2);
-            //std::cout << "I'm here1 "  << std::endl;
+        //move monsters and detect collision
+        draw.movemonsters(s,cenx ,ceny,z);
 
-        }
-        else
-        {
-            h = 1;
-            //std::cout << "I'm here2 "  << std::endl;
-        }
-        z -= 0.00007;
-        i++;
-        for( int j = 0; j< draw.monsters.size(); j++)
-        {
-            /*if (i > draw.monsters[j].apper)
-            {
-                int p1=draw.monsters[j].direction%s.points.size();
-            int p2=(draw.monsters[j].direction+1)%s.points.size();
+        //move fire and detect collision
+        draw.actionfire(cenx ,ceny);
 
-            double ux = s.points[p2].first-s.points[p1].first;
-            double uy=s.points[p2].second-s.points[p1].second;
-
-            std::cout << "d = " << d << std::endl;
-
-            double norm =  sqrt((ux*ux)+(uy*uy));
-            ux=ux/norm;
-            uy=uy/norm;
-
-            double cx=(s.points[p1].first+s.points[p2].first)/2;
-            double cy=(s.points[p1].second+s.points[p2].second)/2;
-
-            double ux_prim = s.getcoordcentre().first-cx;
-            double uy_prim = s.getcoordcentre().second-cy;
-
-            double n = sqrt(ux_prim*ux_prim+uy_prim*uy_prim);
-
-
-                double mx=draw.monsters.at(j).rect.x;
-                double my=draw.monsters.at(j).rect.y;
-
-
-                double x_prim= (((ux*mx)-(uy*my))*d )+cx;
-                double y_prim= (((uy*mx)+(ux*my))*d)+cy;
-
-
-                draw.monsters.at(j).rect.x=x_prim;
-                draw.monsters.at(j).rect.y=y_prim;
-
-
-            std::cout << "x apres = " << draw.monsters.at(j).rect.x << std::endl;
-            std::cout << "y apres = " << draw.monsters.at(j).rect.y << std::endl;
-            if(abs(draw.monsters.at(j).rect.x - cx)< 1 &&  abs(draw.monsters.at(j).rect.y - cy)< 1 )
-                draw.monsters.erase(draw.monsters.begin() + j);
-
-
-            }*/
-            // double cx = s.getcoordcentre().first;
-            // double cy = s.getcoordcentre().second;
-
-
-            int p1=draw.monsters[j].direction%s.points.size();
-            int p2=(draw.monsters[j].direction+1)%s.points.size();
-
-            double mx=(s.points[p1].first+s.points[p2].first)/2;
-            double my=(s.points[p1].second+s.points[p2].second)/2;
-
-            double ux = s.points[p2].first-s.points[p1].first;
-            double uy =  s.points[p2].second-s.points[p1].second;
-
-            double norm =  sqrt((ux*ux)+(uy*uy));
-            ux=ux/norm;
-            uy=uy/norm;
-
-            double x = ((ux*cenx) - (uy*ceny)+mx)*h;
-            double y = ((uy*cenx)+(ux*ceny)+my)*h;
-
-             draw.monsters.at(j).rect.x= x+cenx;
-             draw.monsters.at(j).rect.y= y+ceny;
-
-
-            /*double direction1 =   (cx * mx - cy * my + s.points[p1].first - s.getcoordcentre().first) * d+ s.getcoordcentre().first;
-
-            double direction2 = (cy * mx + cx * my + s.points[p1].second - s.getcoordcentre().second) * d+ s.getcoordcentre().second;*/
-            // int direction1 = (cx - mx )/sqrt(pow(cx - mx , 2) +pow( cy -my, 2) * 1.0);
-            // int direction2 = (cy - my )/sqrt(pow(cx - mx , 2) +pow( cy - my, 2) * 1.0);
-
-            // mx=(sensitivity*(mx-cx))+mx;
-            // my=(sensitivity*(my-cy))+my;
-            /*mx=(sensitivity*(cx-mx))+mx;
-            my=(sensitivity*(cy-my))+my;*/
-
-        }
-        for( int i = 0; i< draw.fire.size(); i++)
-        {
-            draw.fire[i].rect.x=(sensitivity*(cenx-draw.fire[i].rect.x))+draw.fire[i].rect.x;
-            draw.fire[i].rect.y=(sensitivity*(ceny-draw.fire[i].rect.y))+draw.fire[i].rect.y;
-
-            for (size_t j = 0; j < draw.monsters.size(); j++) {
-                double tmp1x = draw.monsters.at(j).rect.x;
-                double tmp1y = draw.monsters.at(j).rect.y;
-                double tmp2x = draw.fire.at(i).rect.x;
-                double tmp2y = draw.fire.at(i).rect.y;
-
-
-                if(abs(tmp1x - tmp2x)< 1 && abs(tmp1y - tmp2y)< 1 )
-                {
-                    draw.monsters.erase(draw.monsters.begin() + j);
-                    draw.fire.erase(draw.fire.begin() + i);
-                }
-            }
-            if(abs(draw.fire[i].rect.x - cenx)< 1 && abs(draw.fire[i].rect.y - ceny)< 1 )
-                draw.fire.erase(draw.fire.begin() + i);
-
-
-        }
-
-
-
+        // update score ?!
 
         SDL_Event event;
         while (!quit && SDL_PollEvent(&event))
@@ -315,7 +162,7 @@ int Tempest::init_game()
 
     while (!quit)
     {
-        if((float)(clock()-time_req)/CLOCKS_PER_SEC >= .35) // a modifier
+        if((float)(clock()-time_req)/CLOCKS_PER_SEC >= .4)
         {
             timer--;
             draw.settimer(timer ,renderer);
@@ -328,11 +175,11 @@ int Tempest::init_game()
 
         }
         play_mode = draw.print_menu(renderer);
+
         if(play_mode == 3)
             break;
         else if (play_mode == 2)
         {
-
             quit = game(w,draw);
         }
         else if (play_mode == 1)

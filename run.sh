@@ -4,7 +4,7 @@ if [ $# = 0 ]; then
     rm -r build bin
     mkdir build/ && cd build/
     cmake ../
-    make
+    make -j 8
     cd ../
     mkdir bin/
     mv ./build/Tempest bin/
