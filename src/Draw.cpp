@@ -546,14 +546,13 @@ void Draw::setweapon(int x , int y)
 {
     weapon.rect.x = x;
     weapon.rect.y = y;
+    return;
 }
-// void Draw::setmonster(double x , double y,int indice)
-// {
-//     monsters.at(indice).rect.x = x;
-//     monsters.at(indice).rect.y = y;
-//
-// }
-
+void Draw::addfire(SDL_FObject f)
+{
+    fire.push_back(f);
+    return;
+}
 
 void Draw::setmonster(SDL_FObject monster)
 {

@@ -46,7 +46,7 @@ void Weapon::MoveWeapon( int32_t centreX, int32_t centreY, int32_t key , int32_t
 {
     if(!key)
         return;
-        
+
     float direction1;
     float direction2;
     std::pair<int, int> p1;
@@ -121,7 +121,8 @@ void Weapon::FireWeapon(int32_t type, Draw&d,SDL_Renderer* renderer)
         f = d.fcalculate_texture(".",GREEN, 1, renderer);
         f.rect.x=x;
         f.rect.y=y;
-        d.fire.push_back(f);
+        //d.fire.push_back(f);
+        d.addfire(f);
 
     }
     else if(type == 1)
@@ -132,21 +133,21 @@ void Weapon::FireWeapon(int32_t type, Draw&d,SDL_Renderer* renderer)
 
 }
 
-void Weapon:: MoveMissile(Shapes &s,Draw &d)
-{
-    double sensitivity=0.02;
-    for(auto e : d.fire)
-    {
-        std::cout << "i'm here" << std::endl;
-        double cx=s.getcoordcentre().first;
-        double cy=s.getcoordcentre().second;
-        std::cout << "cx="<<cx << std::endl;
-        std::cout << "cy="<<cy << std::endl;
-        std::cout << "x="<<e.rect.x << std::endl;
-        e.rect.x=(sensitivity*(-cx+e.rect.x))+e.rect.x;
-        e.rect.y=(sensitivity*(-cy+e.rect.y))+e.rect.y;
-        std::cout << "xaprès="<<e.rect.x << std::endl;
-
-    }
-
-}
+// void Weapon:: MoveMissile(Shapes &s,Draw &d)
+// {
+//     double sensitivity=0.02;
+//     for(auto e : d.fire)
+//     {
+//         std::cout << "i'm here" << std::endl;
+//         double cx=s.getcoordcentre().first;
+//         double cy=s.getcoordcentre().second;
+//         std::cout << "cx="<<cx << std::endl;
+//         std::cout << "cy="<<cy << std::endl;
+//         std::cout << "x="<<e.rect.x << std::endl;
+//         e.rect.x=(sensitivity*(-cx+e.rect.x))+e.rect.x;
+//         e.rect.y=(sensitivity*(-cy+e.rect.y))+e.rect.y;
+//         std::cout << "xaprès="<<e.rect.x << std::endl;
+//
+//     }
+//
+// }

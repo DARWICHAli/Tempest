@@ -75,8 +75,8 @@ public:
     void delmonster(int indice , int type_er);
     int getmonstersize();
     SDL_FObject getmonster(int indice);
+    void addfire(SDL_FObject f);
 
-    std::vector<SDL_FObject>fire;
 
 private:
     TTF_Font* font_menu1;
@@ -108,6 +108,7 @@ private:
     SDL_Object weapon;
     SDL_FObject monster_centre;
     std::vector<SDL_FObject>monsters;
+    std::vector<SDL_FObject>fire;
     SDL_Object life;
     SDL_Object score;
 
