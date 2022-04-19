@@ -25,6 +25,8 @@ public:
     Weapon ();
     ~Weapon ();
     void MoveWeapon( int32_t ,int32_t,int32_t,int32_t,std::vector<std::pair<int, int>> points,Draw&);
+    void FireWeapon(int32_t type, Draw&d,SDL_Renderer* renderer,std::vector<std::pair<int, int>> points );
+
     void FireWeapon(int32_t,Draw &d,SDL_Renderer* renderer);
     //void MoveMissile(Shapes&s,Draw &d);
 };

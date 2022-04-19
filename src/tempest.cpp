@@ -45,7 +45,7 @@ int Tempest::game(Weapon w, Draw &draw)
 
     // double cenx=s.getcoordcentre().first;
     // double ceny=s.getcoordcentre().second;
-    double cenx= WW/2;
+    double cenx= WW/2 ;
     double ceny= WH/2;
 
     while (!quit) {
@@ -58,6 +58,7 @@ int Tempest::game(Weapon w, Draw &draw)
             draw.clearlevel();
             s.clearlevelShape();
             level++%15;
+            std::cout << "level "<< level << '\n';
             draw.print_game(renderer,s, level);
             monstertaille = draw.getmonstersize();
         }
@@ -65,10 +66,8 @@ int Tempest::game(Weapon w, Draw &draw)
         draw.print_game(renderer,s,level);
         //move monsters and detect collision
         draw.movemonsters(s,cenx ,ceny,z);
-
         //move fire and detect collision
-        draw.actionfire(cenx ,ceny);
-
+        draw.actionfire(cenx ,ceny,renderer);
         // update score ?!
 
         SDL_Event event;
@@ -98,7 +97,7 @@ int Tempest::game(Weapon w, Draw &draw)
                             break;
                         case SDLK_DOWN:
                             SDL_Log("DOWN!");
-                            w.FireWeapon(0,draw,renderer);
+                            w.FireWeapon(0,draw,renderer,s.points);
                             break;
                         default:
                             break;

@@ -56,11 +56,14 @@ void Weapon::MoveWeapon( int32_t centreX, int32_t centreY, int32_t key , int32_t
     std::size_t indice2;
 
     // on va commencer la partie
+    std::pair<int, int> wepinfo = d.getweaponinfo();
+
     if(!x && !y)
     {
-        x = points.at(0).first;
-        y = points.at(0).second;
-        d.setweapon(x , y);
+        x = (points.at(0).first + points.at(1).first)/2 - wepinfo.first;
+        y = (points.at(0).second + points.at(1).second)/2 - wepinfo.second;
+        // weapon.rect.x  = (s.points.at(0).first + s.points.at(1).first)/2 ;
+        // weapon.rect.y = (s.points.at(0).second + s.points.at(1).second)/2 - weapon.height;
     }
     // clavier
     if(type == 0 )
@@ -98,8 +101,8 @@ void Weapon::MoveWeapon( int32_t centreX, int32_t centreY, int32_t key , int32_t
                 p2 = points.at(!indice2? points.size()-1: indice2-1);
 
             }
-            x =  (p1.first + p2.first)/2;
-            y = (p1.second + p2.second)/2;
+            x =  (p1.first + p2.first)/2 - wepinfo.first;
+            y = (p1.second + p2.second)/2 - wepinfo.second;
             d.setweapon(x , y );
 
         }
@@ -112,13 +115,20 @@ void Weapon::MoveWeapon( int32_t centreX, int32_t centreY, int32_t key , int32_t
 
 
 
-void Weapon::FireWeapon(int32_t type, Draw&d,SDL_Renderer* renderer)
+void Weapon::FireWeapon(int32_t type, Draw&d,SDL_Renderer* renderer,std::vector<std::pair<int, int>> points )
 {
     SDL_FObject f;
+
+    if(!x && !y)
+    {
+        std::pair<int, int> wepinfo = d.getweaponinfo();
+        x = (points.at(0).first + points.at(1).first)/2 - wepinfo.first;
+        y = (points.at(0).second + points.at(1).second)/2 - wepinfo.second;
+
+    }
     if(type == 0)
     {
-
-        f = d.fcalculate_texture(".",GREEN, 1, renderer);
+        f = d.fcalculate_texture(".",GREEN, 2, renderer);
         f.rect.x=x;
         f.rect.y=y;
         //d.fire.push_back(f);

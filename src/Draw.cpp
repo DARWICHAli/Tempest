@@ -11,11 +11,12 @@
 int fake_levels = 100 ;
 
 
-Draw::Draw()
+Draw::Draw():
+scoreval{0}
 {
     font_menu1 = TTF_OpenFont("ressources/fonts/Hursheys.ttf", 100);
+    font_score = TTF_OpenFont("ressources/fonts/Hursheys.ttf", 50);
     font_menu2 = TTF_OpenFont("ressources/fonts/Hursheys.ttf", 50);
-    font_score = TTF_OpenFont("ressources/fonts/Hursheys.ttf", 100);
 
     if (font_menu1 == NULL || font_menu2 == NULL)
       std::cout << "je marche pas" << std::endl;
@@ -32,30 +33,30 @@ SDL_Object Draw::calculate_texture(std::string text,SDL_Color color,int type, SD
             font=font_menu1;
             break;
         case 1:
-            font=font_menu2;
+            font=font_score;
             break;
         case 2:
-            font=font_score;
+            font=font_menu2;
             break;
     }
     const char * textprint = text.c_str();
-  SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, textprint, color);
-  SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
-  int tempWidth, tempHeight;
-  SDL_QueryTexture(Message, NULL, NULL, &tempWidth, &tempHeight);
-  SDL_Rect Message_rect; //create a rect
+    SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, textprint, color);
+    SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+    int tempWidth, tempHeight;
+    SDL_QueryTexture(Message, NULL, NULL, &tempWidth, &tempHeight);
+    SDL_Rect Message_rect; //create a rect
 
-  Message_rect.w = tempWidth; // controls the width of the rect
-  Message_rect.h = tempHeight; // controls the height of the rect
+    Message_rect.w = tempWidth/2; // controls the width of the rect
+    Message_rect.h = tempHeight/2; // controls the height of the rect
 
-  SDL_Object tmp;
-  tmp.rect = Message_rect;
-  tmp.texture = Message;
-  tmp.width = tempWidth;
-  tmp.height = tempHeight;
-  SDL_FreeSurface(surfaceMessage);
-  //SDL_DestroyTexture(Message);
-  return tmp;
+    SDL_Object tmp;
+    tmp.rect = Message_rect;
+    tmp.texture = Message;
+    tmp.width = tempWidth/2;
+    tmp.height = tempHeight/2;
+    SDL_FreeSurface(surfaceMessage);
+    //SDL_DestroyTexture(Message);
+    return tmp;
 }
 
 SDL_FObject Draw::fcalculate_texture(std::string text,SDL_Color color,int type, SDL_Renderer* renderer)
@@ -66,10 +67,10 @@ SDL_FObject Draw::fcalculate_texture(std::string text,SDL_Color color,int type, 
             font=font_menu1;
             break;
         case 1:
-            font=font_menu2;
+            font=font_score;
             break;
         case 2:
-            font=font_score;
+            font=font_menu2;
             break;
   }
 
@@ -82,14 +83,14 @@ SDL_FObject Draw::fcalculate_texture(std::string text,SDL_Color color,int type, 
   SDL_QueryTexture(Message, NULL, NULL, &tempWidth, &tempHeight);
   SDL_FRect Message_rect; //create a rect
 
-  Message_rect.w = tempWidth; // controls the width of the rect
-  Message_rect.h = tempHeight; // controls the height of the rect
+  Message_rect.w = tempWidth/2; // controls the width of the rect
+  Message_rect.h = tempHeight/2; // controls the height of the rect
 
   SDL_FObject tmp;
   tmp.rect = Message_rect;
   tmp.texture = Message;
-  tmp.width = tempWidth;
-  tmp.height = tempHeight;
+  tmp.width = tempWidth/2;
+  tmp.height = tempHeight/2;
   SDL_FreeSurface(surfaceMessage);
   //SDL_DestroyTexture(Message);
   return tmp;
@@ -108,7 +109,6 @@ void Draw::init_menu(SDL_Renderer* renderer)
     level = calculate_texture("LEVEL", GREEN, 1 , renderer);
     hole = calculate_texture("HOLE", GREEN, 1 , renderer);
     bonus = calculate_texture("BONUS", GREEN, 1 , renderer);
-    timer = calculate_texture("TIME   10", GREEN, 1 , renderer);
     timer = calculate_texture("TIME   10", GREEN, 1 , renderer);
 
     for (int i = 0; i < fake_levels; i++)
@@ -187,7 +187,7 @@ void Draw::initmonsters(SDL_Renderer*renderer,Shapes s,int cenx,int ceny)
         for( int j = 0; j< NBR_MONSTER; j++)
         {
             SDL_FObject monster;
-            monster = fcalculate_texture(".",RED, 1, renderer);
+            monster = fcalculate_texture(".",RED, 2, renderer);
             monster.rect.x=cenx;
             monster.rect.y=ceny;
             monster.direction=distrib(gen);
@@ -216,14 +216,15 @@ void Draw::print_game(SDL_Renderer* renderer,Shapes &s, int level)
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
 
-    draw_elem (WEAPON, renderer,0);
     draw_elem (LIFE, renderer,0);
     draw_elem (SCORE, renderer,0);
     // check level to get the right shape
     s.Drawshape(renderer,window_width , window_height, level);
+
     //s.DrawTriangle(renderer,window_width/2 , window_height/2);
     draw_elem(FIRE,renderer,0);
     draw_elem (MONSTER, renderer,0);
+    draw_elem (WEAPON, renderer,0);
 
     //test centre;
     SDL_RenderDrawPoint(renderer, window_width/2, window_height/2);
@@ -235,6 +236,8 @@ void Draw::print_game(SDL_Renderer* renderer,Shapes &s, int level)
     if(!monsters.size())//il n'y a pas des monstre
     {
         initmonsters(renderer,s,window_width/2,window_height/2);
+        weapon.rect.x  = (s.points.at(0).first + s.points.at(1).first)/2 ;
+        weapon.rect.y = (s.points.at(0).second + s.points.at(1).second)/2 - weapon.height;
     }
 }
 
@@ -324,35 +327,63 @@ void Draw::clearlevel()
     return;
 }
 
-void Draw::actionfire(int cenx ,int ceny)
+
+void Draw::actionfire(int cenx ,int ceny,SDL_Renderer * renderer)
 {
     double sensitivity=0.001;
-    for( int i = 0; i< fire.size(); i++)
-    {
-        fire[i].rect.x=(sensitivity*(cenx-fire[i].rect.x))+fire[i].rect.x;
-        fire[i].rect.y=(sensitivity*(ceny-fire[i].rect.y))+fire[i].rect.y;
+    cenx -= weapon.width/2;
+    ceny -= weapon.height/2;
 
-        for (size_t j = 0; j < monsters.size(); j++) {
-            double tmp1x = monsters.at(j).rect.x;
-            double tmp1y = monsters.at(j).rect.y;
-            double tmp2x = fire.at(i).rect.x;
-            double tmp2y = fire.at(i).rect.y;
+    int lenloop1 = fire.size();
+    int lenloop2 = monsters.size();
+    for( auto i = fire.begin(); i< fire.end(); i++)
+    {
+        i->rect.x=(sensitivity*(cenx- i->rect.x))+ i->rect.x;
+        i->rect.y=(sensitivity*(ceny- i->rect.y))+ i->rect.y;
+
+        if(abs(i->rect.x - cenx)< 1 && abs(i->rect.y - ceny)< 1 )
+            fire.erase(i--);
+
+        for (auto j = monsters.begin(); j < monsters.end(); j++)
+        {
+            double tmp1x = j->rect.x;
+            double tmp1y = j->rect.y;
+            double tmp2x = i->rect.x;
+            double tmp2y = i->rect.y;
 
             if(abs(tmp1x - tmp2x)< 1 && abs(tmp1y - tmp2y)< 1 )
             {
-                // draw.delmonster(j,0);
-                monsters.erase(monsters.begin() + i);
-                fire.erase(fire.begin() + i);
+                //info monsters type get
+                setscore(10,renderer);
+                monsters.erase(j--);
+                fire.erase(i--);
+
             }
         }
-        if(abs(fire[i].rect.x - cenx)< 1 && abs(fire[i].rect.y - ceny)< 1 )
-            fire.erase(fire.begin() + i);
+
+
     }
+
+    // auto it = fire.begin();
+    // while (it != fire.end())
+    // {
+    //     it.rect.x=(sensitivity*(cenx-it.rect.x))+it.rect.x;
+    //     it.rect.y=(sensitivity*(ceny-it.rect.y))+it.rect.y;
+    //
+    // }
+
+
     return;
 }
 
+
+
 void Draw::movemonsters(Shapes s,int cenx ,int ceny, double &z)
 {
+    cenx -= weapon.width/2;
+    ceny -= weapon.height/2;
+
+
     double h;
     if (z > 0)
     {
@@ -411,7 +442,7 @@ void Draw::movemonsters(Shapes s,int cenx ,int ceny, double &z)
         // double cx = s.getcoordcentre().first;
         // double cy = s.getcoordcentre().second;
 
-
+        /*
         int p1= monsters.at(j).direction%s.points.size();
         int p2=(monsters.at(j).direction+1)%s.points.size();
 
@@ -430,16 +461,29 @@ void Draw::movemonsters(Shapes s,int cenx ,int ceny, double &z)
 
         monsters.at(j).rect.x = x+cenx;
         monsters.at(j).rect.y= y+ceny;
-
+        */
 
         /*double direction1 =   (cx * mx - cy * my + s.points[p1].first - s.getcoordcentre().first) * d+ s.getcoordcentre().first;
 
         double direction2 = (cy * mx + cx * my + s.points[p1].second - s.getcoordcentre().second) * d+ s.getcoordcentre().second;*/
-        // int direction1 = (cx - mx )/sqrt(pow(cx - mx , 2) +pow( cy -my, 2) * 1.0);
-        // int direction2 = (cy - my )/sqrt(pow(cx - mx , 2) +pow( cy - my, 2) * 1.0);
 
+        double sensitivity = 0.01;
+        // int p1= monsters.at(j).direction%s.points.size();
+        // int p2=(monsters.at(j).direction+1)%s.points.size();
+        // double mx=(s.points[p1].first+s.points[p2].first)/2;
+        // double my=(s.points[p1].second+s.points[p2].second)/2;
+        //
+        // int direction1 = (cenx - mx )/sqrt(pow(cenx - mx , 2) +pow( cceny -my, 2) * 1.0);
+        // int direction2 = (ceny - my )/sqrt(pow(cenx - mx , 2) +pow( ceny - my, 2) * 1.0);
+        //
         // mx=(sensitivity*(mx-cx))+mx;
         // my=(sensitivity*(my-cy))+my;
+        //
+        // monsters.at(j).rect.x = mx+cenx;
+        // monsters.at(j).rect.y= mx+ceny;
+
+        monsters.at(j).rect.x=(sensitivity*(cenx-monsters.at(j).rect.x))+monsters.at(j).rect.x;
+        monsters.at(j).rect.y=(sensitivity*(ceny-monsters.at(j).rect.y))+monsters.at(j).rect.y;
         /*mx=(sensitivity*(cx-mx))+mx;
         my=(sensitivity*(cy-my))+my;*/
 
@@ -539,6 +583,17 @@ void Draw::settimer(int time, SDL_Renderer* renderer )
     draw_elem (TIME, renderer,0);
 }
 
+void Draw::setscore(int scorevar, SDL_Renderer* renderer)
+{
+    SDL_Object scoretmp = score;
+    scoreval+=scorevar;
+    std::string tmp =  "0 "+ std::to_string(scoreval) ;
+    score = calculate_texture(tmp , GREEN, 1 , renderer);
+    score.rect.x = scoretmp.rect.x;
+    score.rect.y = scoretmp.rect.y;
+    draw_elem (SCORE, renderer,0);
+}
+
 void Draw::setHeightWidth(int h, int w)
 {
   window_width = w;
@@ -548,8 +603,10 @@ void Draw::setHeightWidth(int h, int w)
 
 void Draw::setweapon(int x , int y)
 {
+    // int width;
+    // int height;
     weapon.rect.x = x;
-    weapon.rect.y = y;
+    weapon.rect.y = y/*-weapon.height*/;
     return;
 }
 void Draw::addfire(SDL_FObject f)
@@ -581,4 +638,12 @@ int Draw::getmonstersize()
 SDL_FObject Draw::getmonster(int indice)
 {
     return monsters.at(indice);
+}
+
+
+std::pair<int, int> Draw::getweaponinfo()
+{
+    // SDL_FObject tmp;
+    // tmp.height = weapon.height
+    return std::make_pair(weapon.width/2, weapon.height/2);
 }
