@@ -78,6 +78,8 @@ public:
     SDL_FObject getmonster(int indice);
     void addfire(SDL_FObject f);
     std::pair<int, int> getweaponinfo();
+    void reducetimemonsters();
+
 
 
 

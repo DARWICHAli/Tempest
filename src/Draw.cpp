@@ -8,6 +8,8 @@
 #endif
 #include <iostream>
 #include <cstdlib>
+
+
 int fake_levels = 100 ;
 
 
@@ -73,8 +75,6 @@ SDL_FObject Draw::fcalculate_texture(std::string text,SDL_Color color,int type, 
             font=font_menu2;
             break;
   }
-
-
 
   const char * textprint = text.c_str();
   SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, textprint, color);
@@ -167,15 +167,16 @@ void Draw::init_game(SDL_Renderer* renderer)
 
     weapon.rect.x = 0;
     weapon.rect.y = 0;
+
     life.rect.x = window_width*0.25;
     life.rect.y = window_height*0.125;
+
     score.rect.x = window_width*0.25;
     score.rect.y = life.rect.y - 50;
 
-
-
-
+    return;
 }
+
 
 void Draw::initmonsters(SDL_Renderer*renderer,Shapes s,int cenx,int ceny)
 {
@@ -191,13 +192,22 @@ void Draw::initmonsters(SDL_Renderer*renderer,Shapes s,int cenx,int ceny)
             monster.rect.x=cenx;
             monster.rect.y=ceny;
             monster.direction=distrib(gen);
-            monster.apper=j+5;
+            monster.apper=distrib(gen)+1;
             //draw.setmonster(monster);
             monsters.push_back(monster);
 
         }
+        return;
 }
 
+void Draw::reducetimemonsters()
+{
+    for (size_t i = 0; i < monsters.size(); i++)
+    {
+        if(monsters.at(i).apper)
+            monsters.at(i).apper--;
+    }
+}
 
 
 
@@ -205,31 +215,25 @@ void Draw::init_draw(SDL_Renderer* renderer)
 {
     init_menu(renderer);
     init_game(renderer);
-  // init_score_num(0, 0, renderer);
-  // init_score_numGO(0, 0, renderer);
-  // init_Game_over(renderer);
 }
 
 void Draw::print_game(SDL_Renderer* renderer,Shapes &s, int level, Shapes &weap)
 {
     SDL_RenderClear(renderer);
-
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
 
     draw_elem (LIFE, renderer,0);
     draw_elem (SCORE, renderer,0);
-    // check level to get the right shape
-    s.Drawshape(renderer,window_width , window_height, level);
 
-    //s.DrawTriangle(renderer,window_width/2 , window_height/2);
+    s.Drawshape(renderer,window_width , window_height, level);
     draw_elem(FIRE,renderer,0);
     draw_elem (MONSTER, renderer,0);
+
     std::pair<int , int > tmpwep = std::make_pair(weapon.rect.x, weapon.rect.y);
     weap.drawweapon(renderer,level,tmpwep);
-    //draw_elem (WEAPON, renderer,0);
 
     //test centre;
-    SDL_RenderDrawPoint(renderer, window_width/2, window_height/2);
+    //SDL_RenderDrawPoint(renderer, window_width/2, window_height/2);
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
     SDL_RenderPresent(renderer);
@@ -241,6 +245,35 @@ void Draw::print_game(SDL_Renderer* renderer,Shapes &s, int level, Shapes &weap)
         weapon.rect.x  = (s.points.at(0).first + s.points.at(1).first)/2 ;
         weapon.rect.y = (s.points.at(0).second + s.points.at(1).second)/2 - weapon.height;
     }
+}
+
+int gameloop()
+{
+    SDL_Event events;
+    int running = 0;
+    while (SDL_PollEvent(&events))
+    {
+        switch(events.type)
+        {
+            case SDL_KEYDOWN:
+            switch( events.key.keysym.sym ){
+                case SDLK_RIGHT:
+                    SDL_Log("RIGHT!");
+                    break;
+                case SDLK_LEFT:
+                    SDL_Log("LEFT!");
+                    break;
+                case SDLK_RETURN:
+                    SDL_Log("ENTER!");
+                    running = 2;
+                }
+            break;
+            case SDL_WINDOWEVENT:
+                if (events.window.event == SDL_WINDOWEVENT_CLOSE)
+                    running = 3;
+        }
+    }
+    return running;
 }
 
 
@@ -270,53 +303,9 @@ int Draw::print_menu(SDL_Renderer* renderer)
 
     SDL_RenderPresent(renderer);
 
-    SDL_Event events;
     int running = 0;
+    running =  gameloop();
 
-    while (SDL_PollEvent(&events))
-    {
-        switch(events.type)
-        {
-            case SDL_KEYDOWN:
-            switch( events.key.keysym.sym ){
-                case SDLK_RIGHT:
-                    // move holes to right
-                    SDL_Log("RIGHT!");
-                    break;
-                case SDLK_LEFT:
-                    // move holes to left
-                    SDL_Log("LEFT!");
-                    break;
-                case SDLK_RETURN:
-                    SDL_Log("ENTER!");
-                    running = 2;
-                }
-                break;
-            case SDL_WINDOWEVENT:
-                if (events.window.event == SDL_WINDOWEVENT_CLOSE)
-                    running = 3;
-            case SDL_MOUSEBUTTONDOWN: // Click de souris,
-                if ( (events.button.x > player.rect.x && events.button.x < player.rect.x + player.width)
-                && (events.button.y > player.rect.y && events.button.y < player.rect.y + player.height) )
-                {
-                    SDL_Log("DUNNO");
-                    running = 1;
-                }
-                else if ( (events.button.x > rate_urself.rect.x && events.button.x < rate_urself.rect.x + rate_urself.width )
-                && (events.button.y > rate_urself.rect.y && events.button.y < rate_urself.rect.y + rate_urself.height ) )
-                {
-                    SDL_Log("RATE SMTH!");
-                    running = 2;
-                }
-                else if ( (events.button.x > select.rect.x && events.button.x < select.rect.x + select.width )
-                && (events.button.y > select.rect.y && events.button.y < select.rect.y + select.height) )
-                {
-                    SDL_Log("il y a plus de bouton pour sortir ");
-                    running = 3;
-                }
-                break;
-        }
-    }
     SDL_RenderClear(renderer);
     return running;
 }
@@ -385,6 +374,10 @@ void Draw::movemonsters(Shapes s,int cenx ,int ceny, double &z)
     cenx -= weapon.width/2;
     ceny -= weapon.height/2;
 
+    // cenx = 0;
+    // ceny = 0;
+
+
 
     double h;
     if (z > 0)
@@ -399,6 +392,8 @@ void Draw::movemonsters(Shapes s,int cenx ,int ceny, double &z)
     //i++;
     for( int j = 0; j< monsters.size(); j++)
     {
+
+
         /*if (i > draw.getmonster(j).apper)
         {
             int p1=draw.getmonster(j).direction%s.points.size();
@@ -468,26 +463,60 @@ void Draw::movemonsters(Shapes s,int cenx ,int ceny, double &z)
         /*double direction1 =   (cx * mx - cy * my + s.points[p1].first - s.getcoordcentre().first) * d+ s.getcoordcentre().first;
 
         double direction2 = (cy * mx + cx * my + s.points[p1].second - s.getcoordcentre().second) * d+ s.getcoordcentre().second;*/
+        if(monsters.at(j).apper == 0)
+        {
+            int p1=monsters.at(j).direction%s.points.size();
+            int p2=(monsters.at(j).direction+1)%s.points.size();
 
-        double sensitivity = 0.01;
-        // int p1= monsters.at(j).direction%s.points.size();
-        // int p2=(monsters.at(j).direction+1)%s.points.size();
-        // double mx=(s.points[p1].first+s.points[p2].first)/2;
-        // double my=(s.points[p1].second+s.points[p2].second)/2;
-        //
-        // int direction1 = (cenx - mx )/sqrt(pow(cenx - mx , 2) +pow( cceny -my, 2) * 1.0);
-        // int direction2 = (ceny - my )/sqrt(pow(cenx - mx , 2) +pow( ceny - my, 2) * 1.0);
-        //
-        // mx=(sensitivity*(mx-cx))+mx;
-        // my=(sensitivity*(my-cy))+my;
-        //
-        // monsters.at(j).rect.x = mx+cenx;
-        // monsters.at(j).rect.y= mx+ceny;
+            double ux = s.points[p2].first-s.points[p1].first;
+            double uy = s.points[p2].second-s.points[p1].second;
+            double norm =  sqrt((ux*ux)+(uy*uy));
 
-        monsters.at(j).rect.x=(sensitivity*(cenx-monsters.at(j).rect.x))+monsters.at(j).rect.x;
-        monsters.at(j).rect.y=(sensitivity*(ceny-monsters.at(j).rect.y))+monsters.at(j).rect.y;
+            ux=ux/norm;
+            uy=uy/norm;
+            
+            double mx=(s.points[p1].first+s.points[p2].first)/2;
+            double my=(s.points[p1].second+s.points[p2].second)/2;
+            double x = (/*(ux*cenx) - (uy*ceny)+*/mx-cenx)*h;
+            double y = (/*(uy*cenx)+(ux*ceny)+*/my-ceny)*h;
+
+            monsters.at(j).rect.x = x+cenx;
+            monsters.at(j).rect.y= y+ceny;
+
+        }
+
+
+        /*
+        if(monsters.at(j).apper == 0 )
+        {
+            double sensitivity = 0.00001;
+            int p1= monsters.at(j).direction%s.points.size();
+            int p2=(monsters.at(j).direction+1)%s.points.size();
+            double mx=(s.points[p1].first+s.points[p2].first)/2;
+            double my=(s.points[p1].second+s.points[p2].second)/2;
+
+            int direction1 = (cenx - mx )/sqrt(pow(cenx - mx , 2) +pow( ceny -my, 2) * 1.0);
+            int direction2 = (ceny - my )/sqrt(pow(cenx - mx , 2) +pow( ceny - my, 2) * 1.0);
+
+            mx=(sensitivity*(mx-cenx))+mx;
+            my=(sensitivity*(my-ceny))+my;
+
+            monsters.at(j).rect.x = mx+cenx;
+            monsters.at(j).rect.y= mx+ceny;
+        }
+        */
         /*mx=(sensitivity*(cx-mx))+mx;
         my=(sensitivity*(cy-my))+my;*/
+
+
+        //###########################
+        //Works
+        // if(monsters.at(j).apper == 0 )
+        // {
+        //     monsters.at(j).rect.x=(sensitivity*(cenx-monsters.at(j).rect.x))+monsters.at(j).rect.x;
+        //     monsters.at(j).rect.y=(sensitivity*(ceny-monsters.at(j).rect.y))+monsters.at(j).rect.y;
+        // }
+
 
     }
 }
@@ -545,7 +574,8 @@ void Draw::draw_elem(int type, SDL_Renderer* renderer,int indice)
         case MONSTER:
             for(auto e: monsters)
             {
-                SDL_RenderCopyF(renderer, e.texture, NULL, &e.rect);
+                if(!e.apper)
+                    SDL_RenderCopyF(renderer, e.texture, NULL, &e.rect);
             }
             break;
         case FIRE:

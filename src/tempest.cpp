@@ -32,18 +32,17 @@ int Tempest::game(Weapon w, Draw &draw)
     int key = 0; // 1 droite  ,2 gauche
     int type = 0; // si on utlise mouse ou keyboard ,, a modifier après
     bool quit = false;
-    double i = 0;
+    //double i = 0;
     //double h;
-    double sensitivity=0.001;
+    //double sensitivity=0.001;
     double z=1;
     int monstertaille = 0;
     int level = 5;
     Shapes weaponshape;
-    //init_weapon_shapes()
-
+    clock_t time_req;
+    time_req = clock();
 
     draw.print_game(renderer,s, level,weaponshape);
-    //draw.print_game(renderer,s, level);
     monstertaille = draw.getmonstersize();
 
     // double cenx=s.getcoordcentre().first;
@@ -52,7 +51,11 @@ int Tempest::game(Weapon w, Draw &draw)
     double ceny= WH/2;
 
     while (!quit) {
-
+        if((float)(clock()-time_req)/CLOCKS_PER_SEC >= .4)
+        {
+            draw.reducetimemonsters();
+            time_req = clock();
+        }
         monstertaille = draw.getmonstersize();
 
         if(monstertaille == 0)
@@ -63,11 +66,9 @@ int Tempest::game(Weapon w, Draw &draw)
             level++%15;
             std::cout << "level "<< level << '\n';
             draw.print_game(renderer,s, level,weaponshape);
-            //draw.print_game(renderer,s, level);
             monstertaille = draw.getmonstersize();
         }
         draw.print_game(renderer,s, level,weaponshape);
-        //draw.print_game(renderer,s,level);
         //move monsters and detect collision
         draw.movemonsters(s,cenx ,ceny,z);
         //move fire and detect collision
@@ -148,15 +149,13 @@ int Tempest::init_game()
     draw.init_draw(renderer);
     draw.print_menu(renderer);
     SDL_RenderPresent(renderer);
-    int choice = 0;
+
     int play_mode = 0;
-    int start = 1;
     clock_t time_req;
     time_req = clock();
     int timer = 10;
     bool quit = false;
     Weapon w;
-    Monsters m(0,0);
 
     int mousex= 0;
     int mousey =0;
@@ -175,7 +174,6 @@ int Tempest::init_game()
         {
             std::cout << "time's up!!" << '\n';
             break;
-
         }
         play_mode = draw.print_menu(renderer);
 
@@ -185,24 +183,7 @@ int Tempest::init_game()
         {
             quit = game(w,draw);
         }
-        else if (play_mode == 1)
-        {
-            std::cout << "do_smth 2" << '\n';
-        }
-        SDL_Event event;
-        while (!quit && SDL_PollEvent(&event))
-        {
-            switch (event.type)
-            {
-                case SDL_QUIT:
-                    std::cout << "fin" << '\n';
-                    quit = true;
-                    break;
-                case SDL_KEYDOWN:
-                    SDL_Log("User just pressed down a key!");
 
-            }
-        }
     }
     return 0;
 }

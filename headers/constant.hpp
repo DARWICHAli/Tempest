@@ -9,7 +9,7 @@
 #include <algorithm>
 
 
-#define NBR_MONSTER 5
+#define NBR_MONSTER 100
 #define SCALE_VAL 0.07
 #define WW 800
 #define WH 800
