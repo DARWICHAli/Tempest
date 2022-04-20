@@ -226,11 +226,12 @@ void Draw::print_game(SDL_Renderer* renderer,Shapes &s, int level, Shapes &weap)
     draw_elem (SCORE, renderer,0);
 
     s.Drawshape(renderer,window_width , window_height, level);
-    draw_elem(FIRE,renderer,0);
-    draw_elem (MONSTER, renderer,0);
 
     std::pair<int , int > tmpwep = std::make_pair(weapon.rect.x, weapon.rect.y);
+    //std::cout << weapon.rect.x << '\n';
     weap.drawweapon(renderer,level,tmpwep);
+    draw_elem(FIRE,renderer,0);
+    draw_elem (MONSTER, renderer,0);
 
     //test centre;
     //SDL_RenderDrawPoint(renderer, window_width/2, window_height/2);
@@ -371,8 +372,8 @@ void Draw::actionfire(int cenx ,int ceny,SDL_Renderer * renderer)
 
 void Draw::movemonsters(Shapes s,int cenx ,int ceny, double &z)
 {
-    cenx -= weapon.width/2;
-    ceny -= weapon.height/2;
+    // cenx -= weapon.width/2;
+    // ceny -= weapon.height/2;
 
     // cenx = 0;
     // ceny = 0;
@@ -463,27 +464,28 @@ void Draw::movemonsters(Shapes s,int cenx ,int ceny, double &z)
         /*double direction1 =   (cx * mx - cy * my + s.points[p1].first - s.getcoordcentre().first) * d+ s.getcoordcentre().first;
 
         double direction2 = (cy * mx + cx * my + s.points[p1].second - s.getcoordcentre().second) * d+ s.getcoordcentre().second;*/
-        if(monsters.at(j).apper == 0)
-        {
-            int p1=monsters.at(j).direction%s.points.size();
-            int p2=(monsters.at(j).direction+1)%s.points.size();
 
-            double ux = s.points[p2].first-s.points[p1].first;
-            double uy = s.points[p2].second-s.points[p1].second;
-            double norm =  sqrt((ux*ux)+(uy*uy));
-
-            ux=ux/norm;
-            uy=uy/norm;
-            
-            double mx=(s.points[p1].first+s.points[p2].first)/2;
-            double my=(s.points[p1].second+s.points[p2].second)/2;
-            double x = (/*(ux*cenx) - (uy*ceny)+*/mx-cenx)*h;
-            double y = (/*(uy*cenx)+(ux*ceny)+*/my-ceny)*h;
-
-            monsters.at(j).rect.x = x+cenx;
-            monsters.at(j).rect.y= y+ceny;
-
-        }
+        // if(monsters.at(j).apper == 0)
+        // {
+        //     int p1=monsters.at(j).direction%s.points.size();
+        //     int p2=(monsters.at(j).direction+1)%s.points.size();
+        //
+        //     double ux = s.points[p2].first-s.points[p1].first;
+        //     double uy = s.points[p2].second-s.points[p1].second;
+        //     double norm =  sqrt((ux*ux)+(uy*uy));
+        //
+        //     ux=ux/norm;
+        //     uy=uy/norm;
+        //
+        //     double mx=(s.points[p1].first+s.points[p2].first)/2;
+        //     double my=(s.points[p1].second+s.points[p2].second)/2;
+        //     double x = (/*(ux*cenx) - (uy*ceny)+*/mx-cenx)*h;
+        //     double y = (/*(uy*cenx)+(ux*ceny)+*/my-ceny)*h;
+        //
+        //     monsters.at(j).rect.x = x+cenx;
+        //     monsters.at(j).rect.y= y+ceny;
+        //
+        // }
 
 
         /*

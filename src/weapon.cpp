@@ -138,6 +138,11 @@ void Weapon::FireWeapon(int32_t type, Draw&d,SDL_Renderer* renderer,std::vector<
     else if(type == 1)
     {
         //sound("ogg_blasterBullet.ogg");
+        f = d.fcalculate_texture("X",RED, 2, renderer);
+        f.rect.x=x;
+        f.rect.y=y;
+        //d.fire.push_back(f);
+        d.addfire(f);
     }
 
 

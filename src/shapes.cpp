@@ -135,6 +135,7 @@ void Shapes::Display(SDL_Renderer * Renderer, int color, int cycl)
 
 void Shapes::drawweapon(SDL_Renderer * renderer,int level,std::pair<int, int> weapon)
 {
+    level = 5;
     if(!points.size())
     {
         switch (level) {
@@ -156,6 +157,7 @@ void Shapes::drawweapon(SDL_Renderer * renderer,int level,std::pair<int, int> we
         SDL_RenderDrawLine(renderer, points.at(i).first , points.at(i).second ,points.at((i+1)%points.size()).first , points.at((i+1)%points.size()).second );
     }
 
+    return;
 }
 
 
@@ -435,12 +437,28 @@ void Shapes::DrawFan(SDL_Renderer *renderer, int32_t window_width, int32_t windo
         center_reduce(window_width ,window_height);
     }
 }
-void Shapes::DrawInfSym(SDL_Renderer *renderer, int32_t window_width, int32_t window_height ){
+void Shapes::DrawInfSym(SDL_Renderer *renderer, int32_t window_width, int32_t window_height )
+{
     if(!points.size())
     {
-        points.push_back(std::make_pair(window_width*0.8,window_height*0.4));
+        points.push_back(std::make_pair(100, 400));
+        points.push_back(std::make_pair(200, 300));
+        points.push_back(std::make_pair(250, 250));
+        points.push_back(std::make_pair(380, 300));
+        points.push_back(std::make_pair(420, 300));
+        points.push_back(std::make_pair(550, 250));
+        points.push_back(std::make_pair(600, 300));
+        points.push_back(std::make_pair(700, 400));
+        points.push_back(std::make_pair(600, 500));
+        points.push_back(std::make_pair(550, 550));
+        points.push_back(std::make_pair(420, 500));
+        points.push_back(std::make_pair(380, 500));
+        points.push_back(std::make_pair(250, 550));
+        points.push_back(std::make_pair(200, 500));
+
         center_reduce(window_width ,window_height);
     }
+    Display(renderer, 1, 1);
 }
 
 void Shapes::Drawshape(SDL_Renderer *renderer, int32_t window_width,int32_t window_height, int32_t level)
@@ -491,7 +509,7 @@ void Shapes::Drawshape(SDL_Renderer *renderer, int32_t window_width,int32_t wind
             DrawFan(renderer , window_width/2,window_height/2);
             break;
         case 15:
-            DrawInfSym(renderer , window_width/2,window_height/2);
+            DrawInfSym(renderer , window_width,window_height);
             break;
 
     }

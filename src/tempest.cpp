@@ -99,9 +99,10 @@ int Tempest::game(Weapon w, Draw &draw)
                             break;
                         case SDLK_UP:
                             SDL_Log("UP!");
+                            w.FireWeapon(1,draw,renderer,s.points);
                             break;
-                        case SDLK_DOWN:
-                            SDL_Log("DOWN!");
+                        case SDLK_SPACE:
+                            SDL_Log("SPACE");
                             w.FireWeapon(0,draw,renderer,s.points);
                             break;
                         default:
