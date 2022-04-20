@@ -372,8 +372,8 @@ void Draw::actionfire(int cenx ,int ceny,SDL_Renderer * renderer)
 
 void Draw::movemonsters(Shapes s,int cenx ,int ceny, double &z)
 {
-    // cenx -= weapon.width/2;
-    // ceny -= weapon.height/2;
+    cenx -= weapon.width/2;
+    ceny -= weapon.height/2;
 
     // cenx = 0;
     // ceny = 0;
@@ -513,11 +513,12 @@ void Draw::movemonsters(Shapes s,int cenx ,int ceny, double &z)
 
         //###########################
         //Works
-        // if(monsters.at(j).apper == 0 )
-        // {
-        //     monsters.at(j).rect.x=(sensitivity*(cenx-monsters.at(j).rect.x))+monsters.at(j).rect.x;
-        //     monsters.at(j).rect.y=(sensitivity*(ceny-monsters.at(j).rect.y))+monsters.at(j).rect.y;
-        // }
+        double sensitivity = 0.0001;
+        if(monsters.at(j).apper == 0 )
+        {
+            monsters.at(j).rect.x=(sensitivity*(cenx-monsters.at(j).rect.x))+monsters.at(j).rect.x;
+            monsters.at(j).rect.y=(sensitivity*(ceny-monsters.at(j).rect.y))+monsters.at(j).rect.y;
+        }
 
 
     }
