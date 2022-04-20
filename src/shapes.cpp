@@ -10,6 +10,30 @@ Shapes::Shapes() :
     type{TRIANGLE}
 {}
 
+
+void Shapes::colorcol(SDL_Renderer* Renderer,std::pair<int, int> pair,int color)
+{
+    int index = pair.first;
+    int index2 = pair.second;
+    color = 1;
+    // to init r b g
+    switch (color) {
+        case 1:
+        break;
+
+    }
+    SDL_SetRenderDrawColor(Renderer, 0, 255, 0, SDL_ALPHA_OPAQUE);
+
+    SDL_RenderDrawLine(Renderer, points[index].first,points[index].second ,points_centre[index].first ,points_centre[index].second );
+    SDL_RenderDrawLine(Renderer, points[index2].first,points[index2].second ,points_centre[index2].first ,points_centre[index2].second );
+
+
+}
+
+
+
+
+
 void Shapes::clearlevelShape()
 {
     points.clear();

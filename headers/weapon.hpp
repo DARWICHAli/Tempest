@@ -45,8 +45,9 @@ public:
     * \param type keyboard or mouse
     * \param points points of the shape
     * \param Draw Draw
+    * \return first index of point.
     */
-    void MoveWeapon( int32_t centreX, int32_t centreY, int32_t key , int32_t  type ,std::vector<std::pair<int, int>> points,Draw &d);
+    std::pair<int, int> MoveWeapon( int32_t centreX, int32_t centreY, int32_t key , int32_t  type ,std::vector<std::pair<int, int>> points,Draw &d);
     /*!
     * \brief Fire weapon
     * \param type type of fire

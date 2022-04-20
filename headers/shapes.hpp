@@ -67,6 +67,17 @@ public:
     Shapes ();
     ~Shapes ();
 
+
+    /*!
+    * \brief color the col linking the shapes
+    * \param SDL_Renderer renderer
+    * \cenx index
+    * \ceny color
+    */
+    void colorcol(SDL_Renderer*,std::pair<int , int > index,int color );
+
+
+
     /*!
     * \brief scale and shift points "ie shape" to a specific point
     * \param  x

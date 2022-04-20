@@ -138,8 +138,9 @@ public:
     * \param s Shape
     * \param level level
     * \param weapon weapon shape
+    * \pos position near weapon
     */
-    void print_game(SDL_Renderer* renderer,Shapes &s, int level, Shapes &weap);
+    void print_game(SDL_Renderer* renderer,Shapes &s, int level, Shapes &weap,std::pair<int, int> pos);
 
 
     /*!
@@ -163,6 +164,7 @@ public:
     * \ceny Centery
     */
     void initmonsters(SDL_Renderer*,Shapes Shape,int cenx,int ceny);
+
 
 
     void setHeightWidth(int, int);

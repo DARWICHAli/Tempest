@@ -218,7 +218,7 @@ void Draw::init_draw(SDL_Renderer* renderer)
     init_game(renderer);
 }
 
-void Draw::print_game(SDL_Renderer* renderer,Shapes &s, int level, Shapes &weap)
+void Draw::print_game(SDL_Renderer* renderer,Shapes &s, int level, Shapes &weap,std::pair<int, int> pos)
 {
     SDL_RenderClear(renderer);
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
@@ -237,6 +237,10 @@ void Draw::print_game(SDL_Renderer* renderer,Shapes &s, int level, Shapes &weap)
     //test centre;
     //SDL_RenderDrawPoint(renderer, window_width/2, window_height/2);
 
+    if(pos.first != -1)
+        s.colorcol(renderer,pos,1);
+
+
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
     SDL_RenderPresent(renderer);
     SDL_RenderClear(renderer);
@@ -247,6 +251,7 @@ void Draw::print_game(SDL_Renderer* renderer,Shapes &s, int level, Shapes &weap)
         weapon.rect.x  = (s.points.at(0).first + s.points.at(1).first)/2 ;
         weapon.rect.y = (s.points.at(0).second + s.points.at(1).second)/2 - weapon.height/2;
     }
+
 }
 
 int gameloop()
@@ -531,9 +536,6 @@ void Draw::movemonsters(Shapes s,int cenx ,int ceny)
 
     }
 }
-
-
-
 
 
 void Draw::draw_elem(int type, SDL_Renderer* renderer,int indice)

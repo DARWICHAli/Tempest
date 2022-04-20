@@ -42,10 +42,10 @@ float distance(std::pair<int, int> p1,std::pair<int, int> p2)
 }
 
 
-void Weapon::MoveWeapon( int32_t centreX, int32_t centreY, int32_t key , int32_t  type ,std::vector<std::pair<int, int>> points,Draw &d)
+std::pair<int, int>  Weapon::MoveWeapon( int32_t centreX, int32_t centreY, int32_t key , int32_t  type ,std::vector<std::pair<int, int>> points,Draw &d)
 {
     if(!key)
-        return;
+        return std::make_pair(-1,-1);
 
     float direction1;
     float direction2;
@@ -92,25 +92,30 @@ void Weapon::MoveWeapon( int32_t centreX, int32_t centreY, int32_t key , int32_t
         //droite
             if(key == 1 )
             {
-                p1 = points.at((indice+1)%points.size());
-                p2 = points.at((indice2+1)%points.size());
+                indice = (indice+1)%points.size();
+                indice2 = (indice2+1)%points.size();
+                p1 = points.at(indice);
+                p2 = points.at(indice2);
             }
             else if(key == 2)
             {
-                p1 = points.at(!indice? points.size()-1: indice-1);
-                p2 = points.at(!indice2? points.size()-1: indice2-1);
+                indice = !indice? points.size()-1: indice-1;
+                indice2 = !indice2? points.size()-1: indice2-1;
+                p1 = points.at(indice);
+                p2 = points.at(indice2);
 
             }
             x =  (p1.first + p2.first)/2 - wepinfo.first;
             y = (p1.second + p2.second)/2 - wepinfo.second;
             d.setweapon(x , y );
-
         }
     }
     else
     {
         std::cout << "lol" << '\n';
     }
+
+    return std::make_pair(indice,indice2);
 }
 
 

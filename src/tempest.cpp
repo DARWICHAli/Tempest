@@ -32,6 +32,7 @@ int Tempest::game(Weapon w, Draw &draw)
     int key = 0; // 1 droite  ,2 gauche
     int type = 0; // si on utlise mouse ou keyboard ,, a modifier après
     bool quit = false;
+    std::pair<int, int> pos = {-1,-1};
     //double i = 0;
     //double h;
     //double sensitivity=0.001;
@@ -42,7 +43,7 @@ int Tempest::game(Weapon w, Draw &draw)
     clock_t time_req;
     time_req = clock();
 
-    draw.print_game(renderer,s, level,weaponshape);
+    draw.print_game(renderer,s, level,weaponshape,pos);
     monstertaille = draw.getmonstersize();
 
     // double cenx=s.getcoordcentre().first;
@@ -65,10 +66,8 @@ int Tempest::game(Weapon w, Draw &draw)
             s.clearlevelShape();
             level++%15;
             std::cout << "level "<< level << '\n';
-            draw.print_game(renderer,s, level,weaponshape);
-            monstertaille = draw.getmonstersize();
         }
-        draw.print_game(renderer,s, level,weaponshape);
+        draw.print_game(renderer,s, level,weaponshape,pos);
         //move monsters and detect collision
         //std::cout << "z is eq to " << z << '\n';
         draw.movemonsters(s,cenx ,ceny);
@@ -92,10 +91,12 @@ int Tempest::game(Weapon w, Draw &draw)
                     switch( event.key.keysym.sym ){
                         case SDLK_RIGHT:
                             key = 1 ;
+                            pos = w.MoveWeapon(mousey, mousey ,key, type,s.points,draw);
                             SDL_Log("RIGHT!");
                             break;
                         case SDLK_LEFT:
                             key = 2 ;
+                            pos = w.MoveWeapon(mousey, mousey ,key, type,s.points,draw);
                             SDL_Log("LEFT!");
                             break;
                         case SDLK_UP:
@@ -110,7 +111,6 @@ int Tempest::game(Weapon w, Draw &draw)
                             break;
 
                     }
-                    w.MoveWeapon(mousey, mousey ,key, type,s.points,draw);
                     SDL_RenderPresent(renderer);
                     key = 0;
                     break;
