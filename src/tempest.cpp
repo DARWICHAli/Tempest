@@ -37,14 +37,12 @@ int Tempest::game(Weapon w, Draw &draw)
     //double h;
     //double sensitivity=0.001;
     //double z=1;
-    int monstertaille = 0;
     int level = 1;
     Shapes weaponshape;
     clock_t time_req;
     time_req = clock();
 
     draw.print_game(renderer,s, level,weaponshape,pos);
-    monstertaille = draw.getmonstersize();
 
     // double cenx=s.getcoordcentre().first;
     // double ceny=s.getcoordcentre().second;
@@ -57,9 +55,8 @@ int Tempest::game(Weapon w, Draw &draw)
             draw.reducetimemonsters();
             time_req = clock();
         }
-        monstertaille = draw.getmonstersize();
 
-        if(monstertaille == 0)
+        if( draw.getmonstersize() == 0)
         {
             SDL_Log("Clear level!");
             draw.clearlevel();
@@ -67,6 +64,13 @@ int Tempest::game(Weapon w, Draw &draw)
             level++%15;
             std::cout << "level "<< level << '\n';
         }
+        /*
+        if(getlives()== 0)
+        {
+            break;
+        }
+        */
+
         draw.print_game(renderer,s, level,weaponshape,pos);
         //move monsters and detect collision
         //std::cout << "z is eq to " << z << '\n';
@@ -184,6 +188,9 @@ int Tempest::init_game()
         else if (play_mode == 2)
         {
             quit = game(w,draw);
+            //quit = false;
+            //draw.game_over(renderer);
+            
         }
 
     }
