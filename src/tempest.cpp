@@ -38,9 +38,12 @@ int Tempest::game(Weapon w, Draw &draw)
     double z=1;
     int monstertaille = 0;
     int level = 5;
+    Shapes weaponshape;
+    //init_weapon_shapes()
 
 
-    draw.print_game(renderer,s, level);
+    draw.print_game(renderer,s, level,weaponshape);
+    //draw.print_game(renderer,s, level);
     monstertaille = draw.getmonstersize();
 
     // double cenx=s.getcoordcentre().first;
@@ -59,11 +62,12 @@ int Tempest::game(Weapon w, Draw &draw)
             s.clearlevelShape();
             level++%15;
             std::cout << "level "<< level << '\n';
-            draw.print_game(renderer,s, level);
+            draw.print_game(renderer,s, level,weaponshape);
+            //draw.print_game(renderer,s, level);
             monstertaille = draw.getmonstersize();
         }
-
-        draw.print_game(renderer,s,level);
+        draw.print_game(renderer,s, level,weaponshape);
+        //draw.print_game(renderer,s,level);
         //move monsters and detect collision
         draw.movemonsters(s,cenx ,ceny,z);
         //move fire and detect collision

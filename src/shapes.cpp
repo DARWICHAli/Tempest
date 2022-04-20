@@ -37,13 +37,11 @@ std::pair<int, int> Shapes::getcoordcentre()
 
 
 /*
-centrer les points du shape exterieur au centre
+centrer les points du shape vers un point
 ne marche pas
 */
-void Shapes::center(int window_width,int window_height)
+void Shapes::center(int s_x,int s_y)
 {
-    int centerx = window_width/2;
-    int centery = window_height/2;
     int dist =0;
     int dist2=0;
     int x =0;
@@ -55,13 +53,21 @@ void Shapes::center(int window_width,int window_height)
     }
     x/=points.size();//moyenne
     y/=points.size();
-    dist = abs(x -centerx);
-    dist2 = abs(y-centery);
+
+    dist = abs(x -s_x);
+    dist2 = abs(y-s_y);
     for (int i = 0; i < points.size(); i++)
     {
         // centrer
-        points.at(i).first = points.at(i).first +dist;
-        points.at(i).second = points.at(i).second+dist2;
+        if(s_x >x )
+            points.at(i).first = points.at(i).first +dist;
+        else
+            points.at(i).first = points.at(i).first -dist;
+        if(s_y > y )
+            points.at(i).second = points.at(i).second+dist2;
+        else
+            points.at(i).second = points.at(i).second-dist2;
+
     }
 }
 
@@ -125,6 +131,33 @@ void Shapes::Display(SDL_Renderer * Renderer, int color, int cycl)
 
     }
 }
+
+
+void Shapes::drawweapon(SDL_Renderer * renderer,int level,std::pair<int, int> weapon)
+{
+    if(!points.size())
+    {
+        switch (level) {
+            case 5:
+            {
+                points.push_back(std::make_pair(100 , 100));
+                points.push_back(std::make_pair(150 , 100));
+                points.push_back(std::make_pair(100 , 150));
+                points.push_back(std::make_pair(150 , 150));
+                center(weapon.first,weapon.second);
+                break;
+            }
+        }
+    }
+    center(weapon.first,weapon.second);
+    SDL_SetRenderDrawColor(renderer, 0, 255, 255, SDL_ALPHA_OPAQUE);
+    for (int i = 0; i < points.size(); i++)
+    {
+        SDL_RenderDrawLine(renderer, points.at(i).first , points.at(i).second ,points.at((i+1)%points.size()).first , points.at((i+1)%points.size()).second );
+    }
+
+}
+
 
 
 void Shapes::DrawCircle(SDL_Renderer * renderer, int32_t centreX, int32_t centreY, int32_t radius)

@@ -200,17 +200,17 @@ void Draw::initmonsters(SDL_Renderer*renderer,Shapes s,int cenx,int ceny)
 
 
 
+
 void Draw::init_draw(SDL_Renderer* renderer)
 {
     init_menu(renderer);
     init_game(renderer);
-  // init_score(renderer);
   // init_score_num(0, 0, renderer);
   // init_score_numGO(0, 0, renderer);
   // init_Game_over(renderer);
 }
 
-void Draw::print_game(SDL_Renderer* renderer,Shapes &s, int level)
+void Draw::print_game(SDL_Renderer* renderer,Shapes &s, int level, Shapes &weap)
 {
     SDL_RenderClear(renderer);
 
@@ -224,7 +224,9 @@ void Draw::print_game(SDL_Renderer* renderer,Shapes &s, int level)
     //s.DrawTriangle(renderer,window_width/2 , window_height/2);
     draw_elem(FIRE,renderer,0);
     draw_elem (MONSTER, renderer,0);
-    draw_elem (WEAPON, renderer,0);
+    std::pair<int , int > tmpwep = std::make_pair(weapon.rect.x, weapon.rect.y);
+    weap.drawweapon(renderer,level,tmpwep);
+    //draw_elem (WEAPON, renderer,0);
 
     //test centre;
     SDL_RenderDrawPoint(renderer, window_width/2, window_height/2);
@@ -603,8 +605,6 @@ void Draw::setHeightWidth(int h, int w)
 
 void Draw::setweapon(int x , int y)
 {
-    // int width;
-    // int height;
     weapon.rect.x = x;
     weapon.rect.y = y/*-weapon.height*/;
     return;

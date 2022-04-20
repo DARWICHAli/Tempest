@@ -60,11 +60,12 @@ public:
 
     void draw_elem(int, SDL_Renderer*,int);
     int print_menu(SDL_Renderer*);
-    void print_game(SDL_Renderer*, Shapes &s,int level);
+    //void print_game(SDL_Renderer*, Shapes &s,int level);
+    void print_game(SDL_Renderer* renderer,Shapes &s, int level, Shapes &weap);
+
     void init_menu(SDL_Renderer*);
     void init_game(SDL_Renderer*);
     void initmonsters(SDL_Renderer*,Shapes s,int cenx,int ceny);
-
     void setHeightWidth(int, int);
     void settimer(int time, SDL_Renderer* renderer );
     void setscore(int score, SDL_Renderer* renderer);

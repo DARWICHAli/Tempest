@@ -50,6 +50,8 @@ public:
     void center(int window_width,int window_height);
     void Display(SDL_Renderer * Renderer, int color, int cycl);
     void clearlevelShape();
+    void drawweapon(SDL_Renderer * renderer,int level,std::pair<int, int> weapon);
+
 
     void Drawshape(SDL_Renderer *, int32_t , int32_t , int32_t );
     void DrawCircle(SDL_Renderer *, int32_t , int32_t , int32_t );
