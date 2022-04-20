@@ -35,9 +35,9 @@ int Tempest::game(Weapon w, Draw &draw)
     //double i = 0;
     //double h;
     //double sensitivity=0.001;
-    double z=1;
+    //double z=1;
     int monstertaille = 0;
-    int level = 5;
+    int level = 1;
     Shapes weaponshape;
     clock_t time_req;
     time_req = clock();
@@ -70,7 +70,8 @@ int Tempest::game(Weapon w, Draw &draw)
         }
         draw.print_game(renderer,s, level,weaponshape);
         //move monsters and detect collision
-        draw.movemonsters(s,cenx ,ceny,z);
+        //std::cout << "z is eq to " << z << '\n';
+        draw.movemonsters(s,cenx ,ceny);
         //move fire and detect collision
         draw.actionfire(cenx ,ceny,renderer);
         // update score ?!

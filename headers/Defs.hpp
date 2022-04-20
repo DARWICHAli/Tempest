@@ -1,3 +1,8 @@
+/**
+* \file Defs.hpp
+* \date 20/04/2022
+* \author Ali DARWICH  and Molka SLAMA
+*/
 #ifndef DEFS_HPP
 #define DEFS_HPP
 
@@ -11,8 +16,6 @@
 #define YELLOW {255,255,0}
 #define SOFT_BLUE {173, 207, 230}
 
-#define HEIGHT_CELL SCREEN_WIDTH/2.5/10
-#define WIDTH_CELL SCREEN_HEIGHT/20
 
 #include <SDL2/SDL.h>
 #include "SDL2/SDL_ttf.h"

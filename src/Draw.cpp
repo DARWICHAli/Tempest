@@ -195,6 +195,7 @@ void Draw::initmonsters(SDL_Renderer*renderer,Shapes s,int cenx,int ceny)
             monster.apper=distrib(gen)+1;
             //draw.setmonster(monster);
             monsters.push_back(monster);
+            zmonsters.push_back(1);
 
         }
         return;
@@ -244,7 +245,7 @@ void Draw::print_game(SDL_Renderer* renderer,Shapes &s, int level, Shapes &weap)
     {
         initmonsters(renderer,s,window_width/2,window_height/2);
         weapon.rect.x  = (s.points.at(0).first + s.points.at(1).first)/2 ;
-        weapon.rect.y = (s.points.at(0).second + s.points.at(1).second)/2 - weapon.height;
+        weapon.rect.y = (s.points.at(0).second + s.points.at(1).second)/2 - weapon.height/2;
     }
 }
 
@@ -370,7 +371,7 @@ void Draw::actionfire(int cenx ,int ceny,SDL_Renderer * renderer)
 
 
 
-void Draw::movemonsters(Shapes s,int cenx ,int ceny, double &z)
+void Draw::movemonsters(Shapes s,int cenx ,int ceny)
 {
     cenx -= weapon.width/2;
     ceny -= weapon.height/2;
@@ -380,17 +381,9 @@ void Draw::movemonsters(Shapes s,int cenx ,int ceny, double &z)
 
 
 
-    double h;
-    if (z > 0)
-    {
-        h =1- (1 - SCALE_VAL) * pow(z,2);
-    }
-    else
-    {
-        h = 1;
-    }
-    z -= 0.00007;
     //i++;
+    //std::cout << "x" << z << '\n';
+
     for( int j = 0; j< monsters.size(); j++)
     {
 
@@ -465,27 +458,42 @@ void Draw::movemonsters(Shapes s,int cenx ,int ceny, double &z)
 
         double direction2 = (cy * mx + cx * my + s.points[p1].second - s.getcoordcentre().second) * d+ s.getcoordcentre().second;*/
 
-        // if(monsters.at(j).apper == 0)
-        // {
-        //     int p1=monsters.at(j).direction%s.points.size();
-        //     int p2=(monsters.at(j).direction+1)%s.points.size();
-        //
-        //     double ux = s.points[p2].first-s.points[p1].first;
-        //     double uy = s.points[p2].second-s.points[p1].second;
-        //     double norm =  sqrt((ux*ux)+(uy*uy));
-        //
-        //     ux=ux/norm;
-        //     uy=uy/norm;
-        //
-        //     double mx=(s.points[p1].first+s.points[p2].first)/2;
-        //     double my=(s.points[p1].second+s.points[p2].second)/2;
-        //     double x = (/*(ux*cenx) - (uy*ceny)+*/mx-cenx)*h;
-        //     double y = (/*(uy*cenx)+(ux*ceny)+*/my-ceny)*h;
-        //
-        //     monsters.at(j).rect.x = x+cenx;
-        //     monsters.at(j).rect.y= y+ceny;
-        //
-        // }
+        double z = zmonsters.at(j);
+        if(monsters.at(j).apper == 0)
+        {
+            double h;
+            if (z > 0.)
+            {
+                h = 1. - (1. - double(SCALE_VAL)) * double(z*z);
+            }
+            else
+            {
+                //std::cout << "hit" << '\n';
+                h = 1;
+                //erease and life--
+            }
+            // z -= 0.00007;
+            zmonsters.at(j) -= 0.00007;
+
+            int p1=monsters.at(j).direction%s.points.size();
+            int p2=(monsters.at(j).direction+1)%s.points.size();
+
+            double ux = s.points[p2].first-s.points[p1].first;
+            double uy = s.points[p2].second-s.points[p1].second;
+            double norm =  sqrt((ux*ux)+(uy*uy));
+
+            ux=ux/norm;
+            uy=uy/norm;
+
+            double mx=(s.points[p1].first+s.points[p2].first)/2;
+            double my=(s.points[p1].second+s.points[p2].second)/2;
+
+            double x = ((ux*cenx) - (uy*ceny) + mx)*h;
+            double y = ((uy*cenx) + (ux*ceny) + my)*h;
+
+            monsters.at(j).rect.x =  x ;
+            monsters.at(j).rect.y =  y ;
+        }
 
 
         /*
@@ -513,12 +521,12 @@ void Draw::movemonsters(Shapes s,int cenx ,int ceny, double &z)
 
         //###########################
         //Works
-        double sensitivity = 0.0001;
-        if(monsters.at(j).apper == 0 )
-        {
-            monsters.at(j).rect.x=(sensitivity*(cenx-monsters.at(j).rect.x))+monsters.at(j).rect.x;
-            monsters.at(j).rect.y=(sensitivity*(ceny-monsters.at(j).rect.y))+monsters.at(j).rect.y;
-        }
+        // double sensitivity = 0.0001;
+        // if(monsters.at(j).apper == 0 )
+        // {
+        //     monsters.at(j).rect.x=(sensitivity*(cenx-monsters.at(j).rect.x))+monsters.at(j).rect.x;
+        //     monsters.at(j).rect.y=(sensitivity*(ceny-monsters.at(j).rect.y))+monsters.at(j).rect.y;
+        // }
 
 
     }

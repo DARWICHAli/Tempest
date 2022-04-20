@@ -1,3 +1,9 @@
+/**
+* \file constant.hpp
+* \date 20/04/2022
+* \author Ali DARWICH  and Molka SLAMA
+*/
+
 #ifndef CONSTANT_HPP
 #define CONSTANT_HPP
 
