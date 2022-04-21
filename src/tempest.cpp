@@ -139,7 +139,6 @@ int Tempest::init_game()
     screen_height = WH/*r.h*/;
     window = SDL_CreateWindow("Tempest", 0, 0, screen_width, screen_height,  SDL_WINDOW_SHOWN|SDL_WINDOW_ALLOW_HIGHDPI);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    SDL_Renderer* renderer_bot = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     if (window && renderer)
     {
       SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
@@ -190,7 +189,7 @@ int Tempest::init_game()
             quit = game(w,draw);
             //quit = false;
             //draw.game_over(renderer);
-            
+            draw.game_over(renderer);
         }
 
     }

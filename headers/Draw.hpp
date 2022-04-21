@@ -165,6 +165,12 @@ public:
     */
     void initmonsters(SDL_Renderer*,Shapes Shape,int cenx,int ceny);
 
+    /*!
+    * \brief derrnier affichage
+    * \param SDL_Renderer renderer
+    */
+
+    void game_over(SDL_Renderer* renderer);
 
 
     void setHeightWidth(int, int);

@@ -216,6 +216,7 @@ void Draw::init_draw(SDL_Renderer* renderer)
 {
     init_menu(renderer);
     init_game(renderer);
+    //init_game_over(renderer)
 }
 
 void Draw::print_game(SDL_Renderer* renderer,Shapes &s, int level, Shapes &weap,std::pair<int, int> pos)
@@ -281,6 +282,45 @@ int gameloop()
         }
     }
     return running;
+}
+
+void Draw::game_over(SDL_Renderer* renderer)
+{
+    clock_t time_req;
+    time_req = clock();
+    int timer = 10;
+    bool quit = false;
+
+    SDL_RenderClear(renderer);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
+
+    while (!quit)
+    {
+        draw_elem (SCORE, renderer,0);
+        SDL_RenderPresent(renderer);
+        SDL_RenderClear(renderer);
+        if((float)(clock()-time_req)/CLOCKS_PER_SEC >= .4)
+        {
+            timer--;
+            //draw.settimer(timer ,renderer);
+            time_req = clock();
+        }
+        if(timer == 0)
+        {
+            std::cout << "time's up!!" << '\n';
+            break;
+        }
+        SDL_Event event;
+        while (!quit && SDL_PollEvent(&event))
+        {
+            if(event.type ==SDL_QUIT ){
+                std::cout << "fin" << '\n';
+                quit = true;
+                break;
+            }
+        }
+    }
+
 }
 
 
