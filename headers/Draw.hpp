@@ -184,13 +184,14 @@ public:
 
 
 
+    void setlife(int lifevar, SDL_Renderer* renderer );
 
     void setHeightWidth(int, int);
     void settimer(int time, SDL_Renderer* renderer );
     void setscore(int score, SDL_Renderer* renderer);
 
     void setweapon(int x , int y);
-
+    int get_life();
     void setmonster(SDL_FObject);
     void delmonster(int indice , int type_er);
     int getmonstersize();
@@ -293,7 +294,15 @@ private:
     /*!< scoreval */
     int scoreval;
 
+    /*!< lifeval */
+    int lifeval;
+
 };
+
+inline int Draw::get_life()
+{
+    return lifeval;
+}
 
 
 #endif

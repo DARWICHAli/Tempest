@@ -32,12 +32,13 @@ int Tempest::game(Weapon w, Draw &draw)
     int key = 0; // 1 droite  ,2 gauche
     int type = 0; // si on utlise mouse ou keyboard ,, a modifier après
     bool quit = false;
+    int countlife = draw.get_life();
     std::pair<int, int> pos = {-1,-1};
     //double i = 0;
     //double h;
     //double sensitivity=0.001;
     //double z=1;
-    int level = 17;
+    int level = 0;
     Shapes weaponshape;
     clock_t time_req;
     time_req = clock();
@@ -62,21 +63,27 @@ int Tempest::game(Weapon w, Draw &draw)
             SDL_Log("Clear level!");
             draw.clearlevel();
             s.clearlevelShape();
-            level++%15;
+            level++%16;
             draw.setlevel(level,renderer);
             std::cout << "level "<< level << '\n';
         }
-        /*
-        if(getlives()== 0)
+
+        if(draw.get_life()== 0)
         {
             break;
         }
-        */
+
 
         draw.print_game(renderer,s, level,weaponshape,pos);
         //move monsters and detect collision
         //std::cout << "z is eq to " << z << '\n';
         draw.movemonsters(s,cenx ,ceny);
+        if(countlife != draw.get_life())
+        {
+            countlife  = draw.get_life();
+            draw.setlife(countlife, renderer);
+
+        }
         //move fire and detect collision
         draw.actionfire(cenx ,ceny,renderer);
         // update score ?!

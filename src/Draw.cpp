@@ -166,6 +166,8 @@ void Draw::init_game(SDL_Renderer* renderer)
     life = calculate_texture("XXXXX",YELLOW, 1, renderer);
     level_game = calculate_texture("0",GREEN, 1, renderer);
 
+    lifeval = 5;
+
     weapon.rect.x = 0;
     weapon.rect.y = 0;
 
@@ -187,14 +189,14 @@ void Draw::initmonsters(SDL_Renderer*renderer,Shapes s,int cenx,int ceny)
 
         std::random_device rd;  //Will be used to obtain a seed for the random number engine
         std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
-        std::uniform_int_distribution<> distrib(1, s.points.size());
+        std::uniform_int_distribution<> distrib(1, NBR_MONSTER/2);
 
         for( int j = 0; j< NBR_MONSTER; j++)
         {
             SDL_FObject monster;
             monster = fcalculate_texture(".",RED, 2, renderer);
-            monster.rect.x=cenx;
-            monster.rect.y=ceny;
+            monster.rect.x=cenx-weapon.width/2;
+            monster.rect.y=ceny-weapon.height/2;
             monster.direction=distrib(gen);
             monster.apper=distrib(gen)+1;
             //draw.setmonster(monster);
@@ -398,8 +400,6 @@ void Draw::actionfire(int cenx ,int ceny,SDL_Renderer * renderer)
     cenx -= weapon.width/2;
     ceny -= weapon.height/2;
 
-    int lenloop1 = fire.size();
-    int lenloop2 = monsters.size();
     for( auto i = fire.begin(); i< fire.end(); i++)
     {
         i->rect.x=(sensitivity*(cenx- i->rect.x))+ i->rect.x;
@@ -424,8 +424,6 @@ void Draw::actionfire(int cenx ,int ceny,SDL_Renderer * renderer)
 
             }
         }
-
-
     }
 
     // auto it = fire.begin();
@@ -528,7 +526,7 @@ void Draw::movemonsters(Shapes s,int cenx ,int ceny)
         /*double direction1 =   (cx * mx - cy * my + s.points[p1].first - s.getcoordcentre().first) * d+ s.getcoordcentre().first;
 
         double direction2 = (cy * mx + cx * my + s.points[p1].second - s.getcoordcentre().second) * d+ s.getcoordcentre().second;*/
-
+        /*
         double z = zmonsters.at(j);
         if(monsters.at(j).apper == 0)
         {
@@ -564,7 +562,7 @@ void Draw::movemonsters(Shapes s,int cenx ,int ceny)
 
             monsters.at(j).rect.x =  x ;
             monsters.at(j).rect.y =  y ;
-        }
+        }*/
 
 
         /*
@@ -589,17 +587,33 @@ void Draw::movemonsters(Shapes s,int cenx ,int ceny)
         /*mx=(sensitivity*(cx-mx))+mx;
         my=(sensitivity*(cy-my))+my;*/
 
+    }
+    // Version stable
+    //###########################
+    //Works
+    double sensitivity = 0.0002;
 
-        //###########################
-        //Works
-        // double sensitivity = 0.0001;
-        // if(monsters.at(j).apper == 0 )
-        // {
-        //     monsters.at(j).rect.x=(sensitivity*(cenx-monsters.at(j).rect.x))+monsters.at(j).rect.x;
-        //     monsters.at(j).rect.y=(sensitivity*(ceny-monsters.at(j).rect.y))+monsters.at(j).rect.y;
-        // }
+    for( auto i = monsters.begin(); i< monsters.end(); i++)
+    {
+        if(i->apper == 0 )
+        {
+
+            int p1= i->direction%s.points.size();
+            int p2=(i->direction+1)%s.points.size();
+            double mx=(s.points[p1].first+s.points[p2].first)/2 - weapon.width/2;
+            double my=(s.points[p1].second+s.points[p2].second)/2 - weapon.height/2;
+
+            i->rect.x += (sensitivity*(mx-i->rect.x));
+            i->rect.y += (sensitivity*(my-i->rect.y));
+
+            if(abs(i->rect.x - mx) < 1 && abs(i->rect.y - my)< 1 )
+            {
+                monsters.erase(i--);
+                lifeval--;
+            }
 
 
+        }
     }
 }
 
@@ -720,6 +734,19 @@ void Draw::setlevel(int level, SDL_Renderer* renderer )
     draw_elem (LEVEL_GAME, renderer,0);
 }
 
+void Draw::setlife(int lifevar, SDL_Renderer* renderer )
+{
+    std::string st = "";
+    for (int i = 0; i < lifevar; i++) {
+        st += "X";
+    }
+
+    life = calculate_texture(st , GREEN, 1 , renderer);
+    life.rect.x = window_width/4;
+    life.rect.y = window_height/8;
+    draw_elem (LIFE, renderer,0);
+
+}
 
 void Draw::setHeightWidth(int h, int w)
 {
@@ -727,6 +754,10 @@ void Draw::setHeightWidth(int h, int w)
   window_height = h;
 
 }
+
+
+
+
 
 void Draw::setweapon(int x , int y)
 {
@@ -764,6 +795,7 @@ SDL_FObject Draw::getmonster(int indice)
 {
     return monsters.at(indice);
 }
+
 
 
 std::pair<int, int> Draw::getweaponinfo()
