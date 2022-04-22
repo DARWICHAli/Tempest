@@ -128,112 +128,112 @@ public:
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawCircle(SDL_Renderer *, int32_t , int32_t );
+    void DrawCircle(SDL_Renderer *, int32_t , int32_t ,int color);
     /*!
     * \brief Draw Triangle
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawTriangle(SDL_Renderer *, int32_t , int32_t  );
+    void DrawTriangle(SDL_Renderer *, int32_t , int32_t ,int color );
     /*!
     * \brief DrawRectangle
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawRectangle(SDL_Renderer *, int32_t , int32_t  );
+    void DrawRectangle(SDL_Renderer *, int32_t , int32_t,int color  );
     /*!
     * \brief DrawPlus
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawPlus(SDL_Renderer *, int32_t , int32_t  );
+    void DrawPlus(SDL_Renderer *, int32_t , int32_t ,int color );
     /*!
     * \brief DrawBowtie
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawBowtie(SDL_Renderer *, int32_t , int32_t  );
+    void DrawBowtie(SDL_Renderer *, int32_t , int32_t  ,int color);
     /*!
     * \brief DrawStylizedCross
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawStylizedCross(SDL_Renderer *, int32_t , int32_t  );
+    void DrawStylizedCross(SDL_Renderer *, int32_t , int32_t ,int color );
     /*!
     * \brief DrawClover
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawClover(SDL_Renderer *, int32_t , int32_t  );
+    void DrawClover(SDL_Renderer *, int32_t , int32_t  ,int color);
     /*!
     * \brief DrawV
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawV(SDL_Renderer *, int32_t , int32_t  );
+    void DrawV(SDL_Renderer *, int32_t , int32_t ,int color );
     /*!
     * \brief DrawSteps
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawSteps(SDL_Renderer *, int32_t , int32_t  );
+    void DrawSteps(SDL_Renderer *, int32_t , int32_t ,int color );
     /*!
     * \brief DrawU
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawU(SDL_Renderer *, int32_t , int32_t  );
+    void DrawU(SDL_Renderer *, int32_t , int32_t ,int color );
     /*!
     * \brief DrawCompFlat
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawCompFlat(SDL_Renderer *, int32_t , int32_t  );
+    void DrawCompFlat(SDL_Renderer *, int32_t , int32_t  ,int color);
     /*!
     * \brief DrawHeart
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawHeart(SDL_Renderer *, int32_t , int32_t  );
+    void DrawHeart(SDL_Renderer *, int32_t , int32_t  ,int color);
     /*!
     * \brief DrawStar
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawStar(SDL_Renderer *, int32_t , int32_t  );
+    void DrawStar(SDL_Renderer *, int32_t , int32_t ,int color );
     /*!
     * \brief DrawW
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawW(SDL_Renderer *, int32_t , int32_t  );
+    void DrawW(SDL_Renderer *, int32_t , int32_t ,int color );
     /*!
     * \brief DrawFan
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawFan(SDL_Renderer *, int32_t , int32_t  );
+    void DrawFan(SDL_Renderer *, int32_t , int32_t ,int color );
     /*!
     * \brief DrawInfSym
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawInfSym(SDL_Renderer *, int32_t , int32_t  );
+    void DrawInfSym(SDL_Renderer *, int32_t , int32_t ,int color );
     /*!
     * \brief get attribute
     * \return the center of the shape

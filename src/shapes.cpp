@@ -129,12 +129,45 @@ void Shapes::center_reduce(int window_width,int window_height)
 
 void Shapes::Display(SDL_Renderer * Renderer, int color, int cycl)
 {
-    int r,b,g;
-    r= 0;
-    b = 0;
-    g = 255;
+    int r,g,b;
+    // r= 0;
+    // b = 0;
+    // g = 255;
+    switch (color) {
+        case 1://bleu
+            r= 0;
+            g = 0;
+            b = 255;
+            break;
+        case 2://red
+            r= 255;
+            g = 0;
+            b = 0;
+            break;
+        case 3://yellow
+            r= 255;
+            g = 255;
+            b = 0;
+            break;
+        case 4://cyan
+            r= 0;
+            g = 255;
+            b = 255;
+            break;
+        case 5://black invisible
+            r= 0;
+            g = 0;
+            b = 0;
+            break;
+        case 6://green
+            r= 0;
+            g = 255;
+            b = 0;
+            break;
 
-    SDL_SetRenderDrawColor(Renderer, r, b, g, SDL_ALPHA_OPAQUE);
+    }
+
+    SDL_SetRenderDrawColor(Renderer, r, g, b, SDL_ALPHA_OPAQUE);
     for (int i = 0; i < points.size(); i++)
     {
         if(!cycl)
@@ -159,6 +192,44 @@ void Shapes::Display(SDL_Renderer * Renderer, int color, int cycl)
 
 void Shapes::drawweapon(SDL_Renderer * renderer,int level,std::pair<int, int> weapon)
 {
+    int r,g,b;
+    if(level <= 15)
+    {
+        r = 255;
+        g = 255;
+        b = 0;
+    }
+    else if(level >= 16 && level <= 31)
+    {
+        r = 0;
+        g = 255;
+        b = 0;
+    }
+    else if(level >= 32 && level <= 47)
+    {
+        r = 0;
+        g = 0;
+        b = 255;
+    }
+    else if(level >= 48 && level <= 63)
+    {
+        r = 0;
+        g = 0;
+        b = 255;
+    }
+    else if(level >= 64 && level <= 79)
+    {
+        r = 255;
+        g = 255;
+        b = 0;
+    }
+    else if(level >= 80 && level <= 96)
+    {
+        r = 255;
+        g = 0;
+        b = 0;
+    }
+
     level = 5;
     if(!points.size())
     {
@@ -175,7 +246,7 @@ void Shapes::drawweapon(SDL_Renderer * renderer,int level,std::pair<int, int> we
         }
     }
     center(weapon.first,weapon.second);
-    SDL_SetRenderDrawColor(renderer, 0, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_SetRenderDrawColor(renderer, r, g, b, SDL_ALPHA_OPAQUE);
     for (int i = 0; i < points.size(); i++)
     {
         SDL_RenderDrawLine(renderer, points.at(i).first , points.at(i).second ,points.at((i+1)%points.size()).first , points.at((i+1)%points.size()).second );
@@ -186,7 +257,7 @@ void Shapes::drawweapon(SDL_Renderer * renderer,int level,std::pair<int, int> we
 
 
 
-void Shapes::DrawCircle(SDL_Renderer * renderer, int32_t centreX, int32_t centreY)
+void Shapes::DrawCircle(SDL_Renderer * renderer, int32_t centreX, int32_t centreY,int color)
 {
     if(!points.size())
     {
@@ -202,11 +273,11 @@ void Shapes::DrawCircle(SDL_Renderer * renderer, int32_t centreX, int32_t centre
         center_reduce(centreX ,centreY);
 
     }
-    Display(renderer, 1, 1);
+    Display(renderer, color, 1);
 }
 
 
-void Shapes::DrawTriangle(SDL_Renderer * Renderer, int32_t centreX, int32_t centreY)
+void Shapes::DrawTriangle(SDL_Renderer * Renderer, int32_t centreX, int32_t centreY,int color)
 {
         if(!points.size())
         {
@@ -216,13 +287,13 @@ void Shapes::DrawTriangle(SDL_Renderer * Renderer, int32_t centreX, int32_t cent
             center_reduce(centreX*2 ,centreY*2);
 
         }
-        Display(Renderer, 1, 1);
+        Display(Renderer, color, 1);
 
 
 }
 
 
-void Shapes::DrawRectangle(SDL_Renderer * Renderer, int32_t centreX, int32_t centreY)
+void Shapes::DrawRectangle(SDL_Renderer * Renderer, int32_t centreX, int32_t centreY,int color)
 {
 
     if(!points.size())
@@ -238,13 +309,13 @@ void Shapes::DrawRectangle(SDL_Renderer * Renderer, int32_t centreX, int32_t cen
         points_centre.push_back(std::make_pair(375, 375));
 
     }
-    Display(Renderer, 1, 1);
+    Display(Renderer, color, 1);
 
 
 
 }
 
-void Shapes::DrawPlus(SDL_Renderer *renderer, int32_t window_width, int32_t window_height)
+void Shapes::DrawPlus(SDL_Renderer *renderer, int32_t window_width, int32_t window_height,int color)
 {
 
 
@@ -283,7 +354,7 @@ void Shapes::DrawPlus(SDL_Renderer *renderer, int32_t window_width, int32_t wind
 
 
 
-void Shapes::DrawBowtie(SDL_Renderer *renderer, int32_t window_width, int32_t window_height)
+void Shapes::DrawBowtie(SDL_Renderer *renderer, int32_t window_width, int32_t window_height,int color)
 {
     if(!points.size())
     {
@@ -298,12 +369,12 @@ void Shapes::DrawBowtie(SDL_Renderer *renderer, int32_t window_width, int32_t wi
 
         center_reduce(window_width ,window_height);
     }
-    Display(renderer, 1, 1);
+    Display(renderer, color, 1);
 
     return;
 }
 
-void Shapes::DrawStylizedCross(SDL_Renderer *renderer, int32_t window_width, int32_t window_height ){
+void Shapes::DrawStylizedCross(SDL_Renderer *renderer, int32_t window_width, int32_t window_height ,int color){
     if(!points.size())
     {
 
@@ -332,10 +403,10 @@ void Shapes::DrawStylizedCross(SDL_Renderer *renderer, int32_t window_width, int
 
         center_reduce(window_width,window_height);
     }
-    Display(renderer, 1, 1);
+    Display(renderer, color, 1);
 
 }
-void Shapes::DrawClover(SDL_Renderer *renderer, int32_t window_width, int32_t window_height )
+void Shapes::DrawClover(SDL_Renderer *renderer, int32_t window_width, int32_t window_height,int color )
 {
     if(!points.size())
     {
@@ -343,13 +414,13 @@ void Shapes::DrawClover(SDL_Renderer *renderer, int32_t window_width, int32_t wi
         points.push_back(std::make_pair(window_width*0.8,window_height*0.4));
         center_reduce(window_width ,window_height);
     }
-    Display(renderer, 1, 1);
+    Display(renderer, color, 1);
 
 
 
 
 }
-void Shapes::DrawV(SDL_Renderer *renderer, int32_t window_width, int32_t window_height)
+void Shapes::DrawV(SDL_Renderer *renderer, int32_t window_width, int32_t window_height,int color)
 {
     if(!points.size())
     {
@@ -365,10 +436,10 @@ void Shapes::DrawV(SDL_Renderer *renderer, int32_t window_width, int32_t window_
         center_reduce(window_width ,window_height);
 
     }
-    Display(renderer, 1, 0);
+    Display(renderer, color, 0);
 
 }
-void Shapes::DrawSteps(SDL_Renderer *renderer, int32_t window_width, int32_t window_height)
+void Shapes::DrawSteps(SDL_Renderer *renderer, int32_t window_width, int32_t window_height,int color)
 {
     if(!points.size())
     {
@@ -393,10 +464,10 @@ void Shapes::DrawSteps(SDL_Renderer *renderer, int32_t window_width, int32_t win
 
         center_reduce(window_width ,window_height);
     }
-    Display(renderer, 1, 0);
+    Display(renderer, color, 0);
 
 }
-void Shapes::DrawU(SDL_Renderer *renderer, int32_t window_width, int32_t window_height )
+void Shapes::DrawU(SDL_Renderer *renderer, int32_t window_width, int32_t window_height,int color )
 {
     if(!points.size())
     {
@@ -422,10 +493,10 @@ void Shapes::DrawU(SDL_Renderer *renderer, int32_t window_width, int32_t window_
         center_reduce(window_width ,window_height);
 
     }
-    Display(renderer, 1, 0);
+    Display(renderer, color, 0);
 
 }
-void Shapes::DrawCompFlat(SDL_Renderer *renderer, int32_t window_width, int32_t window_height  )
+void Shapes::DrawCompFlat(SDL_Renderer *renderer, int32_t window_width, int32_t window_height  ,int color)
 {
     if(!points.size())
     {
@@ -442,20 +513,20 @@ void Shapes::DrawCompFlat(SDL_Renderer *renderer, int32_t window_width, int32_t 
         center_reduce(window_width ,window_height);
 
     }
-    Display(renderer, 1, 0);
+    Display(renderer, color, 0);
 
 }
-void Shapes::DrawHeart(SDL_Renderer *renderer, int32_t window_width, int32_t window_height ){
+void Shapes::DrawHeart(SDL_Renderer *renderer, int32_t window_width, int32_t window_height ,int color){
     if(!points.size())
     {
         points.push_back(std::make_pair(window_width*0.85,window_height*0.8));
         points.push_back(std::make_pair(window_width*0.8,window_height*0.4));
         center_reduce(window_width ,window_height);
     }
-    Display(renderer, 1, 1);
+    Display(renderer, color, 1);
 
 }
-void Shapes::DrawStar(SDL_Renderer *renderer, int32_t window_width, int32_t window_height ){
+void Shapes::DrawStar(SDL_Renderer *renderer, int32_t window_width, int32_t window_height,int color ){
     if(!points.size())
     {
         points.push_back(std::make_pair(window_width*0.85,window_height*0.8));
@@ -463,10 +534,10 @@ void Shapes::DrawStar(SDL_Renderer *renderer, int32_t window_width, int32_t wind
         points.push_back(std::make_pair(window_width*0.8,window_height*0.4));
         center_reduce(window_width ,window_height);
     }
-    Display(renderer, 1, 1);
+    Display(renderer, color, 1);
 
 }
-void Shapes::DrawW(SDL_Renderer *renderer, int32_t window_width, int32_t window_height){
+void Shapes::DrawW(SDL_Renderer *renderer, int32_t window_width, int32_t window_height,int color){
     if(!points.size())
     {
         points.push_back(std::make_pair(100,200));
@@ -493,18 +564,20 @@ void Shapes::DrawW(SDL_Renderer *renderer, int32_t window_width, int32_t window_
 
         center_reduce(window_width*2 ,window_height*2);
     }
-    Display(renderer, 1, 0);
+    Display(renderer, color, 0);
 
 }
-void Shapes::DrawFan(SDL_Renderer *renderer, int32_t window_width, int32_t window_height ){
+void Shapes::DrawFan(SDL_Renderer *renderer, int32_t window_width, int32_t window_height ,int color){
     if(!points.size())
     {
         points.push_back(std::make_pair(window_width*0.85,window_height*0.8));
         points.push_back(std::make_pair(window_width*0.8,window_height*0.4));
         center_reduce(window_width ,window_height);
     }
+    Display(renderer, color, 0);
+
 }
-void Shapes::DrawInfSym(SDL_Renderer *renderer, int32_t window_width, int32_t window_height )
+void Shapes::DrawInfSym(SDL_Renderer *renderer, int32_t window_width, int32_t window_height ,int color)
 {
     if(!points.size())
     {
@@ -525,61 +598,92 @@ void Shapes::DrawInfSym(SDL_Renderer *renderer, int32_t window_width, int32_t wi
 
         center_reduce(window_width ,window_height);
     }
-    Display(renderer, 1, 1);
+    Display(renderer, color, 1);
 }
 
 void Shapes::Drawshape(SDL_Renderer *renderer, int32_t window_width,int32_t window_height, int32_t level)
 {
-    switch (level) {
+
+    int color = 0;
+    if(level <= 15)
+    {
+        color = 1;//blue
+    }
+    else if(level >= 16 && level <= 31)
+    {
+        color = 2; //red
+    }
+    else if(level >= 32 && level <= 47)
+    {
+        color = 3; //yellow
+    }
+    else if(level >= 48 && level <= 63)
+    {
+        color = 4; //cayan
+    }
+    else if(level >= 64 && level <= 79)
+    {
+        color = 5; //black (invisible)
+    }
+    else if(level >= 80 && level <= 96)
+    {
+        color = 6; //green
+    }
+
+
+
+
+    switch (level%16) {
         case 0:
-            DrawCircle(renderer , window_width , window_height);
+            DrawCircle(renderer , window_width , window_height,color);
             break;//circle
         case 1:
-            DrawRectangle(renderer , window_width , window_height);
+            DrawRectangle(renderer , window_width , window_height,color);
             break;
         case 2:
-            DrawPlus(renderer,window_width,window_height);
+            DrawPlus(renderer,window_width,window_height,color);
             break;
         case 3:
-            DrawBowtie(renderer,window_width,window_height);
+            DrawBowtie(renderer,window_width,window_height,color);
             break;
         case 4 :
-            DrawStylizedCross(renderer,window_width,window_height);
+            DrawStylizedCross(renderer,window_width,window_height,color);
             break;
         case 5 :
-            DrawTriangle(renderer , window_width/2,window_height/2);
+            DrawTriangle(renderer , window_width/2,window_height/2,color);
             break;
         case 6 :
-            DrawClover(renderer , window_width/2,window_height/2);
+            DrawClover(renderer , window_width/2,window_height/2,color);
             break;
         case 7 :
-            DrawV(renderer , window_width,window_height);
+            DrawV(renderer , window_width,window_height,color);
             break;
         case 8 :
-            DrawSteps(renderer , window_width,window_height);
+            DrawSteps(renderer , window_width,window_height,color);
             break;
         case 9 :
-            DrawU(renderer , window_width,window_height);
+            DrawU(renderer , window_width,window_height,color);
             break;
         case 10:
-            //DrawCompFlat(renderer , window_width,window_height);
+            //DrawCompFlat(renderer , window_width,window_height,color);
             //break;
             level++;
         case 11:
-            //DrawHeart(renderer , window_width/2,window_height/2);
+            //DrawHeart(renderer , window_width/2,window_height/2,color);
             //break;
             level++;
         case 12:
-            DrawStar(renderer , window_width/2,window_height/2);
+            DrawStar(renderer , window_width/2,window_height/2,color);
             break;
         case 13:
-            DrawW(renderer , window_width/2,window_height/2);
+            DrawW(renderer , window_width/2,window_height/2,color);
             break;
         case 14:
-            DrawFan(renderer , window_width/2,window_height/2);
-            break;
+            // DrawFan(renderer , window_width/2,window_height/2,color);
+            // break;
+            level++;
         case 15:
-            DrawInfSym(renderer , window_width,window_height);
+            DrawInfSym(renderer , window_width,window_height,color);
             break;
 
     }
