@@ -469,9 +469,29 @@ void Shapes::DrawStar(SDL_Renderer *renderer, int32_t window_width, int32_t wind
 void Shapes::DrawW(SDL_Renderer *renderer, int32_t window_width, int32_t window_height){
     if(!points.size())
     {
-        points.push_back(std::make_pair(window_width*0.85,window_height*0.8));
-        points.push_back(std::make_pair(window_width*0.8,window_height*0.4));
-        center_reduce(window_width ,window_height);
+        points.push_back(std::make_pair(100,200));
+        points.push_back(std::make_pair(125,300));
+        points.push_back(std::make_pair(125,400));
+        points.push_back(std::make_pair(150,500));
+
+        points.push_back(std::make_pair(200,550));
+        points.push_back(std::make_pair(250,550));
+        points.push_back(std::make_pair(300,500));
+        points.push_back(std::make_pair(350,450));
+
+        points.push_back(std::make_pair(450,450));
+        points.push_back(std::make_pair(500,500));
+        points.push_back(std::make_pair(550,550));
+        points.push_back(std::make_pair(600,550));
+
+        points.push_back(std::make_pair(650,500));
+        points.push_back(std::make_pair(675,400));
+        points.push_back(std::make_pair(675,300));
+        points.push_back(std::make_pair(700,200));
+
+
+
+        center_reduce(window_width*2 ,window_height*2);
     }
     Display(renderer, 1, 0);
 
@@ -542,11 +562,13 @@ void Shapes::Drawshape(SDL_Renderer *renderer, int32_t window_width,int32_t wind
             DrawU(renderer , window_width,window_height);
             break;
         case 10:
-            DrawCompFlat(renderer , window_width,window_height);
-            break;
+            //DrawCompFlat(renderer , window_width,window_height);
+            //break;
+            level++;
         case 11:
-            DrawHeart(renderer , window_width/2,window_height/2);
-            break;
+            //DrawHeart(renderer , window_width/2,window_height/2);
+            //break;
+            level++;
         case 12:
             DrawStar(renderer , window_width/2,window_height/2);
             break;

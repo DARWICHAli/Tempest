@@ -37,7 +37,7 @@ int Tempest::game(Weapon w, Draw &draw)
     //double h;
     //double sensitivity=0.001;
     //double z=1;
-    int level = 2;
+    int level = 13;
     Shapes weaponshape;
     clock_t time_req;
     time_req = clock();

@@ -308,9 +308,9 @@ void Draw::game_over(SDL_Renderer* renderer)
 {
     clock_t time_req;
     time_req = clock();
-    int timer = 10;
+    int timer = 13;
     bool quit = false;
-    
+
     score.rect.x = window_width/2 - score.width/2;
     score.rect.y = game_over_var.rect.y + score.height*2;
 
