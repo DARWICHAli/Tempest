@@ -1,0 +1,16 @@
+= Structure des fichiers
+Ali Darwich <ali.Darwich@etu.unistra.fr>;
+v1.0, 2022-02-25 +
+
+* **src/** : tous les fichiers sources C (_.cpp_) +
+	Les fichiers créés ici sont automatiquement ajouté au projet, tout fichier .cpp de ce dossier sera compilé dans un .o .
+
+* **include/** : tous les fichiers d'en-tête C (_.hpp_). +
+	Les fichiers dans ce dossier seront accessibles dans tous les fichiers _.c_.
+
+* **bin/** : dossier généré à la compilation, exécutable Tempest
+
+* **test/** : dossier contenant tout ce qui est lié aux tests
+
+	**  **test/unitary/** : fichier sources C (_.cpp_) de tests unitaires +
+		Tout fichier _.cpp_ sera automatiquement ajouté au projet et transformé en un exécutable à l'appel de la cible _'test'_ du run.sh. Le fichier _test.sh_  exécutera tous les tests générés.
