@@ -297,12 +297,13 @@ void Draw::game_over(SDL_Renderer* renderer)
     while (!quit)
     {
         draw_elem (SCORE, renderer,0);
+        draw_elem (TIME, renderer,0);
         SDL_RenderPresent(renderer);
         SDL_RenderClear(renderer);
-        if((float)(clock()-time_req)/CLOCKS_PER_SEC >= .4)
+        if((float)(clock()-time_req)/CLOCKS_PER_SEC >= .5)
         {
             timer--;
-            //draw.settimer(timer ,renderer);
+            settimer(timer ,renderer);
             time_req = clock();
         }
         if(timer == 0)

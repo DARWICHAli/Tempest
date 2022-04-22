@@ -37,7 +37,7 @@ int Tempest::game(Weapon w, Draw &draw)
     //double h;
     //double sensitivity=0.001;
     //double z=1;
-    int level = 1;
+    int level = 10;
     Shapes weaponshape;
     clock_t time_req;
     time_req = clock();
@@ -188,7 +188,6 @@ int Tempest::init_game()
         {
             quit = game(w,draw);
             //quit = false;
-            //draw.game_over(renderer);
             draw.game_over(renderer);
         }
 

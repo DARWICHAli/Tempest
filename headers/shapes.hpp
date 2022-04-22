@@ -128,7 +128,7 @@ public:
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawCircle(SDL_Renderer *, int32_t , int32_t , int32_t );
+    void DrawCircle(SDL_Renderer *, int32_t , int32_t );
     /*!
     * \brief Draw Triangle
     * \param Renderer Renderer

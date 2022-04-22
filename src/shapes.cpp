@@ -139,7 +139,7 @@ void Shapes::Display(SDL_Renderer * Renderer, int color, int cycl)
     {
         if(!cycl)
         {
-            if(i != points.size()-2)
+            if(i != points.size()-1)
             {
                 SDL_RenderDrawLine(Renderer, points.at(i).first , points.at(i).second ,points.at((i+1)%points.size()).first , points.at((i+1)%points.size()).second );
                 SDL_RenderDrawLine(Renderer, points_centre.at(i).first , points_centre.at(i).second ,points_centre.at((i+1)%points_centre.size()).first , points_centre.at((i+1)%points_centre.size()).second );
@@ -186,47 +186,23 @@ void Shapes::drawweapon(SDL_Renderer * renderer,int level,std::pair<int, int> we
 
 
 
-void Shapes::DrawCircle(SDL_Renderer * renderer, int32_t centreX, int32_t centreY, int32_t radius)
+void Shapes::DrawCircle(SDL_Renderer * renderer, int32_t centreX, int32_t centreY)
 {
-    const int32_t diameter = (radius * 2);
-
-    int32_t x = (radius - 1);
-    int32_t y = 0;
-    int32_t tx = 1;
-    int32_t ty = 1;
-    int32_t error = (tx - diameter);
-
-    while (x >= y)
+    if(!points.size())
     {
+        points.push_back(std::make_pair(200, 200));
+        points.push_back(std::make_pair(400, 100));
+        points.push_back(std::make_pair(600, 200));
+        points.push_back(std::make_pair(700, 400));
+        points.push_back(std::make_pair(600, 600));
+        points.push_back(std::make_pair(400, 700));
+        points.push_back(std::make_pair(200, 600));
+        points.push_back(std::make_pair(100, 400));
 
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-        SDL_RenderClear(renderer);
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+        center_reduce(centreX ,centreY);
 
-        //  Each of the following renders an octant of the circle
-        SDL_RenderDrawPoint(renderer, centreX + x, centreY - y);
-        SDL_RenderDrawPoint(renderer, centreX + x, centreY + y);
-        SDL_RenderDrawPoint(renderer, centreX - x, centreY - y);
-        SDL_RenderDrawPoint(renderer, centreX - x, centreY + y);
-        SDL_RenderDrawPoint(renderer, centreX + y, centreY - x);
-        SDL_RenderDrawPoint(renderer, centreX + y, centreY + x);
-        SDL_RenderDrawPoint(renderer, centreX - y, centreY - x);
-        SDL_RenderDrawPoint(renderer, centreX - y, centreY + x);
-
-        if (error <= 0)
-        {
-            ++y;
-            error += ty;
-            ty += 2;
-        }
-
-        if (error > 0)
-        {
-            --x;
-            tx += 2;
-            error += (tx - diameter);
-        }
     }
+    Display(renderer, 1, 1);
 }
 
 
@@ -311,20 +287,50 @@ void Shapes::DrawBowtie(SDL_Renderer *renderer, int32_t window_width, int32_t wi
 {
     if(!points.size())
     {
-        points.push_back(std::make_pair(window_width*0.85,window_height*0.8));
-        points.push_back(std::make_pair(window_width*0.8,window_height*0.4));
+        points.push_back(std::make_pair(150, 150));
+        points.push_back(std::make_pair(400, 200));
+        points.push_back(std::make_pair(650, 150));
+        points.push_back(std::make_pair(600, 400));
+        points.push_back(std::make_pair(650, 650));
+        points.push_back(std::make_pair(400, 600));
+        points.push_back(std::make_pair(150, 650));
+        points.push_back(std::make_pair(200, 400));
+
         center_reduce(window_width ,window_height);
     }
     Display(renderer, 1, 1);
 
     return;
 }
+
 void Shapes::DrawStylizedCross(SDL_Renderer *renderer, int32_t window_width, int32_t window_height ){
     if(!points.size())
     {
-        points.push_back(std::make_pair(window_width*0.85,window_height*0.8));
-        points.push_back(std::make_pair(window_width*0.8,window_height*0.4));
-        center_reduce(window_width ,window_height);
+
+
+        points.push_back(std::make_pair(350,200));
+        points.push_back(std::make_pair(450,200));
+        points.push_back(std::make_pair(475,250));
+
+        points.push_back(std::make_pair(525,300));
+        points.push_back(std::make_pair(575,315));
+        points.push_back(std::make_pair(575,365));
+        points.push_back(std::make_pair(525,380));
+
+        points.push_back(std::make_pair(475,430));
+        points.push_back(std::make_pair(450,480));
+        points.push_back(std::make_pair(350,480));
+
+        points.push_back(std::make_pair(125,430));
+        points.push_back(std::make_pair(175,380));
+        points.push_back(std::make_pair(225,365));
+        points.push_back(std::make_pair(225,315));
+        points.push_back(std::make_pair(275,300));
+        points.push_back(std::make_pair(325,250));
+
+
+
+        center_reduce(window_width,window_height);
     }
     Display(renderer, 1, 1);
 
@@ -366,8 +372,25 @@ void Shapes::DrawSteps(SDL_Renderer *renderer, int32_t window_width, int32_t win
 {
     if(!points.size())
     {
-        points.push_back(std::make_pair(window_width*0.85,window_height*0.8));
-        points.push_back(std::make_pair(window_width*0.8,window_height*0.4));
+        points.push_back(std::make_pair(225,500));
+        points.push_back(std::make_pair(225,550));
+        points.push_back(std::make_pair(275,550));
+        points.push_back(std::make_pair(275,600));
+        points.push_back(std::make_pair(325,600));
+        points.push_back(std::make_pair(325,650));
+        points.push_back(std::make_pair(375,650));
+        points.push_back(std::make_pair(375,700));
+        points.push_back(std::make_pair(425,700));
+        points.push_back(std::make_pair(425,650));
+        points.push_back(std::make_pair(475,650));
+        points.push_back(std::make_pair(475,600));
+        points.push_back(std::make_pair(525,600));
+        points.push_back(std::make_pair(525,550));
+        points.push_back(std::make_pair(575,550));
+        points.push_back(std::make_pair(575,500));
+
+
+
         center_reduce(window_width ,window_height);
     }
     Display(renderer, 1, 0);
@@ -489,6 +512,7 @@ void Shapes::Drawshape(SDL_Renderer *renderer, int32_t window_width,int32_t wind
 {
     switch (level) {
         case 0:
+            DrawCircle(renderer , window_width , window_height);
             break;//circle
         case 1:
             DrawRectangle(renderer , window_width , window_height);
@@ -500,7 +524,7 @@ void Shapes::Drawshape(SDL_Renderer *renderer, int32_t window_width,int32_t wind
             DrawBowtie(renderer,window_width,window_height);
             break;
         case 4 :
-            DrawStylizedCross(renderer,window_width/2,window_height/2);
+            DrawStylizedCross(renderer,window_width,window_height);
             break;
         case 5 :
             DrawTriangle(renderer , window_width/2,window_height/2);
@@ -512,7 +536,7 @@ void Shapes::Drawshape(SDL_Renderer *renderer, int32_t window_width,int32_t wind
             DrawV(renderer , window_width,window_height);
             break;
         case 8 :
-            DrawSteps(renderer , window_width/2,window_height/2);
+            DrawSteps(renderer , window_width,window_height);
             break;
         case 9 :
             DrawU(renderer , window_width,window_height);

@@ -68,23 +68,25 @@ std::pair<int, int>  Weapon::MoveWeapon( int32_t centreX, int32_t centreY, int32
     // clavier
     if(type == 0 )
     {
+
         if(key) // 1 ou 2
         {
             //sound("ogg_blasterMove.ogg");
-
+            int tmpx = x + wepinfo.first;
+            int tmpy = y + wepinfo.second;
             for (std::size_t it = 0; it < points.size(); ++it)
             {
                 indice = it;
                 indice2 = (it+1)%points.size();
                 p1 = points.at(it);
                 p2 = points.at(indice2);
-                if(abs(distance(p1, p2) - (sqrt(pow(x - p1.first , 2) +pow( y - p1.second , 2) * 1.0) +  sqrt(pow(p2.first - x , 2) +pow( p2.second - y, 2) * 1.0)))< 2.)
+                if(abs(distance(p1, p2) - (sqrt(pow(tmpx - p1.first , 2) +pow( tmpy - p1.second , 2) * 1.0) +  sqrt(pow(p2.first - tmpx , 2) +pow( p2.second - tmpy, 2) * 1.0)))< 2.)
                 {
                     break;
                 }
                 indice2 = !indice? points.size()-1: indice-1;
                 p2 = points.at(indice2);
-                if(abs(distance(p1, p2) - (sqrt(pow(x - p1.first , 2) +pow( y - p1.second , 2) * 1.0) +  sqrt(pow(p2.first - x , 2) +pow( p2.second - y, 2) * 1.0)))< 2.)
+                if(abs(distance(p1, p2) - (sqrt(pow(tmpx - p1.first , 2) +pow( tmpy - p1.second , 2) * 1.0) +  sqrt(pow(p2.first - tmpx , 2) +pow( p2.second - tmpy, 2) * 1.0)))< 2.)
                 {
                     break;
                 }
