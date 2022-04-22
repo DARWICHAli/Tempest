@@ -37,12 +37,13 @@ int Tempest::game(Weapon w, Draw &draw)
     //double h;
     //double sensitivity=0.001;
     //double z=1;
-    int level = 10;
+    int level = 2;
     Shapes weaponshape;
     clock_t time_req;
     time_req = clock();
 
     draw.print_game(renderer,s, level,weaponshape,pos);
+    draw.setlevel(level,renderer);
 
     // double cenx=s.getcoordcentre().first;
     // double ceny=s.getcoordcentre().second;
@@ -62,6 +63,7 @@ int Tempest::game(Weapon w, Draw &draw)
             draw.clearlevel();
             s.clearlevelShape();
             level++%15;
+            draw.setlevel(level,renderer);
             std::cout << "level "<< level << '\n';
         }
         /*

@@ -43,7 +43,7 @@ typedef struct
 } SDL_FObject;
 
 enum Type_Draw{ TEMPEST_TITLE, PLAYER,RATE_URSELF,USE_KEYS,PRESS_ENTER_SELECT,NOVICE,EXPERT,
-LEVEL,HOLE,BONUS,TIME, VECT_LEVELS ,VECT_BONUS , WEAPON ,MONSTER ,FIRE, LIFE, SCORE};
+LEVEL,HOLE,BONUS,TIME, VECT_LEVELS ,VECT_BONUS , WEAPON ,MONSTER ,FIRE, LIFE, SCORE , GAME_OVER,LEVEL_GAME};
 
 
 /**
@@ -67,6 +67,13 @@ public:
     * \param SDL_Renderer renderer
     */
     void init_draw(SDL_Renderer*);
+
+
+    /*!
+    * \brief init Game_over interface
+    * \param SDL_Renderer renderer
+    */
+    void init_game_over(SDL_Renderer* renderer);
 
 
 
@@ -173,6 +180,11 @@ public:
     void game_over(SDL_Renderer* renderer);
 
 
+    void setlevel(int level, SDL_Renderer* renderer );
+
+
+
+
     void setHeightWidth(int, int);
     void settimer(int time, SDL_Renderer* renderer );
     void setscore(int score, SDL_Renderer* renderer);
@@ -240,6 +252,8 @@ private:
     // un tab de bonus
     // // // // levels
 
+    /*!< level_game */
+    SDL_Object level_game;
     /*!< vect_level */
     std::vector<SDL_Object> vect_level;
 
@@ -252,6 +266,8 @@ private:
     /*!< timer */
     SDL_Object timer;
 
+    /*!< Game over */
+    SDL_Object game_over_var;
 
     /*!< weapon */
     SDL_Object weapon;

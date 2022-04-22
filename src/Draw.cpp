@@ -17,7 +17,7 @@ Draw::Draw():
 scoreval{0}
 {
     font_menu1 = TTF_OpenFont("ressources/fonts/Hursheys.ttf", 100);
-    font_score = TTF_OpenFont("ressources/fonts/Hursheys.ttf", 50);
+    font_score = TTF_OpenFont("ressources/fonts/Hursheys.ttf", 100);
     font_menu2 = TTF_OpenFont("ressources/fonts/Hursheys.ttf", 50);
 
     if (font_menu1 == NULL || font_menu2 == NULL)
@@ -164,15 +164,19 @@ void Draw::init_game(SDL_Renderer* renderer)
     weapon = calculate_texture("X",BLUE, 1, renderer);
     score = calculate_texture("000",GREEN, 1, renderer);
     life = calculate_texture("XXXXX",YELLOW, 1, renderer);
+    level_game = calculate_texture("0",GREEN, 1, renderer);
 
     weapon.rect.x = 0;
     weapon.rect.y = 0;
 
-    life.rect.x = window_width*0.25;
-    life.rect.y = window_height*0.125;
+    life.rect.x = window_width/4;
+    life.rect.y = window_height/8;
 
-    score.rect.x = window_width*0.25;
+    score.rect.x = window_width/4;
     score.rect.y = life.rect.y - 50;
+
+    level_game.rect.x = window_width/2;
+    level_game.rect.y = window_height/10;
 
     return;
 }
@@ -216,8 +220,23 @@ void Draw::init_draw(SDL_Renderer* renderer)
 {
     init_menu(renderer);
     init_game(renderer);
-    //init_game_over(renderer)
+    init_game_over(renderer);
 }
+
+void Draw::init_game_over(SDL_Renderer* renderer)
+{
+
+    game_over_var  =  calculate_texture("GAME OVER !!!",RED, 1, renderer);
+    game_over_var.rect.x = window_width/2 - game_over_var.width/2;
+    game_over_var.rect.y = window_height/8;
+
+    // score.rect.x = window_width/2 - score.width/2;
+    // score.rect.y = game_over_var.rect.y + score.height*2;
+
+
+}
+
+
 
 void Draw::print_game(SDL_Renderer* renderer,Shapes &s, int level, Shapes &weap,std::pair<int, int> pos)
 {
@@ -226,6 +245,7 @@ void Draw::print_game(SDL_Renderer* renderer,Shapes &s, int level, Shapes &weap,
 
     draw_elem (LIFE, renderer,0);
     draw_elem (SCORE, renderer,0);
+    draw_elem(LEVEL_GAME,renderer,0);
 
     s.Drawshape(renderer,window_width , window_height, level);
 
@@ -290,6 +310,9 @@ void Draw::game_over(SDL_Renderer* renderer)
     time_req = clock();
     int timer = 10;
     bool quit = false;
+    
+    score.rect.x = window_width/2 - score.width/2;
+    score.rect.y = game_over_var.rect.y + score.height*2;
 
     SDL_RenderClear(renderer);
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
@@ -298,6 +321,8 @@ void Draw::game_over(SDL_Renderer* renderer)
     {
         draw_elem (SCORE, renderer,0);
         draw_elem (TIME, renderer,0);
+        draw_elem (GAME_OVER, renderer,0);
+
         SDL_RenderPresent(renderer);
         SDL_RenderClear(renderer);
         if((float)(clock()-time_req)/CLOCKS_PER_SEC >= .5)
@@ -644,6 +669,12 @@ void Draw::draw_elem(int type, SDL_Renderer* renderer,int indice)
         case SCORE:
             SDL_RenderCopy(renderer, score.texture, NULL, &score.rect);
             break;
+        case GAME_OVER:
+            SDL_RenderCopy(renderer, game_over_var.texture, NULL, &game_over_var.rect);
+            break;
+        case LEVEL_GAME:
+            SDL_RenderCopy(renderer, level_game.texture, NULL, &level_game.rect);
+            break;
     }
 }
 
@@ -671,14 +702,24 @@ void Draw::settimer(int time, SDL_Renderer* renderer )
 
 void Draw::setscore(int scorevar, SDL_Renderer* renderer)
 {
-    SDL_Object scoretmp = score;
+    //SDL_Object scoretmp = score;
     scoreval+=scorevar;
-    std::string tmp =  "0 "+ std::to_string(scoreval) ;
+    std::string tmp =  ""+ std::to_string(scoreval) ;
     score = calculate_texture(tmp , GREEN, 1 , renderer);
-    score.rect.x = scoretmp.rect.x;
-    score.rect.y = scoretmp.rect.y;
+    score.rect.x = window_width/4;
+    score.rect.y = life.rect.y - 50;
     draw_elem (SCORE, renderer,0);
 }
+
+void Draw::setlevel(int level, SDL_Renderer* renderer )
+{
+    std::string tmp =  std::to_string(level) ;
+    level_game = calculate_texture(tmp , GREEN, 1 , renderer);
+    level_game.rect.x = window_width/2;
+    level_game.rect.y = window_height/10;
+    draw_elem (LEVEL_GAME, renderer,0);
+}
+
 
 void Draw::setHeightWidth(int h, int w)
 {
