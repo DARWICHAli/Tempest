@@ -445,152 +445,10 @@ void Draw::movemonsters(Shapes s,int cenx ,int ceny)
     cenx -= weapon.width/2;
     ceny -= weapon.height/2;
 
-    // cenx = 0;
-    // ceny = 0;
-
-
-
-    //i++;
-    //std::cout << "x" << z << '\n';
-
-    for( int j = 0; j< monsters.size(); j++)
-    {
-
-
-        /*if (i > draw.getmonster(j).apper)
-        {
-            int p1=draw.getmonster(j).direction%s.points.size();
-        int p2=(draw.getmonster(j).direction+1)%s.points.size();
-
-        double ux = s.points[p2].first-s.points[p1].first;
-        double uy=s.points[p2].second-s.points[p1].second;
-
-        std::cout << "d = " << d << std::endl;
-
-        double norm =  sqrt((ux*ux)+(uy*uy));
-        ux=ux/norm;
-        uy=uy/norm;
-
-        double cx=(s.points[p1].first+s.points[p2].first)/2;
-        double cy=(s.points[p1].second+s.points[p2].second)/2;
-
-        double ux_prim = s.getcoordcentre().first-cx;
-        double uy_prim = s.getcoordcentre().second-cy;
-
-        double n = sqrt(ux_prim*ux_prim+uy_prim*uy_prim);
-
-
-            double mx=draw.getmonster(j).rect.x;
-            double my=draw.getmonster(j).rect.y;
-
-
-            double x_prim= (((ux*mx)-(uy*my))*d )+cx;
-            double y_prim= (((uy*mx)+(ux*my))*d)+cy;
-
-
-            draw.getmonster(j).rect.x=x_prim;
-            draw.getmonster(j).rect.y=y_prim;
-
-
-        std::cout << "x apres = " << draw.getmonster(j).rect.x << std::endl;
-        std::cout << "y apres = " << draw.getmonster(j).rect.y << std::endl;
-        if(abs(draw.getmonster(j).rect.x - cx)< 1 &&  abs(draw.getmonster(j).rect.y - cy)< 1 )
-            draw.monsters.erase(draw.monsters.begin() + j);
-
-
-        }*/
-        // double cx = s.getcoordcentre().first;
-        // double cy = s.getcoordcentre().second;
-
-        /*
-        int p1= monsters.at(j).direction%s.points.size();
-        int p2=(monsters.at(j).direction+1)%s.points.size();
-
-        double mx=(s.points[p1].first+s.points[p2].first)/2;
-        double my=(s.points[p1].second+s.points[p2].second)/2;
-
-        double ux = s.points[p2].first-s.points[p1].first;
-        double uy =  s.points[p2].second-s.points[p1].second;
-
-        double norm =  sqrt((ux*ux)+(uy*uy));
-        ux=ux/norm;
-        uy=uy/norm;
-
-        double x = ((ux*cenx) - (uy*ceny)+mx)*h;
-        double y = ((uy*cenx)+(ux*ceny)+my)*h;
-
-        monsters.at(j).rect.x = x+cenx;
-        monsters.at(j).rect.y= y+ceny;
-        */
-
-        /*double direction1 =   (cx * mx - cy * my + s.points[p1].first - s.getcoordcentre().first) * d+ s.getcoordcentre().first;
-
-        double direction2 = (cy * mx + cx * my + s.points[p1].second - s.getcoordcentre().second) * d+ s.getcoordcentre().second;*/
-        /*
-        double z = zmonsters.at(j);
-        if(monsters.at(j).apper == 0)
-        {
-            double h;
-            if (z > 0.)
-            {
-                h = 1. - (1. - double(SCALE_VAL)) * double(z*z);
-            }
-            else
-            {
-                //std::cout << "hit" << '\n';
-                h = 1;
-                //erease and life--
-            }
-            // z -= 0.00007;
-            zmonsters.at(j) -= 0.00007;
-
-            int p1=monsters.at(j).direction%s.points.size();
-            int p2=(monsters.at(j).direction+1)%s.points.size();
-
-            double ux = s.points[p2].first-s.points[p1].first;
-            double uy = s.points[p2].second-s.points[p1].second;
-            double norm =  sqrt((ux*ux)+(uy*uy));
-
-            ux=ux/norm;
-            uy=uy/norm;
-
-            double mx=(s.points[p1].first+s.points[p2].first)/2;
-            double my=(s.points[p1].second+s.points[p2].second)/2;
-
-            double x = ((ux*cenx) - (uy*ceny) + mx)*h;
-            double y = ((uy*cenx) + (ux*ceny) + my)*h;
-
-            monsters.at(j).rect.x =  x ;
-            monsters.at(j).rect.y =  y ;
-        }*/
-
-
-        /*
-        if(monsters.at(j).apper == 0 )
-        {
-            double sensitivity = 0.00001;
-            int p1= monsters.at(j).direction%s.points.size();
-            int p2=(monsters.at(j).direction+1)%s.points.size();
-            double mx=(s.points[p1].first+s.points[p2].first)/2;
-            double my=(s.points[p1].second+s.points[p2].second)/2;
-
-            int direction1 = (cenx - mx )/sqrt(pow(cenx - mx , 2) +pow( ceny -my, 2) * 1.0);
-            int direction2 = (ceny - my )/sqrt(pow(cenx - mx , 2) +pow( ceny - my, 2) * 1.0);
-
-            mx=(sensitivity*(mx-cenx))+mx;
-            my=(sensitivity*(my-ceny))+my;
-
-            monsters.at(j).rect.x = mx+cenx;
-            monsters.at(j).rect.y= mx+ceny;
-        }
-        */
-        /*mx=(sensitivity*(cx-mx))+mx;
-        my=(sensitivity*(cy-my))+my;*/
-
-    }
     // Version stable
     //###########################
     //Works
+
     double sensitivity = 0.0002;
 
     for( auto i = monsters.begin(); i< monsters.end(); i++)
@@ -615,6 +473,7 @@ void Draw::movemonsters(Shapes s,int cenx ,int ceny)
 
         }
     }
+
 }
 
 
