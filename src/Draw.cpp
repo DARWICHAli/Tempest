@@ -442,12 +442,10 @@ void Draw::actionfire(int cenx ,int ceny,SDL_Renderer * renderer)
 
 void Draw::movemonsters(Shapes s,int cenx ,int ceny)
 {
+    // ça marche
+    /*
     cenx -= weapon.width/2;
     ceny -= weapon.height/2;
-
-    // Version stable
-    //###########################
-    //Works
 
     double sensitivity = 0.0002;
 
@@ -455,7 +453,6 @@ void Draw::movemonsters(Shapes s,int cenx ,int ceny)
     {
         if(i->apper == 0 )
         {
-
             int p1= i->direction%s.points.size();
             int p2=(i->direction+1)%s.points.size();
             double mx=(s.points[p1].first+s.points[p2].first)/2 - weapon.width/2;
@@ -469,11 +466,40 @@ void Draw::movemonsters(Shapes s,int cenx ,int ceny)
                 monsters.erase(i--);
                 lifeval--;
             }
+        }
+    }*/
+    // ne marche pas !!
+    int iter = 0;
+    for( auto i = monsters.begin(); i< monsters.end(); i++)
+    {
+        if(i->apper == 0 )
+        {
+            double h = 1/ zmonsters.at(iter);
+            cenx -= weapon.width/2;
+            ceny -= weapon.height/2;
+            int p1= i->direction%s.points.size();
+            int p2=(i->direction+1)%s.points.size();
+            double mx=(s.points[p1].first+s.points[p2].first)/2 - weapon.width/2;
+            double my=(s.points[p1].second+s.points[p2].second)/2 - weapon.height/2;
+            double Ux = s.points.at(p2).first -  s.points.at(p1).first;
+            double Uy =s.points.at(p2).second -  s.points.at(p1).second;
 
+            double x  = (Ux*cenx - Uy*ceny) + mx;
+            double y =  (Uy*cenx + Ux*ceny) + my;
+
+            x*= h;
+            y*= h;
+            i->rect.x = x;
+            i->rect.y = y;
+            std::cout << "x "<< x  << '\n';
+            std::cout << "y "<< y  << '\n';
+
+            zmonsters.at(iter++)+=0.0002;
 
         }
-    }
 
+
+    }
 }
 
 
