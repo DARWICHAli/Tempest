@@ -85,7 +85,7 @@ int Tempest::game(Weapon w, Draw &draw)
 
         }
         //move fire and detect collision
-        draw.actionfire(cenx ,ceny,renderer);
+        draw.actionfire(cenx ,ceny,renderer, s);
         // update score ?!
 
         SDL_Event event;

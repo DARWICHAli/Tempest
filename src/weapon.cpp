@@ -120,7 +120,43 @@ std::pair<int, int>  Weapon::MoveWeapon( int32_t centreX, int32_t centreY, int32
     return std::make_pair(indice,indice2);
 }
 
+int Weapon::getdirection(std::vector<std::pair<int, int>> points , Draw&d)
+{
+    int dir;
+    int ind1,ind2;
+    std::pair<int, int> p1;
+    std::pair<int, int> p2 ;
+    std::pair<int, int> wepinfo = d.getweaponinfo();
+    int tmpx = x + wepinfo.first;
+    int tmpy = y + wepinfo.second;
 
+    for (size_t i = 0; i < points.size(); i++) {
+        ind1 = i;
+        ind2 = i+1%points.size();
+        p1 = points.at(ind1);
+        p2 = points.at(ind2);
+        if(abs(distance(p1, p2) - (sqrt(pow(tmpx - p1.first , 2) +pow( tmpy - p1.second , 2) * 1.0) +  sqrt(pow(p2.first - tmpx , 2) +pow( p2.second - tmpy, 2) * 1.0)))< 2.)
+        {
+            break;
+        }
+        ind2 = !ind1? points.size()-1: ind1-1;
+        p2 = points.at(ind2);
+        if(abs(distance(p1, p2) - (sqrt(pow(tmpx - p1.first , 2) +pow( tmpy - p1.second , 2) * 1.0) +  sqrt(pow(p2.first - tmpx , 2) +pow( p2.second - tmpy, 2) * 1.0)))< 2.)
+        {
+            break;
+        }
+
+    }
+    int res;
+    if(ind2 == 0 )
+        res = points.size();
+    else if(ind1 == 0)
+        res = points.size();
+    else
+        res = ind1 < ind2 ? ind1: ind2;
+
+    return res;
+}
 
 void Weapon::FireWeapon(int32_t type, Draw&d,std::shared_ptr<SDL_Renderer> renderer,std::vector<std::pair<int, int>> points )
 {
@@ -139,6 +175,9 @@ void Weapon::FireWeapon(int32_t type, Draw&d,std::shared_ptr<SDL_Renderer> rende
         f = d.fcalculate_texture(".",GREEN, 2, renderer);
         f.rect.x=x;
         f.rect.y=y;
+        f.direction = getdirection(points,d);
+        //d.append_fire(1);
+        d.addfire_init(x,y);
         d.addfire(f);
 
     }
@@ -148,6 +187,9 @@ void Weapon::FireWeapon(int32_t type, Draw&d,std::shared_ptr<SDL_Renderer> rende
         f = d.fcalculate_texture("X",RED, 2, renderer);
         f.rect.x=x;
         f.rect.y=y;
+        f.direction = getdirection(points,d);
+        //d.append_fire(1);
+        d.addfire_init(x,y);
         d.addfire(f);
     }
 }

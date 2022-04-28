@@ -392,19 +392,39 @@ void Draw::clearlevel()
     return;
 }
 
-void Draw::actionfire(int cenx ,int ceny, std::shared_ptr<SDL_Renderer> renderer)
+void Draw::actionfire(int cenx ,int ceny, std::shared_ptr<SDL_Renderer> renderer, Shapes &s)
 {
-    double sensitivity=0.001;
+    //double sensitivity=0.0001;
     cenx -= weapon.width/2;
     ceny -= weapon.height/2;
-
+    int j = 0;
     for( auto i = fire.begin(); i< fire.end(); i++)
     {
-        i->rect.x=(sensitivity*(cenx- i->rect.x))+ i->rect.x;
-        i->rect.y=(sensitivity*(ceny- i->rect.y))+ i->rect.y;
+        if( hfire.at(j) > 0)
+            hfire.at(j)-=0.0001;
+        else
+            hfire.at(j) = 0;
+
+
+
+        // int p1= i->direction%s.points.size();
+        // int p2= (i->direction+1)%s.points.size();
+        //
+        // double mx=(s.points[p1].first+ s.points[p2].first)/2;
+        // double my=(s.points[p1].second+ s.points[p2].second)/2;
+
+
+
+        double x = (fire_init.at(j).first- cenx)*hfire.at(j) ;
+        double y = (fire_init.at(j).second - ceny)*hfire.at(j);
+
+        i->rect.x = x + cenx;
+        i->rect.y = y + ceny +weapon.height/2;
 
         if(abs(i->rect.x - cenx)< 1 && abs(i->rect.y - ceny)< 1 )
+        {
             fire.erase(i--);
+        }
 
         for (auto j = monsters.begin(); j < monsters.end(); j++)
         {
@@ -422,17 +442,8 @@ void Draw::actionfire(int cenx ,int ceny, std::shared_ptr<SDL_Renderer> renderer
 
             }
         }
+        j++;
     }
-
-    // auto it = fire.begin();
-    // while (it != fire.end())
-    // {
-    //     it.rect.x=(sensitivity*(cenx-it.rect.x))+it.rect.x;
-    //     it.rect.y=(sensitivity*(ceny-it.rect.y))+it.rect.y;
-    //
-    // }
-
-
     return;
 }
 
@@ -440,73 +451,51 @@ void Draw::actionfire(int cenx ,int ceny, std::shared_ptr<SDL_Renderer> renderer
 
 void Draw::movemonsters(Shapes s,int cenx ,int ceny)
 {
-    // ça marche
-
     cenx -= weapon.width/2;
     ceny -= weapon.height/2;
 
     double sensitivity = 0.0002;
-
+    int j=0;
     for( auto i = monsters.begin(); i< monsters.end(); i++)
     {
-        if(i->apper == 0 )
+        double z = zmonsters.at(j);
+        if(monsters.at(j).apper == 0)
         {
-            int p1= i->direction%s.points.size();
-            int p2=(i->direction+1)%s.points.size();
-            double mx=(s.points[p1].first+s.points[p2].first)/2 - weapon.width/2;
-            double my=(s.points[p1].second+s.points[p2].second)/2 - weapon.height/2;
-
-            i->rect.x += (sensitivity*(mx-i->rect.x));
-            i->rect.y += (sensitivity*(my-i->rect.y));
-
-            if(abs(i->rect.x - mx) < 1 && abs(i->rect.y - my)< 1 )
+            double h;
+            if (z > 0.)
             {
-                monsters.erase(i--);
-                lifeval--;
+                h = 1. - (1. - double(SCALE_VAL)) * double(z*z);
             }
+            else
+            {
+                h = 1;
+            }
+            zmonsters.at(j) -= 0.0004;
+
+            int p1=monsters.at(j).direction%s.points.size();
+            int p2=(monsters.at(j).direction+1)%s.points.size();
+            //
+            // // double ux = s.points[p2].first-s.points[p1].first;
+            // // double uy = s.points[p2].second-s.points[p1].second;
+            // // double norm =  sqrt((ux*ux)+(uy*uy));
+            //
+            // ux=ux/norm;
+            // uy=uy/norm;
+
+            double mx=(s.points[p1].first+s.points[p2].first)/2;
+            double my=(s.points[p1].second+s.points[p2].second)/2;
+
+            double x = ( mx-cenx)*h;
+            double y = ( my-ceny)*h;
+
+            monsters.at(j).rect.x =  x+cenx ;
+            monsters.at(j).rect.y =  y+ceny - weapon.height/2;
         }
+        j++;
+
     }
-    // ne marche pas !!
-    /*
-    int iter = 0;
-    for( auto i = monsters.begin(); i< monsters.end(); i++)
-    {
-        if(i->apper == 0 )
-        {
-            double h = 1/ zmonsters.at(iter);
-            cenx -= weapon.width/2;
-            ceny -= weapon.height/2;
-            int p1= i->direction%s.points.size();
-            int p2=(i->direction+1)%s.points.size();
 
-            double mx=(s.points[p1].first+s.points[p2].first)/2 - weapon.width/2;
-            double my=(s.points[p1].second+s.points[p2].second)/2 - weapon.height/2;
-
-            double Ux = s.points.at(p2).first -  s.points.at(p1).first;
-            double Uy =s.points.at(p2).second -  s.points.at(p1).second;
-
-            double  norm= sqrt(Ux *Ux + Uy*Uy);
-
-            Ux/=norm;
-            Uy/= norm;
-
-            double x  = (Ux*cenx - Uy*ceny) + mx  ;
-            double y =  (Uy*cenx + Ux*ceny) + my;
-
-            x*= h;
-            y*= h;
-            i->rect.x = x  ;
-            i->rect.y = y ;
-            // std::cout << "x "<< x  << '\n';
-            //std::cout << "y "<< y  << '\n';
-
-            zmonsters.at(iter++)+=0.02;
-
-        }
-    }
-    */
 }
-
 
 void Draw::draw_elem(int type, std::shared_ptr<SDL_Renderer> renderer,int indice)
 {
@@ -583,16 +572,6 @@ void Draw::draw_elem(int type, std::shared_ptr<SDL_Renderer> renderer,int indice
 }
 
 
-// void Draw::setscore(int score, std::shared_ptr<SDL_Renderer> renderer )
-// {
-//     std::string tmp =  "SCORE  "+ std::to_string(time) ;
-//     timer = calculate_texture(tmp , GREEN, 1 , renderer);
-//     timer.rect.x = window_width/2  - timer.width/2;
-//     timer.rect.y = 17*window_height/20 - timer.height/5;
-//     draw_elem (TIME, renderer,0);
-// }
-
-
 
 
 void Draw::settimer(int time, std::shared_ptr<SDL_Renderer> renderer )
@@ -606,7 +585,6 @@ void Draw::settimer(int time, std::shared_ptr<SDL_Renderer> renderer )
 
 void Draw::setscore(int scorevar, std::shared_ptr<SDL_Renderer> renderer)
 {
-    //SDL_Object scoretmp = score;
     scoreval+=scorevar;
     std::string tmp =  ""+ std::to_string(scoreval) ;
     score = calculate_texture(tmp , GREEN, 1 , renderer);
@@ -660,6 +638,11 @@ void Draw::addfire(SDL_FObject f)
     fire.push_back(f);
     return;
 }
+void Draw::addfire_init(double x,double y)
+{
+    fire_init.push_back(std::make_pair(x,y));
+}
+
 
 void Draw::setmonster(SDL_FObject monster)
 {
@@ -684,6 +667,12 @@ int Draw::getmonstersize()
 SDL_FObject Draw::getmonster(int indice)
 {
     return monsters.at(indice);
+}
+
+
+void Draw::append_fire(int x )
+{
+    hfire.push_back(x);
 }
 
 

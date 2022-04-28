@@ -44,6 +44,8 @@ typedef struct
   float height;
   int direction;
   int apper;
+  SDL_FRect rect2;
+
 } SDL_FObject;
 
 enum Type_Draw{ TEMPEST_TITLE, PLAYER,RATE_URSELF,USE_KEYS,PRESS_ENTER_SELECT,NOVICE,EXPERT,
@@ -113,7 +115,9 @@ public:
     * \param ceny centery
     * \param SDL_Renderer renderer
     */
-    void actionfire(int cenx ,int ceny,std::shared_ptr<SDL_Renderer>);
+    //void actionfire(int cenx ,int ceny,std::shared_ptr<SDL_Renderer>);
+    void actionfire(int cenx ,int ceny, std::shared_ptr<SDL_Renderer> renderer, Shapes &s);
+
 
 
 
@@ -186,6 +190,9 @@ public:
 
     void setlevel(int level, std::shared_ptr<SDL_Renderer> renderer );
 
+    void append_fire(int x );
+
+    void addfire_init(double x,double y);
 
 
     void setlife(int lifevar, std::shared_ptr<SDL_Renderer> renderer );
@@ -286,6 +293,10 @@ private:
     /*!< zmonsters */
     std::vector<double> zmonsters;
 
+    /*!< hfire */
+    std::vector<double> hfire;
+
+    std::vector<std::pair<double, double>>fire_init;
     /*!< fires */
     std::vector<SDL_FObject>fire;
 
