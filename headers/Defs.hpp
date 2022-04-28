@@ -17,9 +17,9 @@
 #define SOFT_BLUE {173, 207, 230}
 
 
-#include <SDL2/SDL.h>
-#include "SDL2/SDL_ttf.h"
-#include <SDL2/SDL_mixer.h>
+#include <SDL.h>
+#include "SDL_ttf.h"
+#include <SDL_mixer.h>
 #include <iostream>
 #include <array>
 

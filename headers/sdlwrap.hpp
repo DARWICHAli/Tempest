@@ -9,7 +9,7 @@
 
 
 #include <memory> // shared_ptr
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 static void SDL_DelRes(SDL_Window   *r) { SDL_DestroyWindow(r);   }
 static void SDL_DelRes(SDL_Renderer *r) { SDL_DestroyRenderer(r); }

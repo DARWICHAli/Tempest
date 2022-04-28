@@ -9,9 +9,9 @@
 #ifndef SHAPES_HPP
 #define SHAPES_HPP
 
-#include "SDL2/SDL_ttf.h"
-#include "SDL2/SDL.h"
-#include <SDL2/SDL_mixer.h>
+#include "SDL_ttf.h"
+#include "SDL.h"
+#include <SDL_mixer.h>
 #include <vector>
 #include <iostream>
 #include <algorithm>
