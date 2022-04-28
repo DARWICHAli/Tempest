@@ -122,7 +122,7 @@ std::pair<int, int>  Weapon::MoveWeapon( int32_t centreX, int32_t centreY, int32
 
 
 
-void Weapon::FireWeapon(int32_t type, Draw&d,SDL_Renderer* renderer,std::vector<std::pair<int, int>> points )
+void Weapon::FireWeapon(int32_t type, Draw&d,std::shared_ptr<SDL_Renderer> renderer,std::vector<std::pair<int, int>> points )
 {
     SDL_FObject f;
     //important if fire before moving of the first time

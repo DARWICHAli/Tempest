@@ -14,6 +14,8 @@
 #include "../headers/Defs.hpp"
 #include "../headers/weapon.hpp"
 #include "../headers/monsters.hpp"
+#include "../headers/sdlwrap.hpp"
+
 
 /**
  * \class Tempest
@@ -36,9 +38,10 @@ private:
     /*!< screen_height */
     int screen_height;
     /*!< SDL renderer */
-    SDL_Renderer* renderer;
+    //std::shared_ptr<SDL_Renderer> renderer;
+    std::shared_ptr<SDL_Renderer> renderer;
     /*!< window */
-    SDL_Window* window;
+    std::shared_ptr<SDL_Window> window;
 
 public:
     /*!

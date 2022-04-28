@@ -27,7 +27,7 @@ scoreval{0}
     window_height = 0;
 }
 
-SDL_Object Draw::calculate_texture(std::string text,SDL_Color color,int type, SDL_Renderer* renderer)
+SDL_Object Draw::calculate_texture(std::string text,SDL_Color color,int type, std::shared_ptr<SDL_Renderer> renderer)
 {
     TTF_Font* font;
     switch (type) {
@@ -42,10 +42,10 @@ SDL_Object Draw::calculate_texture(std::string text,SDL_Color color,int type, SD
             break;
     }
     const char * textprint = text.c_str();
-    SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, textprint, color);
-    SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+    std::shared_ptr<SDL_Surface> surfaceMessage = sdl_shared(TTF_RenderText_Solid(font, textprint, color));
+    std::shared_ptr<SDL_Texture> Message = sdl_shared(SDL_CreateTextureFromSurface(renderer.get(), surfaceMessage.get()));
     int tempWidth, tempHeight;
-    SDL_QueryTexture(Message, NULL, NULL, &tempWidth, &tempHeight);
+    SDL_QueryTexture(Message.get(), NULL, NULL, &tempWidth, &tempHeight);
     SDL_Rect Message_rect; //create a rect
 
     Message_rect.w = tempWidth/2; // controls the width of the rect
@@ -56,12 +56,13 @@ SDL_Object Draw::calculate_texture(std::string text,SDL_Color color,int type, SD
     tmp.texture = Message;
     tmp.width = tempWidth/2;
     tmp.height = tempHeight/2;
-    SDL_FreeSurface(surfaceMessage);
+
+    //SDL_FreeSurface(surfaceMessage.get());
     //SDL_DestroyTexture(Message);
     return tmp;
 }
 
-SDL_FObject Draw::fcalculate_texture(std::string text,SDL_Color color,int type, SDL_Renderer* renderer)
+SDL_FObject Draw::fcalculate_texture(std::string text,SDL_Color color,int type, std::shared_ptr<SDL_Renderer> renderer)
 {
     TTF_Font* font;
     switch (type) {
@@ -77,10 +78,10 @@ SDL_FObject Draw::fcalculate_texture(std::string text,SDL_Color color,int type, 
   }
 
   const char * textprint = text.c_str();
-  SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, textprint, color);
-  SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+  std::shared_ptr<SDL_Surface> surfaceMessage =   sdl_shared(TTF_RenderText_Solid(font, textprint, color));
+  std::shared_ptr<SDL_Texture> Message = sdl_shared(SDL_CreateTextureFromSurface(renderer.get(), surfaceMessage.get()));
   int tempWidth, tempHeight;
-  SDL_QueryTexture(Message, NULL, NULL, &tempWidth, &tempHeight);
+  SDL_QueryTexture(Message.get(), NULL, NULL, &tempWidth, &tempHeight);
   SDL_FRect Message_rect; //create a rect
 
   Message_rect.w = tempWidth/2; // controls the width of the rect
@@ -91,14 +92,13 @@ SDL_FObject Draw::fcalculate_texture(std::string text,SDL_Color color,int type, 
   tmp.texture = Message;
   tmp.width = tempWidth/2;
   tmp.height = tempHeight/2;
-  SDL_FreeSurface(surfaceMessage);
+  //SDL_FreeSurface(surfaceMessage.get());
   //SDL_DestroyTexture(Message);
   return tmp;
 }
 
-void Draw::init_menu(SDL_Renderer* renderer)
+void Draw::init_menu(std::shared_ptr<SDL_Renderer> renderer)
 {
-
     tempest_title = calculate_texture("MCMLXXX ATARI", BLUE, 1, renderer);
     player = calculate_texture("PLAYER    1", WHITE, 1, renderer);
     rate_urself = calculate_texture("RATE YOURSELF", GREEN, 1, renderer);
@@ -159,7 +159,7 @@ void Draw::init_menu(SDL_Renderer* renderer)
 
 }
 
-void Draw::init_game(SDL_Renderer* renderer)
+void Draw::init_game(std::shared_ptr<SDL_Renderer> renderer)
 {
     weapon = calculate_texture("X",BLUE, 1, renderer);
     score = calculate_texture("000",GREEN, 1, renderer);
@@ -184,7 +184,7 @@ void Draw::init_game(SDL_Renderer* renderer)
 }
 
 
-void Draw::initmonsters(SDL_Renderer*renderer,Shapes s,int cenx,int ceny)
+void Draw::initmonsters(std::shared_ptr<SDL_Renderer>renderer,Shapes s,int cenx,int ceny)
 {
 
         std::random_device rd;  //Will be used to obtain a seed for the random number engine
@@ -218,14 +218,14 @@ void Draw::reducetimemonsters()
 
 
 
-void Draw::init_draw(SDL_Renderer* renderer)
+void Draw::init_draw(std::shared_ptr<SDL_Renderer> renderer)
 {
     init_menu(renderer);
     init_game(renderer);
     init_game_over(renderer);
 }
 
-void Draw::init_game_over(SDL_Renderer* renderer)
+void Draw::init_game_over(std::shared_ptr<SDL_Renderer> renderer)
 {
 
     game_over_var  =  calculate_texture("GAME OVER !!!",RED, 1, renderer);
@@ -240,10 +240,10 @@ void Draw::init_game_over(SDL_Renderer* renderer)
 
 
 
-void Draw::print_game(SDL_Renderer* renderer,Shapes &s, int level, Shapes &weap,std::pair<int, int> pos)
+void Draw::print_game(std::shared_ptr<SDL_Renderer> renderer,Shapes &s, int level, Shapes &weap,std::pair<int, int> pos)
 {
-    SDL_RenderClear(renderer);
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
+    SDL_RenderClear(renderer.get());
+    SDL_SetRenderDrawColor(renderer.get(), 0, 0, 0, 0xff);
 
     draw_elem (LIFE, renderer,0);
     draw_elem (SCORE, renderer,0);
@@ -252,7 +252,6 @@ void Draw::print_game(SDL_Renderer* renderer,Shapes &s, int level, Shapes &weap,
     s.Drawshape(renderer,window_width , window_height, level);
 
     std::pair<int , int > tmpwep = std::make_pair(weapon.rect.x, weapon.rect.y);
-    //std::cout << weapon.rect.x << '\n';
     weap.drawweapon(renderer,level,tmpwep);
     draw_elem(FIRE,renderer,0);
     draw_elem (MONSTER, renderer,0);
@@ -264,9 +263,9 @@ void Draw::print_game(SDL_Renderer* renderer,Shapes &s, int level, Shapes &weap,
         s.colorcol(renderer,pos,1);
 
 
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
-    SDL_RenderPresent(renderer);
-    SDL_RenderClear(renderer);
+    SDL_SetRenderDrawColor(renderer.get(), 0, 0, 0, 0xff);
+    SDL_RenderPresent(renderer.get());
+    SDL_RenderClear(renderer.get());
 
     if(!monsters.size())//il n'y a pas des monstre
     {
@@ -306,7 +305,7 @@ int gameloop()
     return running;
 }
 
-void Draw::game_over(SDL_Renderer* renderer)
+void Draw::game_over(std::shared_ptr<SDL_Renderer> renderer)
 {
     clock_t time_req;
     time_req = clock();
@@ -316,8 +315,8 @@ void Draw::game_over(SDL_Renderer* renderer)
     score.rect.x = window_width/2 - score.width/2;
     score.rect.y = game_over_var.rect.y + score.height*2;
 
-    SDL_RenderClear(renderer);
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
+    SDL_RenderClear(renderer.get());
+    SDL_SetRenderDrawColor(renderer.get(), 0, 0, 0, 0xff);
 
     while (!quit)
     {
@@ -325,8 +324,8 @@ void Draw::game_over(SDL_Renderer* renderer)
         draw_elem (TIME, renderer,0);
         draw_elem (GAME_OVER, renderer,0);
 
-        SDL_RenderPresent(renderer);
-        SDL_RenderClear(renderer);
+        SDL_RenderPresent(renderer.get());
+        SDL_RenderClear(renderer.get());
         if((float)(clock()-time_req)/CLOCKS_PER_SEC >= .5)
         {
             timer--;
@@ -353,10 +352,10 @@ void Draw::game_over(SDL_Renderer* renderer)
 
 
 
-int Draw::print_menu(SDL_Renderer* renderer)
+int Draw::print_menu(std::shared_ptr<SDL_Renderer> renderer)
 {
-    SDL_RenderClear(renderer);
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
+    SDL_RenderClear(renderer.get());
+    SDL_SetRenderDrawColor(renderer.get(), 0, 0, 0, 0xff);
     draw_elem (TEMPEST_TITLE, renderer,0);
     draw_elem (PLAYER, renderer,0);
     draw_elem (RATE_URSELF, renderer,0);
@@ -376,12 +375,12 @@ int Draw::print_menu(SDL_Renderer* renderer)
 
     draw_elem (TIME, renderer,0);
 
-    SDL_RenderPresent(renderer);
+    SDL_RenderPresent(renderer.get());
 
     int running = 0;
     running =  gameloop();
 
-    SDL_RenderClear(renderer);
+    SDL_RenderClear(renderer.get());
     return running;
 }
 
@@ -393,8 +392,7 @@ void Draw::clearlevel()
     return;
 }
 
-
-void Draw::actionfire(int cenx ,int ceny,SDL_Renderer * renderer)
+void Draw::actionfire(int cenx ,int ceny, std::shared_ptr<SDL_Renderer> renderer)
 {
     double sensitivity=0.001;
     cenx -= weapon.width/2;
@@ -442,162 +440,17 @@ void Draw::actionfire(int cenx ,int ceny,SDL_Renderer * renderer)
 
 void Draw::movemonsters(Shapes s,int cenx ,int ceny)
 {
+    // ça marche
+
     cenx -= weapon.width/2;
     ceny -= weapon.height/2;
 
-    // cenx = 0;
-    // ceny = 0;
-
-
-
-    //i++;
-    //std::cout << "x" << z << '\n';
-
-    for( int j = 0; j< monsters.size(); j++)
-    {
-
-
-        /*if (i > draw.getmonster(j).apper)
-        {
-            int p1=draw.getmonster(j).direction%s.points.size();
-        int p2=(draw.getmonster(j).direction+1)%s.points.size();
-
-        double ux = s.points[p2].first-s.points[p1].first;
-        double uy=s.points[p2].second-s.points[p1].second;
-
-        std::cout << "d = " << d << std::endl;
-
-        double norm =  sqrt((ux*ux)+(uy*uy));
-        ux=ux/norm;
-        uy=uy/norm;
-
-        double cx=(s.points[p1].first+s.points[p2].first)/2;
-        double cy=(s.points[p1].second+s.points[p2].second)/2;
-
-        double ux_prim = s.getcoordcentre().first-cx;
-        double uy_prim = s.getcoordcentre().second-cy;
-
-        double n = sqrt(ux_prim*ux_prim+uy_prim*uy_prim);
-
-
-            double mx=draw.getmonster(j).rect.x;
-            double my=draw.getmonster(j).rect.y;
-
-
-            double x_prim= (((ux*mx)-(uy*my))*d )+cx;
-            double y_prim= (((uy*mx)+(ux*my))*d)+cy;
-
-
-            draw.getmonster(j).rect.x=x_prim;
-            draw.getmonster(j).rect.y=y_prim;
-
-
-        std::cout << "x apres = " << draw.getmonster(j).rect.x << std::endl;
-        std::cout << "y apres = " << draw.getmonster(j).rect.y << std::endl;
-        if(abs(draw.getmonster(j).rect.x - cx)< 1 &&  abs(draw.getmonster(j).rect.y - cy)< 1 )
-            draw.monsters.erase(draw.monsters.begin() + j);
-
-
-        }*/
-        // double cx = s.getcoordcentre().first;
-        // double cy = s.getcoordcentre().second;
-
-        /*
-        int p1= monsters.at(j).direction%s.points.size();
-        int p2=(monsters.at(j).direction+1)%s.points.size();
-
-        double mx=(s.points[p1].first+s.points[p2].first)/2;
-        double my=(s.points[p1].second+s.points[p2].second)/2;
-
-        double ux = s.points[p2].first-s.points[p1].first;
-        double uy =  s.points[p2].second-s.points[p1].second;
-
-        double norm =  sqrt((ux*ux)+(uy*uy));
-        ux=ux/norm;
-        uy=uy/norm;
-
-        double x = ((ux*cenx) - (uy*ceny)+mx)*h;
-        double y = ((uy*cenx)+(ux*ceny)+my)*h;
-
-        monsters.at(j).rect.x = x+cenx;
-        monsters.at(j).rect.y= y+ceny;
-        */
-
-        /*double direction1 =   (cx * mx - cy * my + s.points[p1].first - s.getcoordcentre().first) * d+ s.getcoordcentre().first;
-
-        double direction2 = (cy * mx + cx * my + s.points[p1].second - s.getcoordcentre().second) * d+ s.getcoordcentre().second;*/
-        /*
-        double z = zmonsters.at(j);
-        if(monsters.at(j).apper == 0)
-        {
-            double h;
-            if (z > 0.)
-            {
-                h = 1. - (1. - double(SCALE_VAL)) * double(z*z);
-            }
-            else
-            {
-                //std::cout << "hit" << '\n';
-                h = 1;
-                //erease and life--
-            }
-            // z -= 0.00007;
-            zmonsters.at(j) -= 0.00007;
-
-            int p1=monsters.at(j).direction%s.points.size();
-            int p2=(monsters.at(j).direction+1)%s.points.size();
-
-            double ux = s.points[p2].first-s.points[p1].first;
-            double uy = s.points[p2].second-s.points[p1].second;
-            double norm =  sqrt((ux*ux)+(uy*uy));
-
-            ux=ux/norm;
-            uy=uy/norm;
-
-            double mx=(s.points[p1].first+s.points[p2].first)/2;
-            double my=(s.points[p1].second+s.points[p2].second)/2;
-
-            double x = ((ux*cenx) - (uy*ceny) + mx)*h;
-            double y = ((uy*cenx) + (ux*ceny) + my)*h;
-
-            monsters.at(j).rect.x =  x ;
-            monsters.at(j).rect.y =  y ;
-        }*/
-
-
-        /*
-        if(monsters.at(j).apper == 0 )
-        {
-            double sensitivity = 0.00001;
-            int p1= monsters.at(j).direction%s.points.size();
-            int p2=(monsters.at(j).direction+1)%s.points.size();
-            double mx=(s.points[p1].first+s.points[p2].first)/2;
-            double my=(s.points[p1].second+s.points[p2].second)/2;
-
-            int direction1 = (cenx - mx )/sqrt(pow(cenx - mx , 2) +pow( ceny -my, 2) * 1.0);
-            int direction2 = (ceny - my )/sqrt(pow(cenx - mx , 2) +pow( ceny - my, 2) * 1.0);
-
-            mx=(sensitivity*(mx-cenx))+mx;
-            my=(sensitivity*(my-ceny))+my;
-
-            monsters.at(j).rect.x = mx+cenx;
-            monsters.at(j).rect.y= mx+ceny;
-        }
-        */
-        /*mx=(sensitivity*(cx-mx))+mx;
-        my=(sensitivity*(cy-my))+my;*/
-
-    }
-    // Version stable
-    //###########################
-    //Works
     double sensitivity = 0.0002;
 
     for( auto i = monsters.begin(); i< monsters.end(); i++)
     {
         if(i->apper == 0 )
         {
-
             int p1= i->direction%s.points.size();
             int p2=(i->direction+1)%s.points.size();
             double mx=(s.points[p1].first+s.points[p2].first)/2 - weapon.width/2;
@@ -611,89 +464,126 @@ void Draw::movemonsters(Shapes s,int cenx ,int ceny)
                 monsters.erase(i--);
                 lifeval--;
             }
+        }
+    }
+    // ne marche pas !!
+    /*
+    int iter = 0;
+    for( auto i = monsters.begin(); i< monsters.end(); i++)
+    {
+        if(i->apper == 0 )
+        {
+            double h = 1/ zmonsters.at(iter);
+            cenx -= weapon.width/2;
+            ceny -= weapon.height/2;
+            int p1= i->direction%s.points.size();
+            int p2=(i->direction+1)%s.points.size();
 
+            double mx=(s.points[p1].first+s.points[p2].first)/2 - weapon.width/2;
+            double my=(s.points[p1].second+s.points[p2].second)/2 - weapon.height/2;
+
+            double Ux = s.points.at(p2).first -  s.points.at(p1).first;
+            double Uy =s.points.at(p2).second -  s.points.at(p1).second;
+
+            double  norm= sqrt(Ux *Ux + Uy*Uy);
+
+            Ux/=norm;
+            Uy/= norm;
+
+            double x  = (Ux*cenx - Uy*ceny) + mx  ;
+            double y =  (Uy*cenx + Ux*ceny) + my;
+
+            x*= h;
+            y*= h;
+            i->rect.x = x  ;
+            i->rect.y = y ;
+            // std::cout << "x "<< x  << '\n';
+            //std::cout << "y "<< y  << '\n';
+
+            zmonsters.at(iter++)+=0.02;
 
         }
     }
+    */
 }
 
 
-void Draw::draw_elem(int type, SDL_Renderer* renderer,int indice)
+void Draw::draw_elem(int type, std::shared_ptr<SDL_Renderer> renderer,int indice)
 {
     switch(type)
     {
         case TEMPEST_TITLE:
-            SDL_RenderCopy(renderer, tempest_title.texture, NULL, &tempest_title.rect);
+            SDL_RenderCopy(renderer.get(), tempest_title.texture.get(), NULL, &tempest_title.rect);
             break;
         case PLAYER:
-            SDL_RenderCopy(renderer, player.texture, NULL, &player.rect);
+            SDL_RenderCopy(renderer.get(), player.texture.get(), NULL, &player.rect);
             break;
         case RATE_URSELF:
-            SDL_RenderCopy(renderer, rate_urself.texture, NULL, &rate_urself.rect);
+            SDL_RenderCopy(renderer.get(), rate_urself.texture.get(), NULL, &rate_urself.rect);
             break;
         case USE_KEYS:
-            SDL_RenderCopy(renderer, use_keys.texture, NULL, &use_keys.rect);
+            SDL_RenderCopy(renderer.get(), use_keys.texture.get(), NULL, &use_keys.rect);
             break;
         case PRESS_ENTER_SELECT:
-            SDL_RenderCopy(renderer, select.texture, NULL, &select.rect);
+            SDL_RenderCopy(renderer.get(), select.texture.get(), NULL, &select.rect);
             break;
         case NOVICE:
-            SDL_RenderCopy(renderer, novice.texture, NULL, &novice.rect);
+            SDL_RenderCopy(renderer.get(), novice.texture.get(), NULL, &novice.rect);
             break;
         case EXPERT:
-            SDL_RenderCopy(renderer, expert.texture, NULL, &expert.rect);
+            SDL_RenderCopy(renderer.get(), expert.texture.get(), NULL, &expert.rect);
             break;
         case LEVEL:
-            SDL_RenderCopy(renderer, level.texture, NULL, &level.rect);
+            SDL_RenderCopy(renderer.get(), level.texture.get(), NULL, &level.rect);
             break;
         case HOLE:
-            SDL_RenderCopy(renderer, hole.texture, NULL, &hole.rect);
+            SDL_RenderCopy(renderer.get(), hole.texture.get(), NULL, &hole.rect);
             break;
         case BONUS:
-            SDL_RenderCopy(renderer, bonus.texture, NULL, &bonus.rect);
+            SDL_RenderCopy(renderer.get(), bonus.texture.get(), NULL, &bonus.rect);
             break;
         case TIME:
-            SDL_RenderCopy(renderer, timer.texture, NULL, &timer.rect);
+            SDL_RenderCopy(renderer.get(), timer.texture.get(), NULL, &timer.rect);
             break;
         case VECT_LEVELS:
-            SDL_RenderCopy(renderer, vect_level.at(indice).texture, NULL, &vect_level.at(indice).rect);
+            SDL_RenderCopy(renderer.get(), vect_level.at(indice).texture.get(), NULL, &vect_level.at(indice).rect);
             break;
         case VECT_BONUS:
-            SDL_RenderCopy(renderer, vect_bonus.at(indice).texture, NULL, &vect_bonus.at(indice).rect);
+            SDL_RenderCopy(renderer.get(), vect_bonus.at(indice).texture.get(), NULL, &vect_bonus.at(indice).rect);
             break;
         case WEAPON:
-            SDL_RenderCopy(renderer, weapon.texture, NULL, &weapon.rect);
+            SDL_RenderCopy(renderer.get(), weapon.texture.get(), NULL, &weapon.rect);
             break;
         case MONSTER:
             for(auto e: monsters)
             {
                 if(!e.apper)
-                    SDL_RenderCopyF(renderer, e.texture, NULL, &e.rect);
+                    SDL_RenderCopyF(renderer.get(), e.texture.get(), NULL, &e.rect);
             }
             break;
         case FIRE:
             for(auto e: fire)
             {
-                SDL_RenderCopyF(renderer, e.texture, NULL, &e.rect);
+                SDL_RenderCopyF(renderer.get(), e.texture.get(), NULL, &e.rect);
             }
             break;
         case LIFE:
-            SDL_RenderCopy(renderer, life.texture, NULL, &life.rect);
+            SDL_RenderCopy(renderer.get(), life.texture.get(), NULL, &life.rect);
             break;
         case SCORE:
-            SDL_RenderCopy(renderer, score.texture, NULL, &score.rect);
+            SDL_RenderCopy(renderer.get(), score.texture.get(), NULL, &score.rect);
             break;
         case GAME_OVER:
-            SDL_RenderCopy(renderer, game_over_var.texture, NULL, &game_over_var.rect);
+            SDL_RenderCopy(renderer.get(), game_over_var.texture.get(), NULL, &game_over_var.rect);
             break;
         case LEVEL_GAME:
-            SDL_RenderCopy(renderer, level_game.texture, NULL, &level_game.rect);
+            SDL_RenderCopy(renderer.get(), level_game.texture.get(), NULL, &level_game.rect);
             break;
     }
 }
 
 
-// void Draw::setscore(int score, SDL_Renderer* renderer )
+// void Draw::setscore(int score, std::shared_ptr<SDL_Renderer> renderer )
 // {
 //     std::string tmp =  "SCORE  "+ std::to_string(time) ;
 //     timer = calculate_texture(tmp , GREEN, 1 , renderer);
@@ -705,7 +595,7 @@ void Draw::draw_elem(int type, SDL_Renderer* renderer,int indice)
 
 
 
-void Draw::settimer(int time, SDL_Renderer* renderer )
+void Draw::settimer(int time, std::shared_ptr<SDL_Renderer> renderer )
 {
     std::string tmp =  "TIME  "+ std::to_string(time) ;
     timer = calculate_texture(tmp , GREEN, 1 , renderer);
@@ -714,7 +604,7 @@ void Draw::settimer(int time, SDL_Renderer* renderer )
     draw_elem (TIME, renderer,0);
 }
 
-void Draw::setscore(int scorevar, SDL_Renderer* renderer)
+void Draw::setscore(int scorevar, std::shared_ptr<SDL_Renderer> renderer)
 {
     //SDL_Object scoretmp = score;
     scoreval+=scorevar;
@@ -725,7 +615,7 @@ void Draw::setscore(int scorevar, SDL_Renderer* renderer)
     draw_elem (SCORE, renderer,0);
 }
 
-void Draw::setlevel(int level, SDL_Renderer* renderer )
+void Draw::setlevel(int level, std::shared_ptr<SDL_Renderer> renderer )
 {
     std::string tmp =  std::to_string(level) ;
     level_game = calculate_texture(tmp , GREEN, 1 , renderer);
@@ -734,7 +624,7 @@ void Draw::setlevel(int level, SDL_Renderer* renderer )
     draw_elem (LEVEL_GAME, renderer,0);
 }
 
-void Draw::setlife(int lifevar, SDL_Renderer* renderer )
+void Draw::setlife(int lifevar, std::shared_ptr<SDL_Renderer> renderer )
 {
     std::string st = "";
     for (int i = 0; i < lifevar; i++) {
