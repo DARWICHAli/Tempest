@@ -7,7 +7,7 @@
 #define WEAPON_HPP
 
 //#include "SDL2/SDL_ttf.h"
-#include "SDL2/SDL.h"
+#include "SDL.h"
 //#include <SDL2/SDL_mixer.h>
 #include <vector>
 #include <iostream>
@@ -54,7 +54,7 @@ public:
     * \param renderer SDL_Renderer
     * \param points points
     */
-    void FireWeapon(int32_t type, Draw&d,SDL_Renderer* renderer,std::vector<std::pair<int, int>> points );
+    void FireWeapon(int32_t type, Draw&d,std::shared_ptr<SDL_Renderer> renderer,std::vector<std::pair<int, int>> points );
 };
 
 
