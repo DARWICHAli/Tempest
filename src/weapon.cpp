@@ -176,7 +176,7 @@ void Weapon::FireWeapon(int32_t type, Draw&d,std::shared_ptr<SDL_Renderer> rende
         f.rect.x=x;
         f.rect.y=y;
         f.direction = getdirection(points,d);
-        //d.append_fire(1);
+        d.append_fire(0);
         d.addfire_init(x,y);
         d.addfire(f);
 
@@ -188,7 +188,7 @@ void Weapon::FireWeapon(int32_t type, Draw&d,std::shared_ptr<SDL_Renderer> rende
         f.rect.x=x;
         f.rect.y=y;
         f.direction = getdirection(points,d);
-        //d.append_fire(1);
+        d.append_fire(0);
         d.addfire_init(x,y);
         d.addfire(f);
     }

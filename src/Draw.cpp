@@ -400,23 +400,28 @@ void Draw::actionfire(int cenx ,int ceny, std::shared_ptr<SDL_Renderer> renderer
     int j = 0;
     for( auto i = fire.begin(); i< fire.end(); i++)
     {
+        //std::cout << "hfire "  << hfire.size() << '\n';
+
         if( hfire.at(j) > 0)
             hfire.at(j)-=0.0001;
         else
             hfire.at(j) = 0;
 
+        double h;
+        if (hfire.at(j) < 1.)
+        {
+            h = 1. - (1. - double(SCALE_VAL)) * double(hfire.at(j)*hfire.at(j));
+        }
+        else
+        {
+            h = 1;
+        }
+        hfire.at(j) += 0.0004;
 
+        //std::cout << "fire_init"  << fire_init.size() << '\n';
 
-        // int p1= i->direction%s.points.size();
-        // int p2= (i->direction+1)%s.points.size();
-        //
-        // double mx=(s.points[p1].first+ s.points[p2].first)/2;
-        // double my=(s.points[p1].second+ s.points[p2].second)/2;
-
-
-
-        double x = (fire_init.at(j).first- cenx)*hfire.at(j) ;
-        double y = (fire_init.at(j).second - ceny)*hfire.at(j);
+        double x = (fire_init.at(j).first- cenx)*h ;
+        double y = (fire_init.at(j).second - ceny)*h;
 
         i->rect.x = x + cenx;
         i->rect.y = y + ceny +weapon.height/2;
