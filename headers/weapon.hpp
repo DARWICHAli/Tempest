@@ -54,7 +54,7 @@ public:
     * \param renderer SDL_Renderer
     * \param points points
     */
-    void FireWeapon(int32_t type, Draw&d,SDL_Renderer* renderer,std::vector<std::pair<int, int>> points );
+    void FireWeapon(int32_t type, Draw&d,std::shared_ptr<SDL_Renderer> renderer,std::vector<std::pair<int, int>> points );
 };
 
 

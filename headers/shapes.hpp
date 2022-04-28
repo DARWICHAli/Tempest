@@ -15,6 +15,7 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include <memory>
 #include "../headers/constant.hpp"
 
 
@@ -74,7 +75,7 @@ public:
     * \cenx index
     * \ceny color
     */
-    void colorcol(SDL_Renderer*,std::pair<int , int > index,int color );
+    void colorcol(std::shared_ptr<SDL_Renderer>,std::pair<int , int > index,int color );
 
 
 
@@ -97,7 +98,7 @@ public:
     * \param color color
     * \param cycl Cyclic or acyclic
     */
-    void Display(SDL_Renderer * Renderer, int color, int cycl);
+    void Display(std::shared_ptr<SDL_Renderer> Renderer, int color, int cycl);
 
     /*!
     * \brief erase data from shape points
@@ -110,7 +111,7 @@ public:
     * \param level level
     * \param weapon coord of weapon
     */
-    void drawweapon(SDL_Renderer * renderer,int level,std::pair<int, int> weapon);
+    void drawweapon(std::shared_ptr<SDL_Renderer> renderer,int level,std::pair<int, int> weapon);
 
     /*!
     * \brief general function calls Draw*
@@ -119,7 +120,7 @@ public:
     * \param window_height window_height
     * \param level level
     */
-    void Drawshape(SDL_Renderer *renderer, int32_t window_width,int32_t window_height, int32_t level);
+    void Drawshape(std::shared_ptr<SDL_Renderer>renderer, int32_t window_width,int32_t window_height, int32_t level);
 
 
     /*!
@@ -128,112 +129,112 @@ public:
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawCircle(SDL_Renderer *, int32_t , int32_t ,int color);
+    void DrawCircle(std::shared_ptr<SDL_Renderer>, int32_t , int32_t ,int color);
     /*!
     * \brief Draw Triangle
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawTriangle(SDL_Renderer *, int32_t , int32_t ,int color );
+    void DrawTriangle(std::shared_ptr<SDL_Renderer>, int32_t , int32_t ,int color );
     /*!
     * \brief DrawRectangle
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawRectangle(SDL_Renderer *, int32_t , int32_t,int color  );
+    void DrawRectangle(std::shared_ptr<SDL_Renderer>, int32_t , int32_t,int color  );
     /*!
     * \brief DrawPlus
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawPlus(SDL_Renderer *, int32_t , int32_t ,int color );
+    void DrawPlus(std::shared_ptr<SDL_Renderer>, int32_t , int32_t ,int color );
     /*!
     * \brief DrawBowtie
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawBowtie(SDL_Renderer *, int32_t , int32_t  ,int color);
+    void DrawBowtie(std::shared_ptr<SDL_Renderer>, int32_t , int32_t  ,int color);
     /*!
     * \brief DrawStylizedCross
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawStylizedCross(SDL_Renderer *, int32_t , int32_t ,int color );
+    void DrawStylizedCross(std::shared_ptr<SDL_Renderer>, int32_t , int32_t ,int color );
     /*!
     * \brief DrawClover
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawClover(SDL_Renderer *, int32_t , int32_t  ,int color);
+    void DrawClover(std::shared_ptr<SDL_Renderer>, int32_t , int32_t  ,int color);
     /*!
     * \brief DrawV
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawV(SDL_Renderer *, int32_t , int32_t ,int color );
+    void DrawV(std::shared_ptr<SDL_Renderer>, int32_t , int32_t ,int color );
     /*!
     * \brief DrawSteps
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawSteps(SDL_Renderer *, int32_t , int32_t ,int color );
+    void DrawSteps(std::shared_ptr<SDL_Renderer>, int32_t , int32_t ,int color );
     /*!
     * \brief DrawU
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawU(SDL_Renderer *, int32_t , int32_t ,int color );
+    void DrawU(std::shared_ptr<SDL_Renderer>, int32_t , int32_t ,int color );
     /*!
     * \brief DrawCompFlat
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawCompFlat(SDL_Renderer *, int32_t , int32_t  ,int color);
+    void DrawCompFlat(std::shared_ptr<SDL_Renderer>, int32_t , int32_t  ,int color);
     /*!
     * \brief DrawHeart
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawHeart(SDL_Renderer *, int32_t , int32_t  ,int color);
+    void DrawHeart(std::shared_ptr<SDL_Renderer>, int32_t , int32_t  ,int color);
     /*!
     * \brief DrawStar
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawStar(SDL_Renderer *, int32_t , int32_t ,int color );
+    void DrawStar(std::shared_ptr<SDL_Renderer>, int32_t , int32_t ,int color );
     /*!
     * \brief DrawW
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawW(SDL_Renderer *, int32_t , int32_t ,int color );
+    void DrawW(std::shared_ptr<SDL_Renderer>, int32_t , int32_t ,int color );
     /*!
     * \brief DrawFan
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawFan(SDL_Renderer *, int32_t , int32_t ,int color );
+    void DrawFan(std::shared_ptr<SDL_Renderer>, int32_t , int32_t ,int color );
     /*!
     * \brief DrawInfSym
     * \param Renderer Renderer
     * \param window_width window_width
     * \param window_height window_height
     */
-    void DrawInfSym(SDL_Renderer *, int32_t , int32_t ,int color );
+    void DrawInfSym(std::shared_ptr<SDL_Renderer>, int32_t , int32_t ,int color );
     /*!
     * \brief get attribute
     * \return the center of the shape

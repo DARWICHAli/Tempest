@@ -16,16 +16,19 @@
 #include <string>
 #include <vector>
 #include <cassert>
+#include <memory>
 
 #include "../headers/Defs.hpp"
 #include "../headers/shapes.hpp"
+#include "../headers/sdlwrap.hpp"
 
 
 
 
 typedef struct
 {
-  SDL_Texture* texture;
+  //SDL_Texture* texture;
+  std::shared_ptr<SDL_Texture> texture ;
   SDL_Rect rect;
   int width;
   int height;
@@ -34,7 +37,8 @@ typedef struct
 
 typedef struct
 {
-  SDL_Texture* texture;
+  std::shared_ptr<SDL_Texture> texture ;
+  //SDL_Texture* texture;
   SDL_FRect rect;
   float width;
   float height;
@@ -66,14 +70,14 @@ public:
     * \brief init draw
     * \param SDL_Renderer renderer
     */
-    void init_draw(SDL_Renderer*);
+    void init_draw(std::shared_ptr<SDL_Renderer>);
 
 
     /*!
     * \brief init Game_over interface
     * \param SDL_Renderer renderer
     */
-    void init_game_over(SDL_Renderer* renderer);
+    void init_game_over(std::shared_ptr<SDL_Renderer> renderer);
 
 
 
@@ -84,7 +88,7 @@ public:
     * \param SDL_Renderer renderer
     * \return SDL_Object
     */
-    SDL_Object calculate_texture(std::string, SDL_Color, int, SDL_Renderer*);
+    SDL_Object calculate_texture(std::string, SDL_Color, int, std::shared_ptr<SDL_Renderer>);
 
 
 
@@ -95,7 +99,7 @@ public:
     * \param SDL_Renderer renderer
     * \return SDL_FObject
     */
-    SDL_FObject fcalculate_texture(std::string text,SDL_Color color,int type, SDL_Renderer* renderer);
+    SDL_FObject fcalculate_texture(std::string text,SDL_Color color,int type, std::shared_ptr<SDL_Renderer> renderer);
 
     /*!
     * \brief clear level
@@ -109,7 +113,7 @@ public:
     * \param ceny centery
     * \param SDL_Renderer renderer
     */
-    void actionfire(int cenx ,int ceny,SDL_Renderer *renderer);
+    void actionfire(int cenx ,int ceny,std::shared_ptr<SDL_Renderer>);
 
 
 
@@ -128,7 +132,7 @@ public:
     * \param index index
     */
 
-    void draw_elem(int, SDL_Renderer*,int);
+    void draw_elem(int, std::shared_ptr<SDL_Renderer>,int);
 
 
     /*!
@@ -136,7 +140,7 @@ public:
     * \param SDL_Renderer renderer
     * \return type
     */
-    int print_menu(SDL_Renderer*);
+    int print_menu(std::shared_ptr<SDL_Renderer>);
 
 
     /*!
@@ -147,21 +151,21 @@ public:
     * \param weapon weapon shape
     * \pos position near weapon
     */
-    void print_game(SDL_Renderer* renderer,Shapes &s, int level, Shapes &weap,std::pair<int, int> pos);
+    void print_game(std::shared_ptr<SDL_Renderer> renderer,Shapes &s, int level, Shapes &weap,std::pair<int, int> pos);
 
 
     /*!
     * \brief init menu
     * \param SDL_Renderer renderer
     */
-    void init_menu(SDL_Renderer*);
+    void init_menu(std::shared_ptr<SDL_Renderer>);
 
 
     /*!
     * \brief init game
     * \param SDL_Renderer renderer
     */
-    void init_game(SDL_Renderer*);
+    void init_game(std::shared_ptr<SDL_Renderer>);
 
     /*!
     * \brief init monsters
@@ -170,25 +174,25 @@ public:
     * \cenx Centerx
     * \ceny Centery
     */
-    void initmonsters(SDL_Renderer*,Shapes Shape,int cenx,int ceny);
+    void initmonsters(std::shared_ptr<SDL_Renderer>,Shapes Shape,int cenx,int ceny);
 
     /*!
     * \brief derrnier affichage
     * \param SDL_Renderer renderer
     */
 
-    void game_over(SDL_Renderer* renderer);
+    void game_over(std::shared_ptr<SDL_Renderer> renderer);
 
 
-    void setlevel(int level, SDL_Renderer* renderer );
+    void setlevel(int level, std::shared_ptr<SDL_Renderer> renderer );
 
 
 
-    void setlife(int lifevar, SDL_Renderer* renderer );
+    void setlife(int lifevar, std::shared_ptr<SDL_Renderer> renderer );
 
     void setHeightWidth(int, int);
-    void settimer(int time, SDL_Renderer* renderer );
-    void setscore(int score, SDL_Renderer* renderer);
+    void settimer(int time, std::shared_ptr<SDL_Renderer> renderer );
+    void setscore(int score, std::shared_ptr<SDL_Renderer> renderer);
 
     void setweapon(int x , int y);
     int get_life();

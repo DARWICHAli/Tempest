@@ -124,7 +124,7 @@ int Tempest::game(Weapon w, Draw &draw)
                             break;
 
                     }
-                    SDL_RenderPresent(renderer);
+                    SDL_RenderPresent(renderer.get());
                     key = 0;
                     break;
                 }
@@ -146,12 +146,12 @@ int Tempest::init_game()
     // }
     screen_width = WW/*r.w*/;
     screen_height = WH/*r.h*/;
-    window = SDL_CreateWindow("Tempest", 0, 0, screen_width, screen_height,  SDL_WINDOW_SHOWN|SDL_WINDOW_ALLOW_HIGHDPI);
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if (window && renderer)
+    window = sdl_shared(SDL_CreateWindow("Tempest", 0, 0, screen_width, screen_height,  SDL_WINDOW_SHOWN|SDL_WINDOW_ALLOW_HIGHDPI));
+    renderer = sdl_shared(SDL_CreateRenderer(window.get(), -1, SDL_RENDERER_ACCELERATED));
+    if (window.get() && renderer.get())
     {
-      SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
-      SDL_RenderClear(renderer);
+      SDL_SetRenderDrawColor(renderer.get(), 0, 0, 0, 0xff);
+      SDL_RenderClear(renderer.get());
     }
     else
     {
@@ -162,7 +162,8 @@ int Tempest::init_game()
     draw.setHeightWidth(screen_height, screen_width);
     draw.init_draw(renderer);
     draw.print_menu(renderer);
-    SDL_RenderPresent(renderer);
+    SDL_RenderPresent(renderer.get());
+
 
     int play_mode = 0;
     clock_t time_req;
