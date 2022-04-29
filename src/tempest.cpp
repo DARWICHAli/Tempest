@@ -68,7 +68,7 @@ int Tempest::game(Weapon w, Draw &draw)
             std::cout << "level "<< level << '\n';
         }
 
-        if(draw.get_life()== 0)
+        if(draw.get_life() <= 0)
         {
             break;
         }

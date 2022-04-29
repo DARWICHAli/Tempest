@@ -21,6 +21,11 @@
 #include "../headers/Defs.hpp"
 #include "../headers/shapes.hpp"
 #include "../headers/sdlwrap.hpp"
+<<<<<<< HEAD
+=======
+
+#include "../headers/monster.hpp"
+>>>>>>> dev
 
 
 
@@ -42,8 +47,7 @@ typedef struct
   SDL_FRect rect;
   float width;
   float height;
-  int direction;
-  int apper;
+  
 } SDL_FObject;
 
 enum Type_Draw{ TEMPEST_TITLE, PLAYER,RATE_URSELF,USE_KEYS,PRESS_ENTER_SELECT,NOVICE,EXPERT,
@@ -174,7 +178,11 @@ public:
     * \cenx Centerx
     * \ceny Centery
     */
+<<<<<<< HEAD
     void initmonsters(std::shared_ptr<SDL_Renderer>,Shapes Shape,int cenx,int ceny);
+=======
+    void initmonsters(const int& cenx,const int& ceny);
+>>>>>>> dev
 
     /*!
     * \brief derrnier affichage
@@ -196,10 +204,10 @@ public:
 
     void setweapon(int x , int y);
     int get_life();
-    void setmonster(SDL_FObject);
+    void setmonster(Monster);
     void delmonster(int indice , int type_er);
     int getmonstersize();
-    SDL_FObject getmonster(int indice);
+    Monster getmonster(int indice);
     void addfire(SDL_FObject f);
     std::pair<int, int> getweaponinfo();
     void reducetimemonsters();
@@ -281,10 +289,10 @@ private:
     SDL_FObject monster_centre;
 
     /*!< monsters */
-    std::vector<SDL_FObject>monsters;
+    std::vector<Monster>monsters;
 
     /*!< zmonsters */
-    std::vector<double> zmonsters;
+    //std::vector<double> zmonsters;
 
     /*!< fires */
     std::vector<SDL_FObject>fire;

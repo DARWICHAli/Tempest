@@ -184,7 +184,11 @@ void Draw::init_game(std::shared_ptr<SDL_Renderer> renderer)
 }
 
 
+<<<<<<< HEAD
 void Draw::initmonsters(std::shared_ptr<SDL_Renderer>renderer,Shapes s,int cenx,int ceny)
+=======
+void Draw::initmonsters(const int& cenx,const int& ceny)
+>>>>>>> dev
 {
 
         std::random_device rd;  //Will be used to obtain a seed for the random number engine
@@ -193,15 +197,17 @@ void Draw::initmonsters(std::shared_ptr<SDL_Renderer>renderer,Shapes s,int cenx,
 
         for( int j = 0; j< NBR_MONSTER; j++)
         {
-            SDL_FObject monster;
-            monster = fcalculate_texture(".",RED, 2, renderer);
-            monster.rect.x=cenx-weapon.width/2;
-            monster.rect.y=ceny-weapon.height/2;
-            monster.direction=distrib(gen);
-            monster.apper=distrib(gen)+1;
+            //SDL_FObject monster;
+            Monster  monster(cenx-weapon.width/2,ceny-weapon.height/2,distrib(gen),distrib(gen)+1,1/SCALE_VAL);
+            // monster = fcalculate_texture(".",RED, 2, renderer);
+            // monster.rect.x=cenx-weapon.width/2;
+            // monster.rect.y=ceny-weapon.height/2;
+            // monster.direction=distrib(gen);
+            // monster.apper=distrib(gen)+1;
             //draw.setmonster(monster);
+            //std :: cout << "MX = "<< monster.get_x() <<std::endl;
             monsters.push_back(monster);
-            zmonsters.push_back(1);
+
 
         }
         return;
@@ -211,8 +217,7 @@ void Draw::reducetimemonsters()
 {
     for (size_t i = 0; i < monsters.size(); i++)
     {
-        if(monsters.at(i).apper)
-            monsters.at(i).apper--;
+        monsters.at(i).reduce_apper();
     }
 }
 
@@ -253,9 +258,6 @@ void Draw::print_game(std::shared_ptr<SDL_Renderer> renderer,Shapes &s, int leve
 
     std::pair<int , int > tmpwep = std::make_pair(weapon.rect.x, weapon.rect.y);
     weap.drawweapon(renderer,level,tmpwep);
-    draw_elem(FIRE,renderer,0);
-    draw_elem (MONSTER, renderer,0);
-
     //test centre;
     //SDL_RenderDrawPoint(renderer, window_width/2, window_height/2);
 
@@ -263,16 +265,29 @@ void Draw::print_game(std::shared_ptr<SDL_Renderer> renderer,Shapes &s, int leve
         s.colorcol(renderer,pos,1);
 
 
+<<<<<<< HEAD
     SDL_SetRenderDrawColor(renderer.get(), 0, 0, 0, 0xff);
     SDL_RenderPresent(renderer.get());
     SDL_RenderClear(renderer.get());
 
+=======
+>>>>>>> dev
     if(!monsters.size())//il n'y a pas des monstre
     {
-        initmonsters(renderer,s,window_width/2,window_height/2);
+        initmonsters(window_width/2,window_height/2);
         weapon.rect.x  = (s.points.at(0).first + s.points.at(1).first)/2 ;
         weapon.rect.y = (s.points.at(0).second + s.points.at(1).second)/2 - weapon.height/2;
     }
+
+    draw_elem (MONSTER, renderer,0);
+    draw_elem(FIRE,renderer,0);
+
+    SDL_SetRenderDrawColor(renderer.get(), 0, 0, 0, 0xff);
+    SDL_RenderPresent(renderer.get());
+    SDL_RenderClear(renderer.get());
+
+
+
 
 }
 
@@ -408,8 +423,8 @@ void Draw::actionfire(int cenx ,int ceny, std::shared_ptr<SDL_Renderer> renderer
 
         for (auto j = monsters.begin(); j < monsters.end(); j++)
         {
-            double tmp1x = j->rect.x;
-            double tmp1y = j->rect.y;
+            double tmp1x = j->get_x();
+            double tmp1y = j->get_y();
             double tmp2x = i->rect.x;
             double tmp2y = i->rect.y;
 
@@ -424,15 +439,6 @@ void Draw::actionfire(int cenx ,int ceny, std::shared_ptr<SDL_Renderer> renderer
         }
     }
 
-    // auto it = fire.begin();
-    // while (it != fire.end())
-    // {
-    //     it.rect.x=(sensitivity*(cenx-it.rect.x))+it.rect.x;
-    //     it.rect.y=(sensitivity*(ceny-it.rect.y))+it.rect.y;
-    //
-    // }
-
-
     return;
 }
 
@@ -444,13 +450,20 @@ void Draw::movemonsters(Shapes s,int cenx ,int ceny)
 
     cenx -= weapon.width/2;
     ceny -= weapon.height/2;
+<<<<<<< HEAD
 
     double sensitivity = 0.0002;
 
+=======
+    int res = 0;
+>>>>>>> dev
     for( auto i = monsters.begin(); i< monsters.end(); i++)
     {
-        if(i->apper == 0 )
+        //Monster m = monsters.at(i);
+        res = i->move(s,cenx ,ceny,getweaponinfo());
+        if(!res)
         {
+<<<<<<< HEAD
             int p1= i->direction%s.points.size();
             int p2=(i->direction+1)%s.points.size();
             double mx=(s.points[p1].first+s.points[p2].first)/2 - weapon.width/2;
@@ -502,7 +515,12 @@ void Draw::movemonsters(Shapes s,int cenx ,int ceny)
 
             zmonsters.at(iter++)+=0.02;
 
+=======
+            monsters.erase(i--);
+            lifeval--;
+>>>>>>> dev
         }
+
     }
     */
 }
@@ -556,9 +574,27 @@ void Draw::draw_elem(int type, std::shared_ptr<SDL_Renderer> renderer,int indice
             break;
         case MONSTER:
             for(auto e: monsters)
+<<<<<<< HEAD
             {
                 if(!e.apper)
                     SDL_RenderCopyF(renderer.get(), e.texture.get(), NULL, &e.rect);
+=======
+            {   //std::cout << "monster x " << e.get_apper()<<std::endl;
+
+                if(!e.get_apper())
+                {
+                    SDL_FObject monster;
+
+                    monster = fcalculate_texture(".",RED, 2, renderer);
+                    monster.rect.x= e.get_x();
+                    monster.rect.y= e.get_y();
+                    //std::cout << e.get_x() << "  " << e.get_y() << std::endl;
+                    SDL_RenderCopyF(renderer.get(), monster.texture.get(), NULL, &monster.rect);
+                    //SDL_RenderDrawPoint(renderer.get(), monster.rect.x, monster.rect.y);
+
+                }
+
+>>>>>>> dev
             }
             break;
         case FIRE:
@@ -583,6 +619,7 @@ void Draw::draw_elem(int type, std::shared_ptr<SDL_Renderer> renderer,int indice
 }
 
 
+<<<<<<< HEAD
 // void Draw::setscore(int score, std::shared_ptr<SDL_Renderer> renderer )
 // {
 //     std::string tmp =  "SCORE  "+ std::to_string(time) ;
@@ -595,6 +632,8 @@ void Draw::draw_elem(int type, std::shared_ptr<SDL_Renderer> renderer,int indice
 
 
 
+=======
+>>>>>>> dev
 void Draw::settimer(int time, std::shared_ptr<SDL_Renderer> renderer )
 {
     std::string tmp =  "TIME  "+ std::to_string(time) ;
@@ -661,7 +700,7 @@ void Draw::addfire(SDL_FObject f)
     return;
 }
 
-void Draw::setmonster(SDL_FObject monster)
+void Draw::setmonster(Monster monster)
 {
     monsters.push_back(monster);
 }
@@ -681,7 +720,7 @@ int Draw::getmonstersize()
 {
     return int(monsters.size());
 }
-SDL_FObject Draw::getmonster(int indice)
+Monster Draw::getmonster(int indice)
 {
     return monsters.at(indice);
 }
