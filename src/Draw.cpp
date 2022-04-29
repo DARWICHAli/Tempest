@@ -184,11 +184,8 @@ void Draw::init_game(std::shared_ptr<SDL_Renderer> renderer)
 }
 
 
-<<<<<<< HEAD
-void Draw::initmonsters(std::shared_ptr<SDL_Renderer>renderer,Shapes s,int cenx,int ceny)
-=======
+
 void Draw::initmonsters(const int& cenx,const int& ceny)
->>>>>>> dev
 {
 
         std::random_device rd;  //Will be used to obtain a seed for the random number engine
@@ -265,13 +262,6 @@ void Draw::print_game(std::shared_ptr<SDL_Renderer> renderer,Shapes &s, int leve
         s.colorcol(renderer,pos,1);
 
 
-<<<<<<< HEAD
-    SDL_SetRenderDrawColor(renderer.get(), 0, 0, 0, 0xff);
-    SDL_RenderPresent(renderer.get());
-    SDL_RenderClear(renderer.get());
-
-=======
->>>>>>> dev
     if(!monsters.size())//il n'y a pas des monstre
     {
         initmonsters(window_width/2,window_height/2);
@@ -450,79 +440,19 @@ void Draw::movemonsters(Shapes s,int cenx ,int ceny)
 
     cenx -= weapon.width/2;
     ceny -= weapon.height/2;
-<<<<<<< HEAD
 
-    double sensitivity = 0.0002;
-
-=======
     int res = 0;
->>>>>>> dev
     for( auto i = monsters.begin(); i< monsters.end(); i++)
     {
         //Monster m = monsters.at(i);
         res = i->move(s,cenx ,ceny,getweaponinfo());
         if(!res)
         {
-<<<<<<< HEAD
-            int p1= i->direction%s.points.size();
-            int p2=(i->direction+1)%s.points.size();
-            double mx=(s.points[p1].first+s.points[p2].first)/2 - weapon.width/2;
-            double my=(s.points[p1].second+s.points[p2].second)/2 - weapon.height/2;
-
-            i->rect.x += (sensitivity*(mx-i->rect.x));
-            i->rect.y += (sensitivity*(my-i->rect.y));
-
-            if(abs(i->rect.x - mx) < 1 && abs(i->rect.y - my)< 1 )
-            {
-                monsters.erase(i--);
-                lifeval--;
-            }
+		monsters.erase(i--);
+		lifeval--;
         }
     }
-    // ne marche pas !!
-    /*
-    int iter = 0;
-    for( auto i = monsters.begin(); i< monsters.end(); i++)
-    {
-        if(i->apper == 0 )
-        {
-            double h = 1/ zmonsters.at(iter);
-            cenx -= weapon.width/2;
-            ceny -= weapon.height/2;
-            int p1= i->direction%s.points.size();
-            int p2=(i->direction+1)%s.points.size();
 
-            double mx=(s.points[p1].first+s.points[p2].first)/2 - weapon.width/2;
-            double my=(s.points[p1].second+s.points[p2].second)/2 - weapon.height/2;
-
-            double Ux = s.points.at(p2).first -  s.points.at(p1).first;
-            double Uy =s.points.at(p2).second -  s.points.at(p1).second;
-
-            double  norm= sqrt(Ux *Ux + Uy*Uy);
-
-            Ux/=norm;
-            Uy/= norm;
-
-            double x  = (Ux*cenx - Uy*ceny) + mx  ;
-            double y =  (Uy*cenx + Ux*ceny) + my;
-
-            x*= h;
-            y*= h;
-            i->rect.x = x  ;
-            i->rect.y = y ;
-            // std::cout << "x "<< x  << '\n';
-            //std::cout << "y "<< y  << '\n';
-
-            zmonsters.at(iter++)+=0.02;
-
-=======
-            monsters.erase(i--);
-            lifeval--;
->>>>>>> dev
-        }
-
-    }
-    */
 }
 
 
@@ -574,11 +504,7 @@ void Draw::draw_elem(int type, std::shared_ptr<SDL_Renderer> renderer,int indice
             break;
         case MONSTER:
             for(auto e: monsters)
-<<<<<<< HEAD
-            {
-                if(!e.apper)
-                    SDL_RenderCopyF(renderer.get(), e.texture.get(), NULL, &e.rect);
-=======
+
             {   //std::cout << "monster x " << e.get_apper()<<std::endl;
 
                 if(!e.get_apper())
@@ -594,7 +520,6 @@ void Draw::draw_elem(int type, std::shared_ptr<SDL_Renderer> renderer,int indice
 
                 }
 
->>>>>>> dev
             }
             break;
         case FIRE:
@@ -619,21 +544,6 @@ void Draw::draw_elem(int type, std::shared_ptr<SDL_Renderer> renderer,int indice
 }
 
 
-<<<<<<< HEAD
-// void Draw::setscore(int score, std::shared_ptr<SDL_Renderer> renderer )
-// {
-//     std::string tmp =  "SCORE  "+ std::to_string(time) ;
-//     timer = calculate_texture(tmp , GREEN, 1 , renderer);
-//     timer.rect.x = window_width/2  - timer.width/2;
-//     timer.rect.y = 17*window_height/20 - timer.height/5;
-//     draw_elem (TIME, renderer,0);
-// }
-
-
-
-
-=======
->>>>>>> dev
 void Draw::settimer(int time, std::shared_ptr<SDL_Renderer> renderer )
 {
     std::string tmp =  "TIME  "+ std::to_string(time) ;

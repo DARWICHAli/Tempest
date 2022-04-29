@@ -175,11 +175,9 @@ public:
     * \cenx Centerx
     * \ceny Centery
     */
-<<<<<<< HEAD
-    void initmonsters(std::shared_ptr<SDL_Renderer>,Shapes Shape,int cenx,int ceny);
-=======
+
     void initmonsters(const int& cenx,const int& ceny);
->>>>>>> dev
+
 
     /*!
     * \brief derrnier affichage
