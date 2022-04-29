@@ -55,7 +55,7 @@ public:
     inline double get_z (){return z;}
    
     void reduce_apper();
-    int move(Shapes s,int cenx ,int ceny);
+    int move(Shapes s,int cenx ,int ceny,std::pair<int, int> weapon);
 
 
     /*!

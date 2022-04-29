@@ -15,7 +15,7 @@
 #include <algorithm>
 
 
-#define NBR_MONSTER 10
+#define NBR_MONSTER 100
 #define SCALE_VAL 0.07
 #define WW 800
 #define WH 800

@@ -77,7 +77,7 @@ int Tempest::game(Weapon w, Draw &draw)
         draw.print_game(renderer,s, level,weaponshape,pos);
         //move monsters and detect collision
         //std::cout << "z is eq to " << z << '\n';
-        //draw.movemonsters(s,cenx ,ceny);
+        draw.movemonsters(s,cenx ,ceny);
         if(countlife != draw.get_life())
         {
             countlife  = draw.get_life();

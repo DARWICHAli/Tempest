@@ -259,12 +259,6 @@ void Draw::print_game(std::shared_ptr<SDL_Renderer> renderer,Shapes &s, int leve
 
     if(pos.first != -1)
         s.colorcol(renderer,pos,1);
-
-
-    SDL_SetRenderDrawColor(renderer.get(), 0, 0, 0, 0xff);
-    SDL_RenderPresent(renderer.get());
-    SDL_RenderClear(renderer.get());
-    draw_elem(FIRE,renderer,0);
     
 
     if(!monsters.size())//il n'y a pas des monstre
@@ -273,9 +267,13 @@ void Draw::print_game(std::shared_ptr<SDL_Renderer> renderer,Shapes &s, int leve
         weapon.rect.x  = (s.points.at(0).first + s.points.at(1).first)/2 ;
         weapon.rect.y = (s.points.at(0).second + s.points.at(1).second)/2 - weapon.height/2;
     }
+
     draw_elem (MONSTER, renderer,0);
+    draw_elem(FIRE,renderer,0);     
 
-
+    SDL_SetRenderDrawColor(renderer.get(), 0, 0, 0, 0xff);
+    SDL_RenderPresent(renderer.get());
+    SDL_RenderClear(renderer.get());
 
     
     
@@ -445,7 +443,7 @@ void Draw::movemonsters(Shapes s,int cenx ,int ceny)
     for( auto i = monsters.begin(); i< monsters.end(); i++)
     {
         //Monster m = monsters.at(i);
-        res = i->move(s,cenx ,ceny);
+        res = i->move(s,cenx ,ceny,getweaponinfo());
         if(!res)
         {
             monsters.erase(i--);
@@ -513,9 +511,9 @@ void Draw::draw_elem(int type, std::shared_ptr<SDL_Renderer> renderer,int indice
                     monster = fcalculate_texture(".",RED, 2, renderer);
                     monster.rect.x= e.get_x();
                     monster.rect.y= e.get_y();
-                    std::cout << e.get_x() << "  " << e.get_y() << std::endl;
+                    //std::cout << e.get_x() << "  " << e.get_y() << std::endl;
                     SDL_RenderCopyF(renderer.get(), monster.texture.get(), NULL, &monster.rect);
-                    SDL_RenderDrawPoint(renderer.get(), monster.rect.x, monster.rect.y);
+                    //SDL_RenderDrawPoint(renderer.get(), monster.rect.x, monster.rect.y);
                 
                 }
 
