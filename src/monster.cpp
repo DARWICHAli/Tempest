@@ -22,7 +22,7 @@ void Monster::reduce_apper()
 
 int Monster::move(Shapes s,int cenx ,int ceny,std::pair<int, int> weapon)
 {
-    double sensitivity = 0.0002;
+    double sensitivity;
     if(apper == 0 )
     {
         int p1= direction%s.points.size();
@@ -31,10 +31,11 @@ int Monster::move(Shapes s,int cenx ,int ceny,std::pair<int, int> weapon)
         double mx=(s.points[p1].first+s.points[p2].first)/2 - weapon.first;
         double my=(s.points[p1].second+s.points[p2].second)/2 - weapon.second;
 
-
+       
+        sensitivity=1/z;
         x += sensitivity*(mx-x);
         y += sensitivity*(mx-y);
-        
+        z-=0.0002;
         if(abs(x  - mx) < 1 && abs(y  - my)< 1 )
         {
             return 0;

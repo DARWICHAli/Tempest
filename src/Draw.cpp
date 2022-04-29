@@ -194,7 +194,7 @@ void Draw::initmonsters(const int& cenx,const int& ceny)
         for( int j = 0; j< NBR_MONSTER; j++)
         {
             //SDL_FObject monster;
-            Monster  monster(cenx-weapon.width/2,ceny-weapon.height/2,distrib(gen),distrib(gen)+1,1);
+            Monster  monster(cenx-weapon.width/2,ceny-weapon.height/2,distrib(gen),distrib(gen)+1,1/SCALE_VAL);
             // monster = fcalculate_texture(".",RED, 2, renderer);
             // monster.rect.x=cenx-weapon.width/2;
             // monster.rect.y=ceny-weapon.height/2;
