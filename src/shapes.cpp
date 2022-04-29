@@ -347,7 +347,7 @@ void Shapes::DrawPlus(std::shared_ptr<SDL_Renderer>renderer, int32_t window_widt
         center_reduce(window_width ,window_height);
 
     }
-    Display(renderer, 1, 1);
+    Display(renderer, color, 1);
 
 }
 
