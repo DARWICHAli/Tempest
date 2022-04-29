@@ -261,14 +261,14 @@ void Shapes::DrawCircle(std::shared_ptr<SDL_Renderer> renderer, int32_t centreX,
 {
     if(!points.size())
     {
-        points.push_back(std::make_pair(200, 200));
-        points.push_back(std::make_pair(400, 100));
-        points.push_back(std::make_pair(600, 200));
-        points.push_back(std::make_pair(700, 400));
-        points.push_back(std::make_pair(600, 600));
-        points.push_back(std::make_pair(400, 700));
-        points.push_back(std::make_pair(200, 600));
-        points.push_back(std::make_pair(100, 400));
+        points.push_back(std::make_pair(centreX*0.25, centreY*0.25));
+        points.push_back(std::make_pair(centreX*0.5, centreY*0.125));
+        points.push_back(std::make_pair(centreX*0.75, centreY*0.25));
+        points.push_back(std::make_pair(centreX*0.875, centreY*0.5));
+        points.push_back(std::make_pair(centreX*0.75, centreY*0.75));
+        points.push_back(std::make_pair(centreX*0.5, centreY*0.875));
+        points.push_back(std::make_pair(centreX*0.25, centreY*0.75));
+        points.push_back(std::make_pair(centreX*0.125, centreY*0.5));
 
         center_reduce(centreX ,centreY);
 
@@ -302,11 +302,11 @@ void Shapes::DrawRectangle(std::shared_ptr<SDL_Renderer> Renderer, int32_t centr
         points.push_back(std::make_pair(centreX*0.75 , centreY*0.75));
         points.push_back(std::make_pair(centreX*0.75,centreY*0.25));
         points.push_back(std::make_pair(centreX*0.25, centreY*0.25));
-        //center_reduce(centreX,centreY);
-        points_centre.push_back(std::make_pair(375, 425));
-        points_centre.push_back(std::make_pair(425, 425));
-        points_centre.push_back(std::make_pair(425, 375));
-        points_centre.push_back(std::make_pair(375, 375));
+        center_reduce(centreX,centreY);
+        // points_centre.push_back(std::make_pair(375, 425));
+        // points_centre.push_back(std::make_pair(425, 425));
+        // points_centre.push_back(std::make_pair(425, 375));
+        // points_centre.push_back(std::make_pair(375, 375));
 
     }
     Display(Renderer, color, 1);
@@ -358,14 +358,14 @@ void Shapes::DrawBowtie(std::shared_ptr<SDL_Renderer>renderer, int32_t window_wi
 {
     if(!points.size())
     {
-        points.push_back(std::make_pair(150, 150));
-        points.push_back(std::make_pair(400, 200));
-        points.push_back(std::make_pair(650, 150));
-        points.push_back(std::make_pair(600, 400));
-        points.push_back(std::make_pair(650, 650));
-        points.push_back(std::make_pair(400, 600));
-        points.push_back(std::make_pair(150, 650));
-        points.push_back(std::make_pair(200, 400));
+        points.push_back(std::make_pair(window_width*0.1875,window_height* 0.1875));
+        points.push_back(std::make_pair(window_width*0.5,window_height* 0.25));
+        points.push_back(std::make_pair(window_width*0.8125,window_height* 0.1875));
+        points.push_back(std::make_pair(window_width*0.75,window_height* 0.5));
+        points.push_back(std::make_pair(window_width*0.8125,window_height* 0.8125));
+        points.push_back(std::make_pair(window_width*0.5,window_height* 0.75));
+        points.push_back(std::make_pair(window_width*0.1875,window_height* 0.8125));
+        points.push_back(std::make_pair(window_width*0.25,window_height* 0.5));
 
         center_reduce(window_width ,window_height);
     }
@@ -379,25 +379,25 @@ void Shapes::DrawStylizedCross(std::shared_ptr<SDL_Renderer>renderer, int32_t wi
     {
 
 
-        points.push_back(std::make_pair(350,200));
-        points.push_back(std::make_pair(450,200));
-        points.push_back(std::make_pair(475,250));
+        points.push_back(std::make_pair(window_width*0.4375,window_height*0.25));
+        points.push_back(std::make_pair(window_width*0.5625,window_height*0.25));
+        points.push_back(std::make_pair(window_width*0.59375,window_height*0.28125));
 
-        points.push_back(std::make_pair(525,300));
-        points.push_back(std::make_pair(575,315));
-        points.push_back(std::make_pair(575,365));
-        points.push_back(std::make_pair(525,380));
+        points.push_back(std::make_pair(window_width*0.65625,window_height*0.375));
+        points.push_back(std::make_pair(window_width*0.71875,window_height*0.39375));
+        points.push_back(std::make_pair(window_width*0.71875,window_height*0.45625));
+        points.push_back(std::make_pair(window_width*0.65625,window_height*0.475));
 
-        points.push_back(std::make_pair(475,430));
-        points.push_back(std::make_pair(450,480));
-        points.push_back(std::make_pair(350,480));
+        points.push_back(std::make_pair(window_width*0.59375,window_height*0.5375));
+        points.push_back(std::make_pair(window_width*0.5625,window_height*0.6));
+        points.push_back(std::make_pair(window_width*0.4375,window_height*0.6));
 
-        points.push_back(std::make_pair(125,430));
-        points.push_back(std::make_pair(175,380));
-        points.push_back(std::make_pair(225,365));
-        points.push_back(std::make_pair(225,315));
-        points.push_back(std::make_pair(275,300));
-        points.push_back(std::make_pair(325,250));
+        points.push_back(std::make_pair(window_width*0.15625,window_height*0.5375));
+        points.push_back(std::make_pair(window_width*0.21875,window_height*0.475));
+        points.push_back(std::make_pair(window_width*0.28125,window_height*0.45625));
+        points.push_back(std::make_pair(window_width*0.28125,window_height*0.39375));
+        points.push_back(std::make_pair(window_width*0.34375,window_height*0.375));
+        points.push_back(std::make_pair(window_width*0.40625,window_height*0.3125));
 
 
 
@@ -443,22 +443,22 @@ void Shapes::DrawSteps(std::shared_ptr<SDL_Renderer>renderer, int32_t window_wid
 {
     if(!points.size())
     {
-        points.push_back(std::make_pair(225,500));
-        points.push_back(std::make_pair(225,550));
-        points.push_back(std::make_pair(275,550));
-        points.push_back(std::make_pair(275,600));
-        points.push_back(std::make_pair(325,600));
-        points.push_back(std::make_pair(325,650));
-        points.push_back(std::make_pair(375,650));
-        points.push_back(std::make_pair(375,700));
-        points.push_back(std::make_pair(425,700));
-        points.push_back(std::make_pair(425,650));
-        points.push_back(std::make_pair(475,650));
-        points.push_back(std::make_pair(475,600));
-        points.push_back(std::make_pair(525,600));
-        points.push_back(std::make_pair(525,550));
-        points.push_back(std::make_pair(575,550));
-        points.push_back(std::make_pair(575,500));
+        points.push_back(std::make_pair(window_width*0.28125,window_height*0.625));
+        points.push_back(std::make_pair(window_width*0.28125,window_height*0.6875));
+        points.push_back(std::make_pair(window_width*0.34375,window_height*0.6875));
+        points.push_back(std::make_pair(window_width*0.34375,window_height*0.75));
+        points.push_back(std::make_pair(window_width*0.40625,window_height*0.75));
+        points.push_back(std::make_pair(window_width*0.40625,window_height*0.8125));
+        points.push_back(std::make_pair(window_width*0.46875,window_height*0.8125));
+        points.push_back(std::make_pair(window_width*0.46875,window_height*0.875));
+        points.push_back(std::make_pair(window_width*0.53125,window_height*0.875));
+        points.push_back(std::make_pair(window_width*0.53125,window_height*0.8125));
+        points.push_back(std::make_pair(window_width*0.59375,window_height*0.8125));
+        points.push_back(std::make_pair(window_width*0.59375,window_height*0.75));
+        points.push_back(std::make_pair(window_width*0.65625,window_height*0.75));
+        points.push_back(std::make_pair(window_width*0.65625,window_height*0.6875));
+        points.push_back(std::make_pair(window_width*0.71875,window_height*0.6875));
+        points.push_back(std::make_pair(window_width*0.71875,window_height*0.625));
 
 
 
@@ -540,29 +540,29 @@ void Shapes::DrawStar(std::shared_ptr<SDL_Renderer>renderer, int32_t window_widt
 void Shapes::DrawW(std::shared_ptr<SDL_Renderer>renderer, int32_t window_width, int32_t window_height,int color){
     if(!points.size())
     {
-        points.push_back(std::make_pair(100,200));
-        points.push_back(std::make_pair(125,300));
-        points.push_back(std::make_pair(125,400));
-        points.push_back(std::make_pair(150,500));
+        points.push_back(std::make_pair(window_width*0.125,window_height*0.25));
+        points.push_back(std::make_pair(window_width*0.15625,window_height*0.375));
+        points.push_back(std::make_pair(window_width*0.15625,window_height*0.5));
+        points.push_back(std::make_pair(window_width*0.1875,window_height*0.625));
 
-        points.push_back(std::make_pair(200,550));
-        points.push_back(std::make_pair(250,550));
-        points.push_back(std::make_pair(300,500));
-        points.push_back(std::make_pair(350,450));
+        points.push_back(std::make_pair(window_width*0.25,window_height*0.6875));
+        points.push_back(std::make_pair(window_width*0.3125,window_height*0.6875));
+        points.push_back(std::make_pair(window_width*0.375,window_height*0.625));
+        points.push_back(std::make_pair(window_width*0.4375,window_height*0.5625));
 
-        points.push_back(std::make_pair(450,450));
-        points.push_back(std::make_pair(500,500));
-        points.push_back(std::make_pair(550,550));
-        points.push_back(std::make_pair(600,550));
+        points.push_back(std::make_pair(window_width*0.5625,window_height*0.5625));
+        points.push_back(std::make_pair(window_width*0.625,window_height*0.625));
+        points.push_back(std::make_pair(window_width*0.6875,window_height*0.6875));
+        points.push_back(std::make_pair(window_width*0.75,window_height*0.6875));
 
-        points.push_back(std::make_pair(650,500));
-        points.push_back(std::make_pair(675,400));
-        points.push_back(std::make_pair(675,300));
-        points.push_back(std::make_pair(700,200));
+        points.push_back(std::make_pair(window_width*0.8125,window_height*0.625));
+        points.push_back(std::make_pair(window_width*0.84375,window_height*0.5));
+        points.push_back(std::make_pair(window_width*0.84375,window_height*0.375));
+        points.push_back(std::make_pair(window_width*0.875,window_height*0.25));
 
 
 
-        center_reduce(window_width*2 ,window_height*2);
+        center_reduce(window_width ,window_height);
     }
     Display(renderer, color, 0);
 
@@ -581,20 +581,20 @@ void Shapes::DrawInfSym(std::shared_ptr<SDL_Renderer>renderer, int32_t window_wi
 {
     if(!points.size())
     {
-        points.push_back(std::make_pair(100, 400));
-        points.push_back(std::make_pair(200, 300));
-        points.push_back(std::make_pair(250, 250));
-        points.push_back(std::make_pair(380, 300));
-        points.push_back(std::make_pair(420, 300));
-        points.push_back(std::make_pair(550, 250));
-        points.push_back(std::make_pair(600, 300));
-        points.push_back(std::make_pair(700, 400));
-        points.push_back(std::make_pair(600, 500));
-        points.push_back(std::make_pair(550, 550));
-        points.push_back(std::make_pair(420, 500));
-        points.push_back(std::make_pair(380, 500));
-        points.push_back(std::make_pair(250, 550));
-        points.push_back(std::make_pair(200, 500));
+        points.push_back(std::make_pair(window_width*0.125, window_height*0.5));
+        points.push_back(std::make_pair(window_width*0.25, window_height*0.375));
+        points.push_back(std::make_pair(window_width*0.3125,window_height* 0.3125));
+        points.push_back(std::make_pair(window_width*0.475, window_height*0.375));
+        points.push_back(std::make_pair(window_width*0.525, window_height*0.375));
+        points.push_back(std::make_pair(window_width*0.6875, window_height*0.3125));
+        points.push_back(std::make_pair(window_width*0.75, window_height*0.375));
+        points.push_back(std::make_pair(window_width*0.875, window_height*0.5));
+        points.push_back(std::make_pair(window_width*0.75, window_height*0.625));
+        points.push_back(std::make_pair(window_width*0.6875, window_height*0.6875));
+        points.push_back(std::make_pair(window_width*0.525,window_height* 0.625));
+        points.push_back(std::make_pair(window_width*0.475, window_height*0.625));
+        points.push_back(std::make_pair(window_width*0.3125,window_height* 0.6875));
+        points.push_back(std::make_pair(window_width*0.25,window_height* 0.625));
 
         center_reduce(window_width ,window_height);
     }
@@ -653,8 +653,9 @@ void Shapes::Drawshape(std::shared_ptr<SDL_Renderer>renderer, int32_t window_wid
             DrawTriangle(renderer , window_width/2,window_height/2,color);
             break;
         case 6 :
-            DrawClover(renderer , window_width/2,window_height/2,color);
-            break;
+            //DrawClover(renderer , window_width/2,window_height/2,color);
+            //break;
+            level++;
         case 7 :
             DrawV(renderer , window_width,window_height,color);
             break;
@@ -673,10 +674,11 @@ void Shapes::Drawshape(std::shared_ptr<SDL_Renderer>renderer, int32_t window_wid
             //break;
             level++;
         case 12:
-            DrawStar(renderer , window_width/2,window_height/2,color);
-            break;
+            // DrawStar(renderer , window_width/2,window_height/2,color);
+            // break;
+            level++;
         case 13:
-            DrawW(renderer , window_width/2,window_height/2,color);
+            DrawW(renderer , window_width,window_height,color);
             break;
         case 14:
             // DrawFan(renderer , window_width/2,window_height/2,color);
