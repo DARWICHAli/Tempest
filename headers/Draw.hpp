@@ -21,11 +21,8 @@
 #include "../headers/Defs.hpp"
 #include "../headers/shapes.hpp"
 #include "../headers/sdlwrap.hpp"
-<<<<<<< HEAD
-=======
 
 #include "../headers/monster.hpp"
->>>>>>> dev
 
 
 
@@ -47,7 +44,7 @@ typedef struct
   SDL_FRect rect;
   float width;
   float height;
-  
+
 } SDL_FObject;
 
 enum Type_Draw{ TEMPEST_TITLE, PLAYER,RATE_URSELF,USE_KEYS,PRESS_ENTER_SELECT,NOVICE,EXPERT,
