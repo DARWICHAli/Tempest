@@ -27,14 +27,14 @@ int Monster::move(Shapes s,int cenx ,int ceny,std::pair<int, int> weapon)
     {
         int p1= direction%s.points.size();
         int p2=(direction+1)%s.points.size();
-        std::cout << p1 << std::endl;
+        //std::cout << p1 << std::endl;
         double mx=(s.points[p1].first+s.points[p2].first)/2 - weapon.first;
         double my=(s.points[p1].second+s.points[p2].second)/2 - weapon.second;
 
 
         x += sensitivity*(mx-x);
-        y += sensitivity*(mx-y);
-        
+        y += sensitivity*(my-y);
+
         if(abs(x  - mx) < 1 && abs(y  - my)< 1 )
         {
             return 0;
@@ -46,7 +46,3 @@ int Monster::move(Shapes s,int cenx ,int ceny,std::pair<int, int> weapon)
 
 
 //Monster::~Monster (){}
-
-
-
-
