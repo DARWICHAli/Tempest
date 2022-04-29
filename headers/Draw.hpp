@@ -34,7 +34,7 @@ typedef struct
   SDL_Rect rect;
   int width;
   int height;
-  int direction;
+  //int direction;
 } SDL_Object;
 
 typedef struct
