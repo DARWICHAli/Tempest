@@ -203,7 +203,7 @@ void Draw::initmonsters(const int& cenx,const int& ceny)
             //draw.setmonster(monster);
             //std :: cout << "MX = "<< monster.get_x() <<std::endl;
             monsters.push_back(monster);
-            
+
 
         }
         return;
@@ -259,7 +259,7 @@ void Draw::print_game(std::shared_ptr<SDL_Renderer> renderer,Shapes &s, int leve
 
     if(pos.first != -1)
         s.colorcol(renderer,pos,1);
-    
+
 
     if(!monsters.size())//il n'y a pas des monstre
     {
@@ -269,14 +269,14 @@ void Draw::print_game(std::shared_ptr<SDL_Renderer> renderer,Shapes &s, int leve
     }
 
     draw_elem (MONSTER, renderer,0);
-    draw_elem(FIRE,renderer,0);     
+    draw_elem(FIRE,renderer,0);
 
     SDL_SetRenderDrawColor(renderer.get(), 0, 0, 0, 0xff);
     SDL_RenderPresent(renderer.get());
     SDL_RenderClear(renderer.get());
 
-    
-    
+
+
 
 }
 
@@ -421,8 +421,8 @@ void Draw::actionfire(int cenx ,int ceny, std::shared_ptr<SDL_Renderer> renderer
             {
                 //info monsters type get
                 setscore(10,renderer);
-                //monsters.erase(j--);
-                //fire.erase(i--);
+                monsters.erase(j--);
+                fire.erase(i--);
 
             }
         }
@@ -449,7 +449,7 @@ void Draw::movemonsters(Shapes s,int cenx ,int ceny)
             monsters.erase(i--);
             lifeval--;
         }
-            
+
     }
 }
 
@@ -507,14 +507,14 @@ void Draw::draw_elem(int type, std::shared_ptr<SDL_Renderer> renderer,int indice
                 if(!e.get_apper())
                 {
                     SDL_FObject monster;
-                    
+
                     monster = fcalculate_texture(".",RED, 2, renderer);
                     monster.rect.x= e.get_x();
                     monster.rect.y= e.get_y();
                     //std::cout << e.get_x() << "  " << e.get_y() << std::endl;
                     SDL_RenderCopyF(renderer.get(), monster.texture.get(), NULL, &monster.rect);
                     //SDL_RenderDrawPoint(renderer.get(), monster.rect.x, monster.rect.y);
-                
+
                 }
 
             }

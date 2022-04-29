@@ -22,22 +22,23 @@ void Monster::reduce_apper()
 
 int Monster::move(Shapes s,int cenx ,int ceny,std::pair<int, int> weapon)
 {
-    double sensitivity;
+    double sensitivity = 0.0002;
     if(apper == 0 )
     {
         int p1= direction%s.points.size();
         int p2=(direction+1)%s.points.size();
-        std::cout << p1 << std::endl;
+        //std::cout << p1 << || std::endl
         double mx=(s.points[p1].first+s.points[p2].first)/2 - weapon.first;
         double my=(s.points[p1].second+s.points[p2].second)/2 - weapon.second;
 
-       
-        sensitivity=1/z;
+
         x += sensitivity*(mx-x);
-        y += sensitivity*(mx-y);
-        z-=0.0002;
+        y += sensitivity*(my-y);
         if(abs(x  - mx) < 1 && abs(y  - my)< 1 )
         {
+            //monsters.erase(i--);
+
+            //lifeval--;
             return 0;
         }
     }
