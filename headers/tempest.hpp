@@ -13,7 +13,7 @@
 #include "../headers/Draw.hpp"
 #include "../headers/Defs.hpp"
 #include "../headers/weapon.hpp"
-#include "../headers/monsters.hpp"
+
 #include "../headers/sdlwrap.hpp"
 
 
